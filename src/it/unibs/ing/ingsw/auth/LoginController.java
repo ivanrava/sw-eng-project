@@ -19,9 +19,6 @@ public class LoginController {
         // Verifies credentials
         return users.get(username).check(username, password);
         /*
-        for (Map.Entry<String, User> entry : users.entrySet()) {
-
-        }
         */
     }
 }
