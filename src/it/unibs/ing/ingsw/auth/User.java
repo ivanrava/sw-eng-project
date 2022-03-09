@@ -9,7 +9,13 @@ public class User {
         password = pw;
     }
 
-    public boolean check(String u, String pw) {
+    /**
+     * Controlla se le credenziali corrispondono
+     * @param u Username
+     * @param pw Password
+     * @return 'true' se corrispondono, 'false' altrimenti
+     */
+    public boolean checkCredentials(String u, String pw) {
         return u.equals(username) && pw.equals(password);
     }
 }
