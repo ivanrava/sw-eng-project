@@ -33,6 +33,10 @@ public class CategoryController {
         return hierarchies.get(name);
     }
 
+    public boolean existsRoot(String name) {
+        return search(name) != null;
+    }
+
     public Map<String, Category> getHierarchies() {
         return hierarchies;
     }
