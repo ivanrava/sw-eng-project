@@ -30,7 +30,7 @@ public class CategoryView {
                     insertRootCategory();
                     break;
                 case 2:
-                    // TODO:
+                    insertChildCategory();
                     break;
                 case 3:
                     printHierarchies();
@@ -56,5 +56,36 @@ public class CategoryView {
         } while (categoryController.existsRoot(nome));
         descrizione = InputDati.leggiStringaNonVuota("Inserisci la descrizione della categoria: ");
         categoryController.makeRootCategory(nome, descrizione);
+    }
+
+    private void insertChildCategory() {
+        this.printHierarchies();
+        // Chiediamo la radice
+        String rootName;
+        do {
+            rootName = InputDati.leggiStringaNonVuota("Inserisci il nome della categoria radice: ");
+            if (!categoryController.existsRoot(rootName)) {
+                System.out.println("Il nome non esiste :(");
+            }
+        } while (!categoryController.existsRoot(rootName));
+        // Chiediamo il padre
+        String parentName;
+        do {
+            parentName = InputDati.leggiStringaNonVuota("Inserisci la categoria padre: ");
+            if (!categoryController.exists(rootName, parentName)) {
+                System.out.println("Il genitore non esiste :(");
+            }
+        } while (!categoryController.exists(rootName, parentName));
+        // Chiediamo il nome
+        String name;
+        do {
+            name = InputDati.leggiStringaNonVuota("Inserisci il nome della categoria: ");
+            if (categoryController.exists(rootName, name)) {
+                System.out.println("Il nome della categoria è duplicato :(");
+            }
+        } while (categoryController.exists(rootName, name));
+        // Chiediamo la descrizione
+        String description = InputDati.leggiStringaNonVuota("Inserisci il nome della descrizione: ");
+        categoryController.makeChildCategory(rootName, parentName, name, description);
     }
 }

@@ -24,9 +24,9 @@ public class CategoryController {
         return true;
     }
 
-    public boolean makeChildCategory(String name, String description, String parentName) {
-        return true;
-        // FIXME:
+    public void makeChildCategory(String rootName, String parentName, String name, String description) {
+        Category parent = searchTree(rootName, parentName);
+        parent.addChildCategory(new Category(name, description));
     }
 
     public Category search(String name) {
@@ -37,7 +37,39 @@ public class CategoryController {
         return search(name) != null;
     }
 
+    public boolean exists(String rootName, String name) {
+        return searchTree(rootName, name) != null;
+    }
+
     public Map<String, Category> getHierarchies() {
         return hierarchies;
+    }
+
+    /**
+     * Precondizione: rootName in hierarchies
+     * @param rootName
+     * @param name
+     * @return
+     */
+    private Category searchTree(String rootName, String name) {
+        if (!hierarchies.containsKey(rootName)) {
+            return null; // TODO: throw
+        }
+        Category root = hierarchies.get(rootName);
+        if (rootName.equals(name)) {
+            return root;
+        }
+        return searchTree(root, name);
+    }
+
+    private Category searchTree(Category category, String name) {
+        for (Map.Entry<String, Category> child : category.getChildren().entrySet()) {
+            if (child.getValue().getName().equals(name)) {
+                return child.getValue();
+            } else if (!child.getValue().isLeaf()) {
+                return searchTree(child.getValue(), name);
+            }
+        }
+        return null;
     }
 }

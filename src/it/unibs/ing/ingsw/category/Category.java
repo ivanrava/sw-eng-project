@@ -1,15 +1,12 @@
 package it.unibs.ing.ingsw.category;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 public class Category {
     private final String name;
     private final String description;
     private final List<Field> fields;
-    private final List<Category> children;
+    private final Map<String, Category> children;
     private Category parent;
 
     /**
@@ -27,7 +24,7 @@ public class Category {
             fields.add(new Field<String>(false, "Descrizione libera"));
         }
 
-        children = new ArrayList<>();
+        children = new HashMap<>();
         parent = null;
     }
 
@@ -41,7 +38,7 @@ public class Category {
     }
 
     public void addChildCategory(Category childCategory) {
-        this.children.add(childCategory);
+        this.children.put(childCategory.name, childCategory);
         childCategory.setParent(this);
     }
 
@@ -63,15 +60,15 @@ public class Category {
                 name, description, fields.toString(), children.toString());
     }
 
-    /*
-    private String fieldsAsString() {
-        StringBuilder fieldsString = new StringBuilder();
-        fieldsString.append("[");
-        for (Field field : fields) {
-            fieldsString.append(field.toString());
-        }
-        fieldsString.append("]");
-
+    public Map<String, Category> getChildren() {
+        return children;
     }
-    */
+
+    public boolean isLeaf() {
+        return children.size() == 0;
+    }
+
+    public String getName() {
+        return name;
+    }
 }
