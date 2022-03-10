@@ -3,8 +3,6 @@ package it.unibs.ing.ingsw.category;
 import it.unibs.ing.fp.mylib.InputDati;
 import it.unibs.ing.fp.mylib.MyMenu;
 
-import java.util.Map;
-
 public class CategoryView {
     private final CategoryController categoryController;
 
@@ -12,11 +10,10 @@ public class CategoryView {
         categoryController = new CategoryController();
     }
 
+    /**
+     * Esegue l'UI principale per la gestione delle categorie
+     */
     public void execute() {
-        menu();
-    }
-
-    private void menu() {
         MyMenu mainMenu = new MyMenu("Main menu", new String[] {
                 "Aggiungi nuova categoria radice",
                 "Aggiungi nuova categoria figlia",
@@ -40,24 +37,33 @@ public class CategoryView {
         } while (scelta != 0);
     }
 
+    /**
+     * Stampa tutte le gerarchie del sistema
+     */
     private void printHierarchies() {
-        for (Map.Entry<String, Category> hierarchy : categoryController.getHierarchies().entrySet()) {
-            System.out.println(hierarchy.getValue().toString());
+        for (Category hierarchy : categoryController.getHierarchies()) {
+            System.out.println(hierarchy);
         }
     }
 
+    /**
+     * Inserisce una nuova categoria radice
+     */
     private void insertRootCategory() {
         String nome, descrizione;
         do {
-            nome = InputDati.leggiStringaNonVuota("Inserisci il nome della categoria: ");
+            nome = InputDati.leggiStringaNonVuota("Inserisci il nome della nuova categoria radice: ");
             if (categoryController.existsRoot(nome)) {
                 System.out.println("Nome non univoco :(");
             }
         } while (categoryController.existsRoot(nome));
-        descrizione = InputDati.leggiStringaNonVuota("Inserisci la descrizione della categoria: ");
+        descrizione = InputDati.leggiStringaNonVuota("Inserisci la descrizione della nuova categoria radice: ");
         categoryController.makeRootCategory(nome, descrizione);
     }
 
+    /**
+     * Inserisce una nuova categoria figlia
+     */
     private void insertChildCategory() {
         this.printHierarchies();
         // Chiediamo la radice

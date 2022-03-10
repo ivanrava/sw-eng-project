@@ -3,6 +3,7 @@ package it.unibs.ing.ingsw.category;
 import java.util.*;
 
 public class Category {
+    // TODO: aggiungere gestione campi
     private final String name;
     private final String description;
     private final List<Field> fields;
@@ -10,9 +11,10 @@ public class Category {
     private Category parent;
 
     /**
-     * Costruttore root Category
-     * @param name
-     * @param description
+     * Costruttore generale
+     * @param name Nome della categoria
+     * @param description Descrizione della categoria
+     * @param isRootCategory 'true' se la categoria è radice, 'false' altrimenti
      */
     public Category(String name, String description, boolean isRootCategory) {
         this.name = name;
@@ -29,9 +31,9 @@ public class Category {
     }
 
     /**
-     * Costruttore child Category
-     * @param name
-     * @param description
+     * Costruttore Category figlia
+     * @param name Nome della categoria
+     * @param description Descrizione della categoria
      */
     public Category(String name, String description) {
         this(name, description, false);
@@ -64,6 +66,10 @@ public class Category {
         return children;
     }
 
+    /**
+     * Controlla se la categoria è foglia
+     * @return 'true' se è così, 'false' altrimenti
+     */
     public boolean isLeaf() {
         return children.size() == 0;
     }
