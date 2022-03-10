@@ -1,4 +1,4 @@
-package it.unibs.ing.ingsw;
+package it.unibs.ing.ingsw.io;
 
 import it.unibs.ing.ingsw.auth.User;
 
@@ -8,19 +8,10 @@ import java.util.Map;
 
 public class SaveUsers implements Serializable {
     public static final String CONFIG_SAVE_FILEUSER = "./usersRegister.dat";
-    private Map<String, User> userList = new HashMap<>() ;
+    private final Map<String, User> users = new HashMap<>();
 
-    //public ConfigUsers() {
-        //userList = new HashMap<>();
-   // }
-
-    public Map<String, User> getUserList() {
-        return userList;
-    }
-
-    public static boolean exists() {
-        File f = new File(CONFIG_SAVE_FILEUSER);
-        return f.exists();
+    public Map<String, User> getUsers() {
+        return users;
     }
 
     public static SaveUsers loadUsers() throws IOException, ClassNotFoundException {
@@ -35,7 +26,6 @@ public class SaveUsers implements Serializable {
         return new SaveUsers();
     }
 
-
     public void saveUsers() throws IOException {
         File f = new File(CONFIG_SAVE_FILEUSER);
             try (ObjectOutputStream outputStream = new ObjectOutputStream(
@@ -43,5 +33,4 @@ public class SaveUsers implements Serializable {
                 outputStream.writeObject(this);
             }
     }
-
 }

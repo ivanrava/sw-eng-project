@@ -2,10 +2,8 @@ package it.unibs.ing.ingsw.ui;
 
 import it.unibs.ing.fp.mylib.InputDati;
 import it.unibs.ing.ingsw.Config;
-import it.unibs.ing.ingsw.SaveUsers;
+import it.unibs.ing.ingsw.io.SaveUsers;
 import it.unibs.ing.ingsw.auth.LoginController;
-
-import java.io.IOException;
 
 public class LoginView {
     private final LoginController loginController;
@@ -17,7 +15,7 @@ public class LoginView {
     /**
      * Esegue l'UI generale di login
      */
-    public void execute() throws IOException {
+    public void execute() {
         if (!loginController.existsDefaultCredentials()) {
             startSettingDefaultCredentials();
         }
@@ -40,12 +38,11 @@ public class LoginView {
     /**
      * Esegue l'UI di login
      */
-    private void startLogin() throws IOException {
+    private void startLogin() {
         String username, password;
-        if(!loginController.existsUsersCredentials()){
+        if(!loginController.existsDefaultCredentials()){
             startRegister();
-        }
-        else{
+        } else {
             do {
                 username = InputDati.leggiStringaNonVuota("Inserisci lo username: ");
                 password = InputDati.leggiStringaNonVuota("Inserisci la password: ");
@@ -62,7 +59,7 @@ public class LoginView {
     /**
      * Esegue l'UI di registrazione (per un nuovo utente)
      */
-    private void startRegister() throws IOException {
+    private void startRegister() {
         String username, password;
         System.out.println("* Registrazione nuovo utente *");
         do {
@@ -78,6 +75,5 @@ public class LoginView {
             }
         } while (loginController.checkDefaultCredentials(username, password));
         loginController.register(username, password);
-
     }
 }

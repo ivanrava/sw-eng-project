@@ -1,32 +1,25 @@
 package it.unibs.ing.ingsw.auth;
 
 import it.unibs.ing.ingsw.Config;
-import it.unibs.ing.ingsw.SaveUsers;
+import it.unibs.ing.ingsw.io.SaveUsers;
 
-import java.io.IOException;
 import java.util.Map;
 
 public class LoginController {
-    //private final Map<String, User> users;
+    private final Map<String, User> users;
     // FIXME: accoppiamento tra Config e LoginController?
     private final Config config;
-    private final SaveUsers confUsers;
+//    private final SaveUsers confUsers;
 
     public LoginController(Config config, SaveUsers confUsers) {
         this.config = config;
-        this.confUsers = confUsers;
-       // users = new HashMap<>();
+//        this.confUsers = confUsers;
+        users = confUsers.getUsers();
     }
 
-    public Map<String, User> getUsers() {
-        return confUsers.getUserList();
-    }
-
-    /*
-    public ConfigUsers getConfUsers() {
-        return confUsers;
-    }
-    */
+//    public Map<String, User> getUsers() {
+//        return confUsers.getUsers();
+//    }
 
     /**
      * Controlla se lo username passato è già in uso da parte di un altro utente del sistema
@@ -34,7 +27,7 @@ public class LoginController {
      * @return 'true' se è già in uso, 'false' altrimenti
      */
     public boolean existsUsername(String username) {
-        return getUsers().containsKey(username);
+        return users.containsKey(username);
     }
 
     /**
@@ -45,11 +38,11 @@ public class LoginController {
      */
     public boolean login(String username, String password) {
         // Check if exists
-        if (getUsers().get(username) == null) {
+        if (users.get(username) == null) {
             return false;
         }
         // Verifies credentials
-        return getUsers().get(username).checkCredentials(username, password);
+        return users.get(username).checkCredentials(username, password);
     }
 
     /**
@@ -71,10 +64,10 @@ public class LoginController {
      * @param username Username del nuovo utente da aggiungere
      * @param password Password del nuovo utente da aggiungere
      */
-    public void register(String username, String password) throws IOException {
+    public void register(String username, String password) {
         assert !existsUsername(username) : "Lo username non è univoco!";
         assert checkDefaultCredentials(username, password) : "Si sta registrando un utente con credenziali di default!";
-        getUsers().put(username, new User(username, password));
+        users.put(username, new User(username, password));
     }
 
     /**
@@ -93,9 +86,5 @@ public class LoginController {
      */
     public boolean existsDefaultCredentials() {
         return Config.exists();
-    }
-
-    public boolean existsUsersCredentials() {
-        return SaveUsers.exists();
     }
 }

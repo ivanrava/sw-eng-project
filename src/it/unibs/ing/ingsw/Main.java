@@ -1,5 +1,6 @@
 package it.unibs.ing.ingsw;
 
+import it.unibs.ing.ingsw.io.SaveUsers;
 import it.unibs.ing.ingsw.ui.View;
 
 import java.io.IOException;
