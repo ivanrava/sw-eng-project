@@ -23,16 +23,10 @@ public class CategoryView {
         do {
             scelta = mainMenu.scegli();
             switch (scelta) {
-                case 1:
-                    insertRootCategory();
-                    break;
-                case 2:
-                    insertChildCategory();
-                    break;
-                case 3:
-                    printHierarchies();
-                    break;
-                default:
+                case 1 -> insertRootCategory();
+                case 2 -> insertChildCategory();
+                case 3 -> printHierarchies();
+                default -> {}
             }
         } while (scelta != 0);
     }
@@ -41,9 +35,12 @@ public class CategoryView {
      * Stampa tutte le gerarchie del sistema
      */
     private void printHierarchies() {
+        categoryController.printAllHierarchy();
+        /*
         for (Category hierarchy : categoryController.getHierarchies()) {
             System.out.println(hierarchy);
         }
+         */
     }
 
     /**

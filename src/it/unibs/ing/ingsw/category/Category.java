@@ -67,6 +67,22 @@ public class Category {
                 name, description, fields.toString(), children.toString());
     }
 
+    /**
+     * metodo che visualizza indentato il nome della categoria e tutte le sotto categorie
+     * @param initial_prefix_number numero di ripetizioni della stringa prefissa inizialmente
+     */
+    public void onlyNameToString(int initial_prefix_number) {
+        System.out.printf("%s%s%n", prefix(initial_prefix_number), name);
+        for (Category child : children.values()) {
+            child.onlyNameToString(initial_prefix_number + 1);
+        }
+    }
+
+    public String prefix(int n) {
+        return "---".repeat(n);
+    }
+
+
     public Map<String, Category> getChildren() {
         return children;
     }

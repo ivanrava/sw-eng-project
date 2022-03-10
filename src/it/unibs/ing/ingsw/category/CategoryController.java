@@ -14,6 +14,17 @@ public class CategoryController {
         hierarchies.put("Libro", libro);
         hierarchies.put("Veicoli", new Category("Veicoli", "Brum brum", true));
         libro.addChildCategory(new Category("Romanzo", "Figo"));
+        libro.addChildCategory(new Category("Giornale", "Let's go"));
+        libro.getChildren().get("Romanzo").addChildCategory(new Category("Giallo", "Romanzo Giallo"));
+    }
+
+    /**
+     * Metodo che visualizza tutta la gerarchia (solo nome per ogni categoria)
+     */
+    public void printAllHierarchy() {
+        for (Category cat : hierarchies.values()) {
+            cat.onlyNameToString(0);
+        }
     }
 
     /**
