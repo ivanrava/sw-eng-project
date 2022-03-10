@@ -58,6 +58,7 @@ public class Category {
 
     @Override
     public String toString() {
+        // TODO: better output
         return String.format("%s (%s), Campi: %s, Categorie figlie:%n\t%s",
                 name, description, fields.toString(), children.toString());
     }
