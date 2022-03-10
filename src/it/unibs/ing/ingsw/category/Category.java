@@ -71,11 +71,13 @@ public class Category {
      * Metodo che visualizza indentato il nome della categoria e tutte le sotto categorie
      * @param initialPrefixNumber Numero di ripetizioni della stringa prefissa inizialmente
      */
-    public void onlyNameToString(int initialPrefixNumber) {
-        System.out.printf("%s%s%n", prefix(initialPrefixNumber), name);
+    public String onlyNameToString(int initialPrefixNumber) {
+        StringBuilder sb = new StringBuilder();
+        sb.append(String.format("%s%s%n", prefix(initialPrefixNumber), name));
         for (Category child : children.values()) {
-            child.onlyNameToString(initialPrefixNumber + 1);
+            sb.append(child.onlyNameToString(initialPrefixNumber + 1));
         }
+        return sb.toString();
     }
 
     public String prefix(int n) {

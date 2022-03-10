@@ -21,10 +21,12 @@ public class CategoryController {
     /**
      * Metodo che visualizza tutta la gerarchia (solo nome per ogni categoria)
      */
-    public void printAllHierarchy() {
+    public String allHierarchiesToString() {
+        StringBuilder sb = new StringBuilder();
         for (Category cat : hierarchies.values()) {
-            cat.onlyNameToString(0);
+            sb.append(cat.onlyNameToString(0));
         }
+        return sb.toString();
     }
 
     /**
