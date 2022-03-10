@@ -79,7 +79,7 @@ public class Category {
     }
 
     public String prefix(int n) {
-        return "---".repeat(n);
+        return " --> ".repeat(n);
     }
 
 
