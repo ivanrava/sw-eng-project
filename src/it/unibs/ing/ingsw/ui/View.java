@@ -1,5 +1,6 @@
 package it.unibs.ing.ingsw.ui;
 
+import it.unibs.ing.ingsw.auth.LoginView;
 import it.unibs.ing.ingsw.category.CategoryView;
 import it.unibs.ing.ingsw.io.Saves;
 

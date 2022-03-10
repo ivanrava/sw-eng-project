@@ -1,7 +1,6 @@
-package it.unibs.ing.ingsw.ui;
+package it.unibs.ing.ingsw.auth;
 
 import it.unibs.ing.fp.mylib.InputDati;
-import it.unibs.ing.ingsw.auth.LoginController;
 import it.unibs.ing.ingsw.io.Saves;
 
 public class LoginView {
