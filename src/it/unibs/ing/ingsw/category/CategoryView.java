@@ -26,7 +26,9 @@ public class CategoryView {
                 case 1 -> insertRootCategory();
                 case 2 -> insertChildCategory();
                 case 3 -> printHierarchies();
-                default -> {}
+                default -> {
+                    assert false : "Il programma non dovrebbe mai arrivare qui!";
+                }
             }
         } while (scelta != 0);
     }
