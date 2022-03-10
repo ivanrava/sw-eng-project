@@ -8,7 +8,7 @@ public class Main {
     public static void main(String[] args) {
         try {
             Config config = Config.load();
-            ConfigUsers configUsers = ConfigUsers.loadUsers();
+            SaveUsers configUsers = SaveUsers.loadUsers();
             View view = new View(config, configUsers);
             view.execute();
             config.save();
