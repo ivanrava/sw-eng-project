@@ -2,19 +2,22 @@ package it.unibs.ing.ingsw.ui;
 
 import it.unibs.ing.fp.mylib.InputDati;
 import it.unibs.ing.ingsw.Config;
+import it.unibs.ing.ingsw.ConfigUsers;
 import it.unibs.ing.ingsw.auth.LoginController;
+
+import java.io.IOException;
 
 public class LoginView {
     private final LoginController loginController;
 
-    public LoginView(Config config) {
-        loginController = new LoginController(config);
+    public LoginView(Config config, ConfigUsers confUsers) {
+        loginController = new LoginController(config, confUsers);
     }
 
     /**
      * Esegue l'UI generale di login
      */
-    public void execute() {
+    public void execute() throws IOException {
         if (!loginController.existsDefaultCredentials()) {
             startSettingDefaultCredentials();
         }
@@ -37,24 +40,29 @@ public class LoginView {
     /**
      * Esegue l'UI di login
      */
-    private void startLogin() {
+    private void startLogin() throws IOException {
         String username, password;
-        do {
-            username = InputDati.leggiStringaNonVuota("Inserisci lo username: ");
-            password = InputDati.leggiStringaNonVuota("Inserisci la password: ");
-            if (loginController.checkDefaultCredentials(username, password)) {
-                startRegister();
-            } else if (!loginController.login(username, password)) {
-                System.out.println("Credenziali non corrette! :(");
-            }
-        } while (!loginController.login(username, password));
-        System.out.printf("Sei dentro, %s%n", username);
+        if(!loginController.existsUsersCredentials()){
+            startRegister();
+        }
+        else{
+            do {
+                username = InputDati.leggiStringaNonVuota("Inserisci lo username: ");
+                password = InputDati.leggiStringaNonVuota("Inserisci la password: ");
+                if (loginController.checkDefaultCredentials(username, password)) {
+                    startRegister();
+                } else if (!loginController.login(username, password)) {
+                    System.out.println("Credenziali non corrette! :(");
+                }
+            } while (!loginController.login(username, password));
+            System.out.printf("Sei dentro, %s%n", username);
+        }
     }
 
     /**
      * Esegue l'UI di registrazione (per un nuovo utente)
      */
-    private void startRegister() {
+    private void startRegister() throws IOException {
         String username, password;
         System.out.println("* Registrazione nuovo utente *");
         do {
@@ -70,5 +78,6 @@ public class LoginView {
             }
         } while (loginController.checkDefaultCredentials(username, password));
         loginController.register(username, password);
+
     }
 }

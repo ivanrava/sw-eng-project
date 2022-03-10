@@ -1,6 +1,11 @@
 package it.unibs.ing.ingsw;
 
+import it.unibs.ing.ingsw.auth.LoginController;
+import it.unibs.ing.ingsw.auth.User;
+
 import java.io.*;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Config implements Serializable {
     public static final String CONFIG_SAVE_FILENAME = "./config.dat";
@@ -50,6 +55,7 @@ public class Config implements Serializable {
         return new Config();
     }
 
+
     /**
      * Salva la configurazione sul filesystem.
      * @throws IOException Errore di I/O durante il salvataggio della config
@@ -61,4 +67,6 @@ public class Config implements Serializable {
             outputStream.writeObject(this);
         }
     }
+
+
 }

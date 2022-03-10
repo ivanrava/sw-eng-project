@@ -1,6 +1,8 @@
 package it.unibs.ing.ingsw.auth;
 
-public class User {
+import java.io.Serializable;
+
+public class User implements Serializable {
     private final String username;
     private final String password;
 
@@ -18,4 +20,6 @@ public class User {
     public boolean checkCredentials(String u, String pw) {
         return u.equals(username) && pw.equals(password);
     }
+
+
 }

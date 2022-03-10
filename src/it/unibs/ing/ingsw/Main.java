@@ -8,9 +8,11 @@ public class Main {
     public static void main(String[] args) {
         try {
             Config config = Config.load();
-            View view = new View(config);
+            ConfigUsers configUsers = ConfigUsers.loadUsers();
+            View view = new View(config, configUsers);
             view.execute();
             config.save();
+            configUsers.saveUsers();
         } catch (IOException | ClassNotFoundException e) {
             System.out.println("La configurazione è presente, ma non riesco a caricarla!");
             e.printStackTrace();
