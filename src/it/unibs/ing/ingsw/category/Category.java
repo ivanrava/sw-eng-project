@@ -39,6 +39,10 @@ public class Category {
         this(name, description, false);
     }
 
+    /**
+     * Aggiunge una categoria figlia
+     * @param childCategory La categoria figlia da aggiungere
+     */
     public void addChildCategory(Category childCategory) {
         this.children.put(childCategory.name, childCategory);
         childCategory.setParent(this);
