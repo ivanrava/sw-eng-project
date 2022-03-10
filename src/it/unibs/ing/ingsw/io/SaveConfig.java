@@ -1,13 +1,8 @@
-package it.unibs.ing.ingsw;
-
-import it.unibs.ing.ingsw.auth.LoginController;
-import it.unibs.ing.ingsw.auth.User;
+package it.unibs.ing.ingsw.io;
 
 import java.io.*;
-import java.util.HashMap;
-import java.util.Map;
 
-public class Config implements Serializable {
+public class SaveConfig implements Serializable {
     public static final String CONFIG_SAVE_FILENAME = "./config.dat";
     private String username;
     private String password;
@@ -43,18 +38,17 @@ public class Config implements Serializable {
      * @throws IOException Errore di I/O durante l'apertura della config (non per file inesistente)
      * @throws ClassNotFoundException Errore durante la lettura dell'oggetto dal file
      */
-    public static Config load() throws IOException, ClassNotFoundException {
+    public static SaveConfig load() throws IOException, ClassNotFoundException {
         File f = new File(CONFIG_SAVE_FILENAME);
         if (f.exists()) {
             try (ObjectInputStream inputStream = new ObjectInputStream(
                     new BufferedInputStream(new FileInputStream(f)))) {
-                return (Config) inputStream.readObject();
+                return (SaveConfig) inputStream.readObject();
             }
         }
 
-        return new Config();
+        return new SaveConfig();
     }
-
 
     /**
      * Salva la configurazione sul filesystem.
@@ -67,6 +61,4 @@ public class Config implements Serializable {
             outputStream.writeObject(this);
         }
     }
-
-
 }

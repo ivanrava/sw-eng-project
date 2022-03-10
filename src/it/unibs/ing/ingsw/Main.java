@@ -1,6 +1,6 @@
 package it.unibs.ing.ingsw;
 
-import it.unibs.ing.ingsw.io.SaveUsers;
+import it.unibs.ing.ingsw.io.Saves;
 import it.unibs.ing.ingsw.ui.View;
 
 import java.io.IOException;
@@ -8,12 +8,10 @@ import java.io.IOException;
 public class Main {
     public static void main(String[] args) {
         try {
-            Config config = Config.load();
-            SaveUsers configUsers = SaveUsers.loadUsers();
-            View view = new View(config, configUsers);
+            Saves saves = new Saves();
+            View view = new View(saves);
             view.execute();
-            config.save();
-            configUsers.saveUsers();
+            saves.save();
         } catch (IOException | ClassNotFoundException e) {
             System.out.println("La configurazione è presente, ma non riesco a caricarla!");
             e.printStackTrace();

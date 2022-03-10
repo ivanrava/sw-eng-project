@@ -1,25 +1,18 @@
 package it.unibs.ing.ingsw.auth;
 
-import it.unibs.ing.ingsw.Config;
-import it.unibs.ing.ingsw.io.SaveUsers;
+import it.unibs.ing.ingsw.io.Saves;
 
 import java.util.Map;
 
 public class LoginController {
     private final Map<String, User> users;
-    // FIXME: accoppiamento tra Config e LoginController?
-    private final Config config;
-//    private final SaveUsers confUsers;
+    // FIXME: accoppiamento tra Saves e LoginController?
+    private final Saves saves;
 
-    public LoginController(Config config, SaveUsers confUsers) {
-        this.config = config;
-//        this.confUsers = confUsers;
-        users = confUsers.getUsers();
+    public LoginController(Saves saves) {
+        this.saves = saves;
+        users = saves.getUsers();
     }
-
-//    public Map<String, User> getUsers() {
-//        return confUsers.getUsers();
-//    }
 
     /**
      * Controlla se lo username passato è già in uso da parte di un altro utente del sistema
@@ -52,7 +45,7 @@ public class LoginController {
      * @return 'true' se corrispondono, 'false' altrimenti
      */
     public boolean checkDefaultCredentials(String username, String password) {
-        return username.equals(config.getUsername()) && password.equals(config.getPassword());
+        return username.equals(saves.getDefaultUsername()) && password.equals(saves.getDefaultPassword());
     }
 
     /**
@@ -76,8 +69,8 @@ public class LoginController {
      * @param password Password di default
      */
     public void setDefaultCredentials(String username, String password) {
-        config.setUsername(username);
-        config.setPassword(password);
+        saves.setUsername(username);
+        saves.setPassword(password);
     }
 
     /**
@@ -85,6 +78,6 @@ public class LoginController {
      * @return 'true' se esistono, 'false' altrimenti
      */
     public boolean existsDefaultCredentials() {
-        return Config.exists();
+        return saves.existsConfiguration();
     }
 }
