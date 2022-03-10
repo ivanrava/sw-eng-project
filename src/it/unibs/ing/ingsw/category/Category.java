@@ -68,13 +68,13 @@ public class Category {
     }
 
     /**
-     * metodo che visualizza indentato il nome della categoria e tutte le sotto categorie
-     * @param initial_prefix_number numero di ripetizioni della stringa prefissa inizialmente
+     * Metodo che visualizza indentato il nome della categoria e tutte le sotto categorie
+     * @param initialPrefixNumber Numero di ripetizioni della stringa prefissa inizialmente
      */
-    public void onlyNameToString(int initial_prefix_number) {
-        System.out.printf("%s%s%n", prefix(initial_prefix_number), name);
+    public void onlyNameToString(int initialPrefixNumber) {
+        System.out.printf("%s%s%n", prefix(initialPrefixNumber), name);
         for (Category child : children.values()) {
-            child.onlyNameToString(initial_prefix_number + 1);
+            child.onlyNameToString(initialPrefixNumber + 1);
         }
     }
 
