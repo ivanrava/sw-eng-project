@@ -2,7 +2,7 @@ package it.unibs.ing.ingsw.ui;
 
 import it.unibs.ing.fp.mylib.InputDati;
 import it.unibs.ing.ingsw.Config;
-import it.unibs.ing.ingsw.ConfigUsers;
+import it.unibs.ing.ingsw.SaveUsers;
 import it.unibs.ing.ingsw.auth.LoginController;
 
 import java.io.IOException;
@@ -10,7 +10,7 @@ import java.io.IOException;
 public class LoginView {
     private final LoginController loginController;
 
-    public LoginView(Config config, ConfigUsers confUsers) {
+    public LoginView(Config config, SaveUsers confUsers) {
         loginController = new LoginController(config, confUsers);
     }
 

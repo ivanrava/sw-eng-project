@@ -1,19 +1,18 @@
 package it.unibs.ing.ingsw.auth;
 
 import it.unibs.ing.ingsw.Config;
-import it.unibs.ing.ingsw.ConfigUsers;
+import it.unibs.ing.ingsw.SaveUsers;
 
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.Map;
 
 public class LoginController {
     //private final Map<String, User> users;
     // FIXME: accoppiamento tra Config e LoginController?
     private final Config config;
-    private final ConfigUsers confUsers;
+    private final SaveUsers confUsers;
 
-    public LoginController(Config config, ConfigUsers confUsers) {
+    public LoginController(Config config, SaveUsers confUsers) {
         this.config = config;
         this.confUsers = confUsers;
        // users = new HashMap<>();
@@ -23,9 +22,11 @@ public class LoginController {
         return confUsers.getUserList();
     }
 
+    /*
     public ConfigUsers getConfUsers() {
         return confUsers;
     }
+    */
 
     /**
      * Controlla se lo username passato è già in uso da parte di un altro utente del sistema
@@ -95,6 +96,6 @@ public class LoginController {
     }
 
     public boolean existsUsersCredentials() {
-        return ConfigUsers.exists();
+        return SaveUsers.exists();
     }
 }
