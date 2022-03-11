@@ -113,22 +113,22 @@ public class CategoryView {
     }
 
     public List<Field> askFields() {
-        String scelta;
+        boolean scelta;
         List<Field> newFields = new ArrayList<>();
         do {
-            scelta = InputDati.leggiStringaNonVuota("Vuoi aggiungere un nuovo field [si, no]: ");
-            if (scelta.equals("si")){
+            scelta = InputDati.yesOrNo("Vuoi aggiungere un nuovo campo?");
+            if (scelta){
                 newFields.add(createField());
             }
-        }while (!scelta.equals("no"));
+        }while (scelta);
         return newFields;
     }
 
     public Field createField(){
         //TODO aggiungere controlli
         String fieldName = InputDati.leggiStringaNonVuota("Nome del field: ");
-        String required = InputDati.leggiStringaNonVuota("Obbligatorio[true, false]: ");
-        return new Field(Boolean.parseBoolean(required), fieldName);
+        boolean required = InputDati.yesOrNo("Obbligatorio");
+        return new Field(required, fieldName);
     }
 
 }
