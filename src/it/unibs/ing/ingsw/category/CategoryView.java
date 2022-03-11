@@ -3,6 +3,9 @@ package it.unibs.ing.ingsw.category;
 import it.unibs.ing.fp.mylib.InputDati;
 import it.unibs.ing.fp.mylib.MyMenu;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class CategoryView {
     private final CategoryController categoryController;
 
@@ -72,7 +75,8 @@ public class CategoryView {
         String name = askAndCheckName(rootName);
         // Chiediamo la descrizione
         String description = InputDati.leggiStringaNonVuota("Inserisci il nome della descrizione: ");
-        categoryController.makeChildCategory(rootName, parentName, name, description);
+        List<Field> newFields = askFields();
+        categoryController.makeChildCategory(rootName, parentName, name, description, newFields);
     }
 
     public String askAndCheckRootName(){
@@ -107,4 +111,24 @@ public class CategoryView {
         } while (categoryController.exists(rootName, name));
         return name;
     }
+
+    public List<Field> askFields() {
+        String scelta;
+        List<Field> newFields = new ArrayList<>();
+        do {
+            scelta = InputDati.leggiStringaNonVuota("Vuoi aggiungere un nuovo field [si, no]: ");
+            if (scelta.equals("si")){
+                newFields.add(createField());
+            }
+        }while (!scelta.equals("no"));
+        return newFields;
+    }
+
+    public Field createField(){
+        //TODO aggiungere controlli
+        String fieldName = InputDati.leggiStringaNonVuota("Nome del field: ");
+        String required = InputDati.leggiStringaNonVuota("Obbligatorio[true, false]: ");
+        return new Field(Boolean.parseBoolean(required), fieldName);
+    }
+
 }
