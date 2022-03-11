@@ -1,9 +1,6 @@
 package it.unibs.ing.ingsw.category;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class CategoryController {
     private final Map<String, Category> hierarchies;
@@ -11,9 +8,9 @@ public class CategoryController {
     public CategoryController() {
         hierarchies = new HashMap<>();
         // TODO: rimuovere test
-        Category libro = new Category("Libro", "Opera cartacea", true, null);
+        Category libro = new Category("Libro", "Opera cartacea", true, new ArrayList<>());
         hierarchies.put("Libro", libro);
-        hierarchies.put("Veicoli", new Category("Veicoli", "Brum brum", true, null));
+        hierarchies.put("Veicoli", new Category("Veicoli", "Brum brum", true, new ArrayList<>()));
         libro.addChildCategory(new Category("Romanzo", "Figo"));
         libro.addChildCategory(new Category("Giornale", "Let's go"));
         libro.getChildren().get("Romanzo").addField(true, "prova");
@@ -42,7 +39,7 @@ public class CategoryController {
         if (hierarchies.get(name) != null) {
             return;
         }
-        Category rootCategory = new Category(name, description, true, null);
+        Category rootCategory = new Category(name, description, true, new ArrayList<>());
         hierarchies.put(name, rootCategory);
     }
 

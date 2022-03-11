@@ -17,10 +17,6 @@ public class Category {
      * @param isRootCategory 'true' se la categoria è radice, 'false' altrimenti
      */
     public Category(String name, String description, boolean isRootCategory, List<Field> newFields) {
-        if (newFields == null){
-            newFields = new ArrayList<>();
-        }
-
         this.name = name;
         this.description = description;
 
@@ -46,7 +42,7 @@ public class Category {
      * @param description Descrizione della categoria
      */
     public Category(String name, String description) {
-        this(name, description, false, null);
+        this(name, description, false, new ArrayList<>());
     }
 
     /**
@@ -81,7 +77,7 @@ public class Category {
 
     @Override
     public String toString() {
-        return String.format("[name = %s\ndescription = %s\n{fields = %s}\n{childrens = %s} ]\n\n", name, description, fields, children);
+        return String.format("[name = %s | description = %s | {fields = %s} | {childrens = %s} ]\n", name, description, fields, children);
     }
 
     /**
