@@ -2,6 +2,7 @@ package it.unibs.ing.ingsw.category;
 
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class CategoryController {
@@ -10,9 +11,9 @@ public class CategoryController {
     public CategoryController() {
         hierarchies = new HashMap<>();
         // TODO: rimuovere test
-        Category libro = new Category("Libro", "Opera cartacea", true);
+        Category libro = new Category("Libro", "Opera cartacea", true, null);
         hierarchies.put("Libro", libro);
-        hierarchies.put("Veicoli", new Category("Veicoli", "Brum brum", true));
+        hierarchies.put("Veicoli", new Category("Veicoli", "Brum brum", true, null));
         libro.addChildCategory(new Category("Romanzo", "Figo"));
         libro.addChildCategory(new Category("Giornale", "Let's go"));
         libro.getChildren().get("Romanzo").addField(true, "prova");
@@ -41,7 +42,7 @@ public class CategoryController {
         if (hierarchies.get(name) != null) {
             return;
         }
-        Category rootCategory = new Category(name, description, true);
+        Category rootCategory = new Category(name, description, true, null);
         hierarchies.put(name, rootCategory);
     }
 
@@ -53,12 +54,13 @@ public class CategoryController {
      * @param parentName Nome della categoria madre
      * @param name Nome della nuova categoria
      * @param description Descrizione della nuova categoria
+     * @param newFields nuovi fields
      */
     // TODO: aggiungere campi nativi
-    public void makeChildCategory(String rootName, String parentName, String name, String description) {
+    public void makeChildCategory(String rootName, String parentName, String name, String description, List<Field> newFields) {
         assert searchTree(rootName, parentName) != null : "La categoria genitore fornita non esiste!";
         Category parent = searchTree(rootName, parentName);
-        parent.addChildCategory(new Category(name, description));
+        parent.addChildCategory(new Category(name, description, newFields));
     }
 
     /**

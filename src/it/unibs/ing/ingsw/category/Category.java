@@ -16,7 +16,11 @@ public class Category {
      * @param description Descrizione della categoria
      * @param isRootCategory 'true' se la categoria è radice, 'false' altrimenti
      */
-    public Category(String name, String description, boolean isRootCategory) {
+    public Category(String name, String description, boolean isRootCategory, List<Field> newFields) {
+        if (newFields == null){
+            newFields = new ArrayList<>();
+        }
+
         this.name = name;
         this.description = description;
 
@@ -26,9 +30,14 @@ public class Category {
             fields.add(new Field<String>(true, "Stato di conservazione"));
             fields.add(new Field<String>(false, "Descrizione libera"));
         }
+        fields.addAll(newFields);
 
         children = new HashMap<>();
         parent = null;
+    }
+
+    public Category(String name, String description, List<Field> newFields) {
+        this(name, description, false, newFields);
     }
 
     /**
@@ -37,7 +46,7 @@ public class Category {
      * @param description Descrizione della categoria
      */
     public Category(String name, String description) {
-        this(name, description, false);
+        this(name, description, false, null);
     }
 
     /**
