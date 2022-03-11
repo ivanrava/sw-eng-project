@@ -21,6 +21,7 @@ public class Category {
         this.description = description;
 
         fields = new ArrayList<>();
+
         if (isRootCategory) {
             fields.add(new Field<String>(true, "Stato di conservazione"));
             fields.add(new Field<String>(false, "Descrizione libera"));
@@ -44,8 +45,17 @@ public class Category {
      * @param childCategory La categoria figlia da aggiungere
      */
     public void addChildCategory(Category childCategory) {
+        addAllFieldsToCategory(childCategory);
         this.children.put(childCategory.name, childCategory);
         childCategory.setParent(this);
+    }
+
+    public void addField(boolean required, String name) {
+        fields.add(new Field(required, name));
+    }
+
+    public void addAllFieldsToCategory(Category childCategory) {
+        childCategory.fields.addAll(fields);
     }
 
     private void setParent(Category parent) {
@@ -62,9 +72,7 @@ public class Category {
 
     @Override
     public String toString() {
-        // TODO: better output
-        return String.format("%s (%s), Campi: %s, Categorie figlie:%n\t%s",
-                name, description, fields.toString(), children.toString());
+        return String.format("[name = %s\ndescription = %s\n{fields = %s}\n{childrens = %s} ]\n\n", name, description, fields, children);
     }
 
     /**

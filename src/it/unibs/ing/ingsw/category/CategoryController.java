@@ -15,7 +15,9 @@ public class CategoryController {
         hierarchies.put("Veicoli", new Category("Veicoli", "Brum brum", true));
         libro.addChildCategory(new Category("Romanzo", "Figo"));
         libro.addChildCategory(new Category("Giornale", "Let's go"));
+        libro.getChildren().get("Romanzo").addField(true, "prova");
         libro.getChildren().get("Romanzo").addChildCategory(new Category("Giallo", "Romanzo Giallo"));
+
     }
 
     /**
