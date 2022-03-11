@@ -26,6 +26,7 @@ public class CategoryView {
                 case 1 -> insertRootCategory();
                 case 2 -> insertChildCategory();
                 case 3 -> printHierarchies();
+                case 0 -> System.out.println("Uscita dal sistema");
                 default -> {
                     assert false : "Il programma non dovrebbe mai arrivare qui!";
                 }
@@ -37,7 +38,10 @@ public class CategoryView {
      * Stampa tutte le gerarchie del sistema
      */
     private void printHierarchies() {
+        //versione solo nomi
         System.out.println(categoryController.allHierarchiesToString());
+        //versione super verbose per testing
+        //System.out.println(categoryController.getHierarchies());
     }
 
     /**
@@ -61,6 +65,17 @@ public class CategoryView {
     private void insertChildCategory() {
         this.printHierarchies();
         // Chiediamo la radice
+        String rootName = askAndCheckRootName();
+        // Chiediamo il padre
+        String parentName = askAndCheckParentName(rootName);
+        // Chiediamo il nome
+        String name = askAndCheckName(rootName);
+        // Chiediamo la descrizione
+        String description = InputDati.leggiStringaNonVuota("Inserisci il nome della descrizione: ");
+        categoryController.makeChildCategory(rootName, parentName, name, description);
+    }
+
+    public String askAndCheckRootName(){
         String rootName;
         do {
             rootName = InputDati.leggiStringaNonVuota("Inserisci il nome della categoria radice: ");
@@ -68,7 +83,10 @@ public class CategoryView {
                 System.out.println("Il nome non esiste :(");
             }
         } while (!categoryController.existsRoot(rootName));
-        // Chiediamo il padre
+        return rootName;
+    }
+
+    public String askAndCheckParentName(String rootName){
         String parentName;
         do {
             parentName = InputDati.leggiStringaNonVuota("Inserisci la categoria padre: ");
@@ -76,7 +94,10 @@ public class CategoryView {
                 System.out.println("Il genitore non esiste :(");
             }
         } while (!categoryController.exists(rootName, parentName));
-        // Chiediamo il nome
+        return parentName;
+    }
+
+    public String askAndCheckName(String rootName){
         String name;
         do {
             name = InputDati.leggiStringaNonVuota("Inserisci il nome della categoria: ");
@@ -84,8 +105,6 @@ public class CategoryView {
                 System.out.println("Il nome della categoria è duplicato :(");
             }
         } while (categoryController.exists(rootName, name));
-        // Chiediamo la descrizione
-        String description = InputDati.leggiStringaNonVuota("Inserisci il nome della descrizione: ");
-        categoryController.makeChildCategory(rootName, parentName, name, description);
+        return name;
     }
 }
