@@ -36,15 +36,6 @@ public class Category implements Serializable {
     }
 
     /**
-     * Costruttore Category figlia
-     * @param name Nome della categoria
-     * @param description Descrizione della categoria
-     */
-    public Category(String name, String description) {
-        this(name, description, false, new HashMap<>());
-    }
-
-    /**
      * Aggiunge una categoria figlia
      * @param childCategory La categoria figlia da aggiungere
      */
@@ -74,15 +65,6 @@ public class Category implements Serializable {
             return allFields;
         }
     }
-
-    public void addField(boolean required, String name) {
-        fields.put(name, new Field(required, name));
-    }
-
-    /*
-    public void addAllFieldsToCategory(Category childCategory) {
-        childCategory.fields.addAll(fields);
-    }*/
 
     private void setParent(Category parent) {
         this.parent = parent;

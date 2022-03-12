@@ -14,8 +14,6 @@ public class SaveHierarchies implements Serializable {
         return hierarchies;
     }
 
-
-
     public static SaveHierarchies loadHierarchies() throws IOException, ClassNotFoundException {
         File f = new File(SAVE_HIERARCHIES);
         if (f.exists()) {

@@ -14,7 +14,6 @@ public class CategoryView {
         categoryController = new CategoryController(saves);
     }
 
-
     /**
      * Esegue l'UI principale per la gestione delle categorie
      */
@@ -61,7 +60,7 @@ public class CategoryView {
             }
         } while (categoryController.existsRoot(nome));
         descrizione = InputDati.leggiStringaNonVuota("Inserisci la descrizione della nuova categoria radice: ");
-        Map<String, Field> newFields = askFields();
+        Map<String, Field> newFields = askFieldsForRoot();
         categoryController.makeRootCategory(nome, descrizione, newFields);
     }
 
@@ -75,13 +74,17 @@ public class CategoryView {
         // Chiediamo il padre
         String parentName = askAndCheckParentName(rootName);
         // Chiediamo il nome
-        String name = askAndCheckName(rootName);
+        String name = askAndCheckCategoryName(rootName);
         // Chiediamo la descrizione
         String description = InputDati.leggiStringaNonVuota("Inserisci il nome della descrizione: ");
-        Map<String, Field> newFields = askFields(categoryController.searchTree(rootName, parentName));
+        Map<String, Field> newFields = askFieldsForCategory(categoryController.searchTree(rootName, parentName));
         categoryController.makeChildCategory(rootName, parentName, name, description, newFields);
     }
 
+    /**
+     * Chiedi il nome della categoria radice (con controlli)
+     * @return Nome della categoria radice
+     */
     public String askAndCheckRootName(){
         String rootName;
         do {
@@ -93,6 +96,10 @@ public class CategoryView {
         return rootName;
     }
 
+    /**
+     * Chiedi il nome della categoria genitore (con controlli)
+     * @return Nome della categoria genitore
+     */
     public String askAndCheckParentName(String rootName){
         String parentName;
         do {
@@ -104,7 +111,11 @@ public class CategoryView {
         return parentName;
     }
 
-    public String askAndCheckName(String rootName){
+    /**
+     * Chiedi il nome della categoria (con controlli)
+     * @return Nome della categoria
+     */
+    public String askAndCheckCategoryName(String rootName){
         String name;
         do {
             name = InputDati.leggiStringaNonVuota("Inserisci il nome della categoria: ");
@@ -115,14 +126,29 @@ public class CategoryView {
         return name;
     }
 
-    public Map<String, Field> askFields() {
+    /**
+     * Chiedi i campi per una categoria radice
+     * @return I campi per la categoria radice
+     */
+    public Map<String, Field> askFieldsForRoot() {
         return askFields(categoryController.getDefaultFields(), categoryController.getDefaultFields());
     }
 
-    public  Map<String, Field> askFields(Category parent){
+    /**
+     * Chiedi i campi per una categoria figlia
+     * @param parent Categoria genitore
+     * @return Campi della categoria figlia
+     */
+    public Map<String, Field> askFieldsForCategory(Category parent){
         return askFields(parent.getFields(), new HashMap<>());
     }
 
+    /**
+     * Chiedi i campi genericamente
+     * @param controlMap Mappa di controllo
+     * @param newFieldsMap Mappa dei nuovi campi
+     * @return Mappa dei nuovi campi con quelli inseriti
+     */
     public Map<String, Field> askFields(Map<String, Field> controlMap, Map<String, Field> newFieldsMap){
         boolean scelta;
         Map<String, Field> newMap = new HashMap<>(controlMap);
@@ -137,7 +163,11 @@ public class CategoryView {
         return newFieldsMap;
     }
 
-
+    /**
+     * Crea un nuovo campo
+     * @param actualFields Campi già inseriti, usati per i controlli
+     * @return Il nuovo campo inserito
+     */
     public Field createField(Map<String, Field> actualFields){
         String fieldName;
         do{

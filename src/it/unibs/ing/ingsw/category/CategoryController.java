@@ -5,11 +5,9 @@ import it.unibs.ing.ingsw.io.Saves;
 import java.util.*;
 
 public class CategoryController {
-    private final Map<String, Category> hierarchies ;
-    private final Saves saves;
+    private final Map<String, Category> hierarchies;
 
     public CategoryController(Saves saves) {
-        this.saves=saves;
         hierarchies = saves.getSaveHierarchies().getHierarchies();
     }
 
