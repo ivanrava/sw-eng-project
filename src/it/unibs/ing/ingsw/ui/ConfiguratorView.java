@@ -4,24 +4,24 @@ import it.unibs.ing.fp.mylib.MyMenu;
 import it.unibs.ing.ingsw.category.CategoryView;
 import it.unibs.ing.ingsw.io.Saves;
 
-public class CustomerView {
+public class ConfiguratorView {
     private final CategoryView categoryView;
 
-    public CustomerView(Saves saves) {
+    public ConfiguratorView(Saves saves) {
         categoryView = new CategoryView(saves);
     }
 
     public void execute() {
-        MyMenu mainMenu = new MyMenu("Benvenuto Utente", new String[] {
-                "Visualizza categorie",
-                "Visualizza generalità"
+        MyMenu mainMenu = new MyMenu("Interfaccia di amministrazione", new String[] {
+                "Gestisci categorie",
+                "Gestisci configurazione generale"
         });
 
         int scelta;
         do {
             scelta = mainMenu.scegli();
             switch (scelta) {
-                case 1 -> categoryView.printHierarchies();
+                case 1 -> categoryView.execute();
                 // TODO: case 2
             }
         }while (scelta != 0);

@@ -14,7 +14,7 @@ public class LoginView {
     /**
      * Esegue l'UI generale di login
      */
-    public User execute() {
+    public boolean execute() {
         if (!loginController.existsDefaultCredentials()) {
             startSettingDefaultCredentials();
         }
@@ -24,20 +24,21 @@ public class LoginView {
                 "Effettua accesso"
         });
 
-        User loggedUser = null;//TODO tanto non é mai null
+        User loggedUser = null; // FIXME: migliorare questa parte
         int scelta;
         do {
             scelta = loginRegisterMenu.scegli();
             switch (scelta) {
+                case 0 -> System.exit(0);
                 case 1 -> startRegister(false);
                 case 2 -> {
                     loggedUser = startLogin();
                     scelta = 0;
                 }
             }
-        }while (scelta != 0);
-        assert loggedUser != null:"";
-        return loggedUser;
+        } while (scelta != 0);
+        assert loggedUser != null : "Non dovrebbe essere null";
+        return loggedUser.isAdmin();
     }
 
     /**
@@ -71,15 +72,7 @@ public class LoginView {
         } while (!loginController.login(username, password));
         System.out.printf("Sei dentro, %s%n", username);
 
-        //admin?
-        User utente = loginController.getUserByUsername(username);
-        if (utente.isAdmin()){
-            System.out.println("Admin");
-        }else {
-            System.out.println("Customer");
-        }
-
-        return utente;
+        return loginController.getUserByUsername(username);
     }
 
     /**
