@@ -86,7 +86,7 @@ public class Category {
      */
     public String onlyNameToString(int initialPrefixNumber) {
         StringBuilder sb = new StringBuilder();
-        sb.append(String.format("%s%s%n", prefix(initialPrefixNumber), name));
+        sb.append(String.format("%s%s %s%n", prefix(initialPrefixNumber), name, fields));
         for (Category child : children.values()) {
             sb.append(child.onlyNameToString(initialPrefixNumber + 1));
         }
