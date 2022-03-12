@@ -6,8 +6,8 @@ import it.unibs.ing.fp.mylib.MyMenu;
 public class CategoryView {
     private final CategoryController categoryController;
 
-    public CategoryView() {
-        categoryController = new CategoryController();
+    public CategoryView(SaveHierarchies saveHierarchies) {
+        categoryController = new CategoryController(saveHierarchies);
     }
 
     /**

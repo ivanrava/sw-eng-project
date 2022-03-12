@@ -1,5 +1,6 @@
 package it.unibs.ing.ingsw;
 
+import it.unibs.ing.ingsw.category.SaveHierarchies;
 import it.unibs.ing.ingsw.io.Saves;
 import it.unibs.ing.ingsw.ui.View;
 
@@ -9,9 +10,11 @@ public class Main {
     public static void main(String[] args) {
         try {
             Saves saves = new Saves();
-            View view = new View(saves);
+            SaveHierarchies saveHierarchies = SaveHierarchies.loadHierarchies();
+            View view = new View(saves, saveHierarchies);
             view.execute();
             saves.save();
+            saveHierarchies.saveHierarchies();
         } catch (IOException | ClassNotFoundException e) {
             System.out.println("La configurazione è presente, ma non riesco a caricarla!");
             e.printStackTrace();

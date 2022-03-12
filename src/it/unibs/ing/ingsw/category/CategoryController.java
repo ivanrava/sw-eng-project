@@ -5,18 +5,28 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class CategoryController {
-    private final Map<String, Category> hierarchies;
+    private final Map<String, Category> hierarchies ;
+    private final SaveHierarchies saveHierarchies ;
 
-    public CategoryController() {
-        hierarchies = new HashMap<>();
+    public CategoryController(SaveHierarchies saveHierarchies) {
+        this.saveHierarchies=saveHierarchies;
+        hierarchies = saveHierarchies.getHierarchies();
+    }
+
+    /*
+    public String CategoryController() {
         // TODO: rimuovere test
+
         Category libro = new Category("Libro", "Opera cartacea", true);
         hierarchies.put("Libro", libro);
         hierarchies.put("Veicoli", new Category("Veicoli", "Brum brum", true));
         libro.addChildCategory(new Category("Romanzo", "Figo"));
         libro.addChildCategory(new Category("Giornale", "Let's go"));
         libro.getChildren().get("Romanzo").addChildCategory(new Category("Giallo", "Romanzo Giallo"));
+
+
     }
+    */
 
     /**
      * Metodo che visualizza tutta la gerarchia (solo nome per ogni categoria)
