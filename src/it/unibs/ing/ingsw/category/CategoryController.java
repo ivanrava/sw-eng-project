@@ -97,7 +97,7 @@ public class CategoryController {
      * @param name Nome della categoria da cercare
      * @return La Category cercata, se esiste. Altrimenti 'null'
      */
-    private Category searchTree(String rootName, String name) {
+    public Category searchTree(String rootName, String name) {
         assert existsRoot(name) : "La categoria radice fornita non esiste!";
         Category root = hierarchies.get(rootName);
         if (rootName.equals(name)) {

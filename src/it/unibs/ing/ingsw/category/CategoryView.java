@@ -76,7 +76,7 @@ public class CategoryView {
         String name = askAndCheckName(rootName);
         // Chiediamo la descrizione
         String description = InputDati.leggiStringaNonVuota("Inserisci il nome della descrizione: ");
-        Map<String, Field> newFields = askFields();
+        Map<String, Field> newFields = askFields(categoryController.searchTree(rootName, parentName));
         categoryController.makeChildCategory(rootName, parentName, name, description, newFields);
     }
 
@@ -114,17 +114,27 @@ public class CategoryView {
     }
 
     public Map<String, Field> askFields() {
+        return askFields(categoryController.getDefaultFields(), categoryController.getDefaultFields());
+    }
+
+    public  Map<String, Field> askFields(Category parent){
+        return askFields(parent.getFields(), new HashMap<>());
+    }
+
+    public Map<String, Field> askFields(Map<String, Field> controlMap, Map<String, Field> newFieldsMap){
         boolean scelta;
-        Map<String, Field> newFields = categoryController.getDefaultFields();
+        Map<String, Field> newMap = new HashMap<>(controlMap);
         do {
             scelta = InputDati.yesOrNo("Vuoi aggiungere un nuovo campo?");
             if (scelta){
-                Field newField = createField(newFields);
-                newFields.put(newField.getName(), newField);
+                newMap.putAll(newFieldsMap);
+                Field newField = createField(newMap);
+                newFieldsMap.put(newField.getName(), newField);
             }
         }while (scelta);
-        return newFields;
+        return newFieldsMap;
     }
+
 
     public Field createField(Map<String, Field> actualFields){
         //TODO aggiungere controlli
