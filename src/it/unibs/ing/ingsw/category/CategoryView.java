@@ -2,13 +2,15 @@ package it.unibs.ing.ingsw.category;
 
 import it.unibs.ing.fp.mylib.InputDati;
 import it.unibs.ing.fp.mylib.MyMenu;
+import it.unibs.ing.ingsw.io.Saves;
 
 public class CategoryView {
     private final CategoryController categoryController;
 
-    public CategoryView(SaveHierarchies saveHierarchies) {
-        categoryController = new CategoryController(saveHierarchies);
+    public CategoryView(Saves saves) {
+        categoryController = new CategoryController(saves);
     }
+
 
     /**
      * Esegue l'UI principale per la gestione delle categorie

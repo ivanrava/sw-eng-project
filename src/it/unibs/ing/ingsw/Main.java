@@ -10,11 +10,9 @@ public class Main {
     public static void main(String[] args) {
         try {
             Saves saves = new Saves();
-            SaveHierarchies saveHierarchies = SaveHierarchies.loadHierarchies();
-            View view = new View(saves, saveHierarchies);
+            View view = new View(saves);
             view.execute();
             saves.save();
-            saveHierarchies.saveHierarchies();
         } catch (IOException | ClassNotFoundException e) {
             System.out.println("La configurazione è presente, ma non riesco a caricarla!");
             e.printStackTrace();

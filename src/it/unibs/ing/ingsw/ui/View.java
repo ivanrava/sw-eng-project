@@ -12,9 +12,9 @@ public class View {
     private final LoginView loginView;
     private final CategoryView categoryView;
 
-    public View(Saves saves, SaveHierarchies saveHierarchies) {
+    public View(Saves saves) {
         loginView = new LoginView(saves);
-        categoryView = new CategoryView(saveHierarchies);
+        categoryView = new CategoryView(saves);
     }
 
     /**

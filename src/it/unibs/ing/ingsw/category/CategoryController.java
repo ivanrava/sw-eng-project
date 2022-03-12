@@ -1,16 +1,18 @@
 package it.unibs.ing.ingsw.category;
 
+import it.unibs.ing.ingsw.io.Saves;
+
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
 public class CategoryController {
     private final Map<String, Category> hierarchies ;
-    private final SaveHierarchies saveHierarchies ;
+    private final Saves saves;
 
-    public CategoryController(SaveHierarchies saveHierarchies) {
-        this.saveHierarchies=saveHierarchies;
-        hierarchies = saveHierarchies.getHierarchies();
+    public CategoryController(Saves saves) {
+        this.saves=saves;
+        hierarchies = saves.getSaveHierarchies().getHierarchies();
     }
 
     /*
