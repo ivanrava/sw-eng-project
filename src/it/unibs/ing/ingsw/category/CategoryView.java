@@ -41,7 +41,7 @@ public class CategoryView {
     /**
      * Stampa tutte le gerarchie del sistema
      */
-    private void printHierarchies() {
+    public void printHierarchies() {
         //versione solo nomi
         System.out.println(categoryController.allHierarchiesToString());
         //versione super verbose per testing

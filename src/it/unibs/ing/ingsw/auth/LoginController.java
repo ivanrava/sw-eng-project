@@ -19,7 +19,7 @@ public class LoginController {
      * @return 'true' se è già in uso, 'false' altrimenti
      */
     public boolean existsUsername(String username) {
-        return users.containsKey(username);
+        return users.containsKey(username) || saves.getDefaultUsername().equals(username);
     }
 
     /**
@@ -36,6 +36,12 @@ public class LoginController {
         // Verifies credentials
         return users.get(username).checkCredentials(username, password);
     }
+
+    public User getUserByUsername(String username) {
+        assert users.get(username) != null :"l'utente non esiste";
+        return users.get(username);
+    }
+
 
     /**
      * Controlla se le credenziali passate corrispondono alle credenziali di default
@@ -56,10 +62,13 @@ public class LoginController {
      * @param username Username del nuovo utente da aggiungere
      * @param password Password del nuovo utente da aggiungere
      */
-    public void register(String username, String password) {
+    public void register(String username, String password, boolean isAdmin) {
         assert !existsUsername(username) : "Lo username non è univoco!";
         assert checkDefaultCredentials(username, password) : "Si sta registrando un utente con credenziali di default!";
-        users.put(username, new User(username, password));
+        if (isAdmin)
+            users.put(username, new Configurator(username, password));
+        else
+            users.put(username, new Customer(username, password));
     }
 
     /**

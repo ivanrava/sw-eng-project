@@ -1,6 +1,7 @@
 package it.unibs.ing.ingsw.auth;
 
 import it.unibs.ing.fp.mylib.InputDati;
+import it.unibs.ing.fp.mylib.MyMenu;
 import it.unibs.ing.ingsw.io.Saves;
 
 public class LoginView {
@@ -13,11 +14,30 @@ public class LoginView {
     /**
      * Esegue l'UI generale di login
      */
-    public void execute() {
+    public User execute() {
         if (!loginController.existsDefaultCredentials()) {
             startSettingDefaultCredentials();
         }
-        startLogin();
+
+        MyMenu loginRegisterMenu = new MyMenu("Accesso", new String[] {
+                "Registra nuovo utente",
+                "Effettua accesso"
+        });
+
+        User loggedUser = null;//TODO tanto non é mai null
+        int scelta;
+        do {
+            scelta = loginRegisterMenu.scegli();
+            switch (scelta) {
+                case 1 -> startRegister(false);
+                case 2 -> {
+                    loggedUser = startLogin();
+                    scelta = 0;
+                }
+            }
+        }while (scelta != 0);
+        assert loggedUser != null:"";
+        return loggedUser;
     }
 
     /**
@@ -36,28 +56,36 @@ public class LoginView {
     /**
      * Esegue l'UI di login
      */
-    private void startLogin() {
+    private User startLogin() {
         String username, password;
-        if(!loginController.existsDefaultCredentials()){
-            startRegister();
-        } else {
-            do {
-                username = InputDati.leggiStringaNonVuota("Inserisci lo username: ");
-                password = InputDati.leggiStringaNonVuota("Inserisci la password: ");
-                if (loginController.checkDefaultCredentials(username, password)) {
-                    startRegister();
-                } else if (!loginController.login(username, password)) {
-                    System.out.println("Credenziali non corrette! :(");
-                }
-            } while (!loginController.login(username, password));
-            System.out.printf("Sei dentro, %s%n", username);
+
+        //accesso utente
+        do {
+            username = InputDati.leggiStringaNonVuota("Inserisci lo username: ");
+            password = InputDati.leggiStringaNonVuota("Inserisci la password: ");
+            if (loginController.checkDefaultCredentials(username, password)) {
+                startRegister(true);
+            } else if (!loginController.login(username, password)) {
+                System.out.println("Credenziali non corrette! :(");
+            }
+        } while (!loginController.login(username, password));
+        System.out.printf("Sei dentro, %s%n", username);
+
+        //admin?
+        User utente = loginController.getUserByUsername(username);
+        if (utente.isAdmin()){
+            System.out.println("Admin");
+        }else {
+            System.out.println("Customer");
         }
+
+        return utente;
     }
 
     /**
      * Esegue l'UI di registrazione (per un nuovo utente)
      */
-    private void startRegister() {
+    private void startRegister(boolean isAdmin) {
         String username, password;
         System.out.println("* Registrazione nuovo utente *");
         do {
@@ -68,10 +96,7 @@ public class LoginView {
                 }
             } while (loginController.existsUsername(username));
             password = InputDati.leggiStringaNonVuota("Inserisci la tua nuova password: ");
-            if (loginController.checkDefaultCredentials(username, password)) {
-                System.out.println("Non puoi usare le credenziali di default :(");
-            }
         } while (loginController.checkDefaultCredentials(username, password));
-        loginController.register(username, password);
+        loginController.register(username, password, isAdmin);
     }
 }
