@@ -29,7 +29,6 @@ public class CategoryController {
      * @param name Nome della nuova categoria radice
      * @param description Descrizione della nuova categoria radice
      */
-    // TODO: aggiungere campi nativi
     public void makeRootCategory(String name, String description, Map<String, Field> newFields) {
         assert hierarchies.get(name) == null :"stai sovrascrivendo una radice";
         Category rootCategory = new Category(name, description, true, newFields);
@@ -50,7 +49,6 @@ public class CategoryController {
      * @param description Descrizione della nuova categoria
      * @param newFields nuovi fields
      */
-    // TODO: aggiungere campi nativi
     public void makeChildCategory(String rootName, String parentName, String name, String description, Map<String, Field> newFields) {
         assert searchTree(rootName, parentName) != null : "La categoria genitore fornita non esiste!";
         Category parent = searchTree(rootName, parentName);

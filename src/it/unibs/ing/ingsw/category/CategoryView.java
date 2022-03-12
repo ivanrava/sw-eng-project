@@ -139,7 +139,6 @@ public class CategoryView {
 
 
     public Field createField(Map<String, Field> actualFields){
-        //TODO aggiungere controlli
         String fieldName;
         do{
             fieldName = InputDati.leggiStringaNonVuota("Nome del field: ");

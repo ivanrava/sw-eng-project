@@ -6,7 +6,6 @@ import java.util.Map;
 
 public class LoginController {
     private final Map<String, User> users;
-    // FIXME: accoppiamento tra Saves e LoginController?
     private final Saves saves;
 
     public LoginController(Saves saves) {
