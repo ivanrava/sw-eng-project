@@ -3,8 +3,8 @@ package it.unibs.ing.ingsw.category;
 import it.unibs.ing.fp.mylib.InputDati;
 import it.unibs.ing.fp.mylib.MyMenu;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 public class CategoryView {
     private final CategoryController categoryController;
@@ -59,7 +59,8 @@ public class CategoryView {
             }
         } while (categoryController.existsRoot(nome));
         descrizione = InputDati.leggiStringaNonVuota("Inserisci la descrizione della nuova categoria radice: ");
-        categoryController.makeRootCategory(nome, descrizione);
+        Map<String, Field> newFields = askFields();
+        categoryController.makeRootCategory(nome, descrizione, newFields);
     }
 
     /**
@@ -75,7 +76,7 @@ public class CategoryView {
         String name = askAndCheckName(rootName);
         // Chiediamo la descrizione
         String description = InputDati.leggiStringaNonVuota("Inserisci il nome della descrizione: ");
-        List<Field> newFields = askFields();
+        Map<String, Field> newFields = askFields();
         categoryController.makeChildCategory(rootName, parentName, name, description, newFields);
     }
 
@@ -112,21 +113,29 @@ public class CategoryView {
         return name;
     }
 
-    public List<Field> askFields() {
+    public Map<String, Field> askFields() {
         boolean scelta;
-        List<Field> newFields = new ArrayList<>();
+        Map<String, Field> newFields = categoryController.getDefaultFields();
         do {
             scelta = InputDati.yesOrNo("Vuoi aggiungere un nuovo campo?");
             if (scelta){
-                newFields.add(createField());
+                Field newField = createField(newFields);
+                newFields.put(newField.getName(), newField);
             }
         }while (scelta);
         return newFields;
     }
 
-    public Field createField(){
+    public Field createField(Map<String, Field> actualFields){
         //TODO aggiungere controlli
-        String fieldName = InputDati.leggiStringaNonVuota("Nome del field: ");
+        String fieldName;
+        do{
+            fieldName = InputDati.leggiStringaNonVuota("Nome del field: ");
+            if (actualFields.containsKey(fieldName)){
+                System.out.println("Field duplicato :-(");
+            }
+        }while (actualFields.containsKey(fieldName));
+
         boolean required = InputDati.yesOrNo("Obbligatorio");
         return new Field(required, fieldName);
     }

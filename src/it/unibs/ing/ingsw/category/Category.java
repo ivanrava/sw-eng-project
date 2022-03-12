@@ -6,7 +6,7 @@ public class Category {
     // TODO: aggiungere gestione campi
     private final String name;
     private final String description;
-    private final List<Field> fields;
+    private final Map<String, Field> fields;
     private final Map<String, Category> children;
     private Category parent;
 
@@ -16,23 +16,22 @@ public class Category {
      * @param description Descrizione della categoria
      * @param isRootCategory 'true' se la categoria è radice, 'false' altrimenti
      */
-    public Category(String name, String description, boolean isRootCategory, List<Field> newFields) {
+    public Category(String name, String description, boolean isRootCategory, Map<String, Field> newFields) {
         this.name = name;
         this.description = description;
 
-        fields = new ArrayList<>();
+        fields = new HashMap<>();
 
         if (isRootCategory) {
-            fields.add(new Field<String>(true, "Stato di conservazione"));
-            fields.add(new Field<String>(false, "Descrizione libera"));
+            fields.putAll(getDefaultFields());
         }
-        fields.addAll(newFields);
+        fields.putAll(newFields);
 
         children = new HashMap<>();
         parent = null;
     }
 
-    public Category(String name, String description, List<Field> newFields) {
+    public Category(String name, String description, Map<String, Field> newFields) {
         this(name, description, false, newFields);
     }
 
@@ -42,7 +41,7 @@ public class Category {
      * @param description Descrizione della categoria
      */
     public Category(String name, String description) {
-        this(name, description, false, new ArrayList<>());
+        this(name, description, false, new HashMap<>());
     }
 
     /**
@@ -50,18 +49,40 @@ public class Category {
      * @param childCategory La categoria figlia da aggiungere
      */
     public void addChildCategory(Category childCategory) {
-        addAllFieldsToCategory(childCategory);
         this.children.put(childCategory.name, childCategory);
         childCategory.setParent(this);
+
+    }
+
+    public Boolean isRootCategory(){
+        return parent == null;
+    }
+
+    public static Map<String, Field> getDefaultFields(){
+        Map<String, Field> defaultFields = new HashMap<>();
+        defaultFields.put("Stato di conservazione", new Field(true, "Stato di conservazione"));
+        defaultFields.put("Descrizione libera", new Field(false, "Descrizione libera"));
+        return defaultFields;
+    }
+
+    public Map<String, Field> getFields() {
+        if (isRootCategory()){
+            return fields;
+        }else {
+            Map<String, Field> allFields = new HashMap<>(parent.getFields());
+            allFields.putAll(fields);
+            return allFields;
+        }
     }
 
     public void addField(boolean required, String name) {
-        fields.add(new Field(required, name));
+        fields.put(name, new Field(required, name));
     }
 
+    /*
     public void addAllFieldsToCategory(Category childCategory) {
         childCategory.fields.addAll(fields);
-    }
+    }*/
 
     private void setParent(Category parent) {
         this.parent = parent;

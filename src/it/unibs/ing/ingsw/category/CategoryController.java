@@ -8,9 +8,9 @@ public class CategoryController {
     public CategoryController() {
         hierarchies = new HashMap<>();
         // TODO: rimuovere test
-        Category libro = new Category("Libro", "Opera cartacea", true, new ArrayList<>());
+        Category libro = new Category("Libro", "Opera cartacea", true, new HashMap<>());
         hierarchies.put("Libro", libro);
-        hierarchies.put("Veicoli", new Category("Veicoli", "Brum brum", true, new ArrayList<>()));
+        hierarchies.put("Veicoli", new Category("Veicoli", "Brum brum", true, new HashMap<>()));
         libro.addChildCategory(new Category("Romanzo", "Figo"));
         libro.addChildCategory(new Category("Giornale", "Let's go"));
         libro.getChildren().get("Romanzo").addField(true, "prova");
@@ -35,12 +35,14 @@ public class CategoryController {
      * @param description Descrizione della nuova categoria radice
      */
     // TODO: aggiungere campi nativi
-    public void makeRootCategory(String name, String description) {
-        if (hierarchies.get(name) != null) {
-            return;
-        }
-        Category rootCategory = new Category(name, description, true, new ArrayList<>());
+    public void makeRootCategory(String name, String description, Map<String, Field> newFields) {
+        assert hierarchies.get(name) == null :"stai sovrascrivendo una radice";
+        Category rootCategory = new Category(name, description, true, newFields);
         hierarchies.put(name, rootCategory);
+    }
+
+    public Map<String, Field> getDefaultFields(){
+        return Category.getDefaultFields();
     }
 
     /**
@@ -54,7 +56,7 @@ public class CategoryController {
      * @param newFields nuovi fields
      */
     // TODO: aggiungere campi nativi
-    public void makeChildCategory(String rootName, String parentName, String name, String description, List<Field> newFields) {
+    public void makeChildCategory(String rootName, String parentName, String name, String description, Map<String, Field> newFields) {
         assert searchTree(rootName, parentName) != null : "La categoria genitore fornita non esiste!";
         Category parent = searchTree(rootName, parentName);
         parent.addChildCategory(new Category(name, description, newFields));
@@ -78,6 +80,7 @@ public class CategoryController {
     public boolean exists(String rootName, String name) {
         return searchTree(rootName, name) != null;
     }
+
 
     /**
      * Ritorna tutte le gerarchie del sistema
