@@ -28,10 +28,7 @@ public class Field<T> {
 
     @Override
     public String toString() {
-        return "Field{" +
-                "required=" + required +
-                ", name='" + name + '\'' +
-                '}';
+        return String.format("(\"%s\", %s)", name, required);
     }
 }
 
