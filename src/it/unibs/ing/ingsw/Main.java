@@ -1,6 +1,5 @@
 package it.unibs.ing.ingsw;
 
-import it.unibs.ing.ingsw.category.SaveHierarchies;
 import it.unibs.ing.ingsw.io.Saves;
 import it.unibs.ing.ingsw.ui.View;
 

@@ -1,7 +1,6 @@
 package it.unibs.ing.ingsw.io;
 
 import it.unibs.ing.ingsw.auth.User;
-import it.unibs.ing.ingsw.category.SaveHierarchies;
 
 import java.io.IOException;
 import java.util.Map;

@@ -1,4 +1,6 @@
-package it.unibs.ing.ingsw.category;
+package it.unibs.ing.ingsw.io;
+
+import it.unibs.ing.ingsw.category.Category;
 
 import java.io.*;
 import java.util.HashMap;
