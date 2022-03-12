@@ -7,7 +7,7 @@ public class Category implements Serializable {
     // TODO: aggiungere gestione campi
     private final String name;
     private final String description;
-    private final List<Field> fields;
+    private final Map<String, Field> fields;
     private final Map<String, Category> children;
     private Category parent;
 
@@ -17,18 +17,23 @@ public class Category implements Serializable {
      * @param description Descrizione della categoria
      * @param isRootCategory 'true' se la categoria è radice, 'false' altrimenti
      */
-    public Category(String name, String description, boolean isRootCategory) {
+    public Category(String name, String description, boolean isRootCategory, Map<String, Field> newFields) {
         this.name = name;
         this.description = description;
 
-        fields = new ArrayList<>();
+        fields = new HashMap<>();
+
         if (isRootCategory) {
-            fields.add(new Field<String>(true, "Stato di conservazione"));
-            fields.add(new Field<String>(false, "Descrizione libera"));
+            fields.putAll(getDefaultFields());
         }
+        fields.putAll(newFields);
 
         children = new HashMap<>();
         parent = null;
+    }
+
+    public Category(String name, String description, Map<String, Field> newFields) {
+        this(name, description, false, newFields);
     }
 
     /**
@@ -37,7 +42,7 @@ public class Category implements Serializable {
      * @param description Descrizione della categoria
      */
     public Category(String name, String description) {
-        this(name, description, false);
+        this(name, description, false, new HashMap<>());
     }
 
     /**
@@ -47,7 +52,38 @@ public class Category implements Serializable {
     public void addChildCategory(Category childCategory) {
         this.children.put(childCategory.name, childCategory);
         childCategory.setParent(this);
+
     }
+
+    public Boolean isRootCategory(){
+        return parent == null;
+    }
+
+    public static Map<String, Field> getDefaultFields(){
+        Map<String, Field> defaultFields = new HashMap<>();
+        defaultFields.put("Stato di conservazione", new Field(true, "Stato di conservazione"));
+        defaultFields.put("Descrizione libera", new Field(false, "Descrizione libera"));
+        return defaultFields;
+    }
+
+    public Map<String, Field> getFields() {
+        if (isRootCategory()){
+            return fields;
+        }else {
+            Map<String, Field> allFields = new HashMap<>(parent.getFields());
+            allFields.putAll(fields);
+            return allFields;
+        }
+    }
+
+    public void addField(boolean required, String name) {
+        fields.put(name, new Field(required, name));
+    }
+
+    /*
+    public void addAllFieldsToCategory(Category childCategory) {
+        childCategory.fields.addAll(fields);
+    }*/
 
     private void setParent(Category parent) {
         this.parent = parent;
@@ -63,9 +99,7 @@ public class Category implements Serializable {
 
     @Override
     public String toString() {
-        // TODO: better output
-        return String.format("%s (%s), Campi: %s, Categorie figlie:%n\t%s",
-                name, description, fields.toString(), children.toString());
+        return String.format("[name = %s | description = %s | {fields = %s} | {childrens = %s} ]\n", name, description, fields, children);
     }
 
     /**
@@ -74,7 +108,7 @@ public class Category implements Serializable {
      */
     public String onlyNameToString(int initialPrefixNumber) {
         StringBuilder sb = new StringBuilder();
-        sb.append(String.format("%s%s%n", prefix(initialPrefixNumber), name));
+        sb.append(String.format("%s%s %s%n", prefix(initialPrefixNumber), name, fields));
         for (Category child : children.values()) {
             sb.append(child.onlyNameToString(initialPrefixNumber + 1));
         }

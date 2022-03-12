@@ -2,10 +2,10 @@ package it.unibs.ing.ingsw.category;
 
 import java.io.Serializable;
 
-public class Field<T> implements Serializable {
+public class Field implements Serializable {
     private final boolean required;
     private final String name;
-    private final T value;
+    private final String value;
 
     /**
      * Costruttore con valore
@@ -13,7 +13,7 @@ public class Field<T> implements Serializable {
      * @param name Nome del campo
      * @param value Valore del campo
      */
-    public Field(boolean required, String name, T value) {
+    public Field(boolean required, String name, String value) {
         this.required = required;
         this.name = name;
         this.value = value;
@@ -28,12 +28,13 @@ public class Field<T> implements Serializable {
         this(required, name, null);
     }
 
+    public String getName(){
+        return name;
+    }
+
     @Override
     public String toString() {
-        return "Field{" +
-                "required=" + required +
-                ", name='" + name + '\'' +
-                '}';
+        return String.format("(\"%s\", %s)", name, required);
     }
 }
 

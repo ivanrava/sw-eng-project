@@ -2,9 +2,7 @@ package it.unibs.ing.ingsw.category;
 
 import it.unibs.ing.ingsw.io.Saves;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class CategoryController {
     private final Map<String, Category> hierarchies ;
@@ -14,21 +12,6 @@ public class CategoryController {
         this.saves=saves;
         hierarchies = saves.getSaveHierarchies().getHierarchies();
     }
-
-    /*
-    public String CategoryController() {
-        // TODO: rimuovere test
-
-        Category libro = new Category("Libro", "Opera cartacea", true);
-        hierarchies.put("Libro", libro);
-        hierarchies.put("Veicoli", new Category("Veicoli", "Brum brum", true));
-        libro.addChildCategory(new Category("Romanzo", "Figo"));
-        libro.addChildCategory(new Category("Giornale", "Let's go"));
-        libro.getChildren().get("Romanzo").addChildCategory(new Category("Giallo", "Romanzo Giallo"));
-
-
-    }
-    */
 
     /**
      * Metodo che visualizza tutta la gerarchia (solo nome per ogni categoria)
@@ -47,12 +30,14 @@ public class CategoryController {
      * @param description Descrizione della nuova categoria radice
      */
     // TODO: aggiungere campi nativi
-    public void makeRootCategory(String name, String description) {
-        if (hierarchies.get(name) != null) {
-            return;
-        }
-        Category rootCategory = new Category(name, description, true);
+    public void makeRootCategory(String name, String description, Map<String, Field> newFields) {
+        assert hierarchies.get(name) == null :"stai sovrascrivendo una radice";
+        Category rootCategory = new Category(name, description, true, newFields);
         hierarchies.put(name, rootCategory);
+    }
+
+    public Map<String, Field> getDefaultFields(){
+        return Category.getDefaultFields();
     }
 
     /**
@@ -63,12 +48,13 @@ public class CategoryController {
      * @param parentName Nome della categoria madre
      * @param name Nome della nuova categoria
      * @param description Descrizione della nuova categoria
+     * @param newFields nuovi fields
      */
     // TODO: aggiungere campi nativi
-    public void makeChildCategory(String rootName, String parentName, String name, String description) {
+    public void makeChildCategory(String rootName, String parentName, String name, String description, Map<String, Field> newFields) {
         assert searchTree(rootName, parentName) != null : "La categoria genitore fornita non esiste!";
         Category parent = searchTree(rootName, parentName);
-        parent.addChildCategory(new Category(name, description));
+        parent.addChildCategory(new Category(name, description, newFields));
     }
 
     /**
@@ -90,6 +76,7 @@ public class CategoryController {
         return searchTree(rootName, name) != null;
     }
 
+
     /**
      * Ritorna tutte le gerarchie del sistema
      * @return Collection delle gerarchie del sistema
@@ -105,7 +92,7 @@ public class CategoryController {
      * @param name Nome della categoria da cercare
      * @return La Category cercata, se esiste. Altrimenti 'null'
      */
-    private Category searchTree(String rootName, String name) {
+    public Category searchTree(String rootName, String name) {
         assert existsRoot(name) : "La categoria radice fornita non esiste!";
         Category root = hierarchies.get(rootName);
         if (rootName.equals(name)) {
