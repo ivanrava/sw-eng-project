@@ -1,8 +1,9 @@
 package it.unibs.ing.ingsw.category;
 
+import java.io.Serializable;
 import java.util.*;
 
-public class Category {
+public class Category implements Serializable {
     // TODO: aggiungere gestione campi
     private final String name;
     private final String description;

@@ -1,6 +1,8 @@
 package it.unibs.ing.ingsw.category;
 
-public class Field {
+import java.io.Serializable;
+
+public class Field implements Serializable {
     private final boolean required;
     private final String name;
     private final String value;

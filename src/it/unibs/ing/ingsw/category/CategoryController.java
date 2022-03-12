@@ -1,21 +1,16 @@
 package it.unibs.ing.ingsw.category;
 
+import it.unibs.ing.ingsw.io.Saves;
+
 import java.util.*;
 
 public class CategoryController {
-    private final Map<String, Category> hierarchies;
+    private final Map<String, Category> hierarchies ;
+    private final Saves saves;
 
-    public CategoryController() {
-        hierarchies = new HashMap<>();
-        // TODO: rimuovere test
-        Category libro = new Category("Libro", "Opera cartacea", true, new HashMap<>());
-        hierarchies.put("Libro", libro);
-        hierarchies.put("Veicoli", new Category("Veicoli", "Brum brum", true, new HashMap<>()));
-        libro.addChildCategory(new Category("Romanzo", "Figo"));
-        libro.addChildCategory(new Category("Giornale", "Let's go"));
-        libro.getChildren().get("Romanzo").addField(true, "prova");
-        libro.getChildren().get("Romanzo").addChildCategory(new Category("Giallo", "Romanzo Giallo"));
-
+    public CategoryController(Saves saves) {
+        this.saves=saves;
+        hierarchies = saves.getSaveHierarchies().getHierarchies();
     }
 
     /**
