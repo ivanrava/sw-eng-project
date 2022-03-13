@@ -1,14 +1,10 @@
 package it.unibs.ing.ingsw;
 
 import it.unibs.ing.ingsw.config.Config;
-import it.unibs.ing.ingsw.config.Day;
-import it.unibs.ing.ingsw.config.TimeInterval;
 import it.unibs.ing.ingsw.io.Saves;
 import it.unibs.ing.ingsw.ui.View;
 
 import java.io.IOException;
-import java.sql.Time;
-import java.util.ArrayList;
 
 public class Main {
     public static void main(String[] args) {
