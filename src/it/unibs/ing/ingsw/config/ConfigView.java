@@ -2,134 +2,38 @@ package it.unibs.ing.ingsw.config;
 
 import it.unibs.ing.fp.mylib.InputDati;
 import it.unibs.ing.fp.mylib.MyMenu;
-import it.unibs.ing.ingsw.category.Field;
 
-import java.sql.Time;
+import java.time.DayOfWeek;
+import java.time.format.TextStyle;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
+import java.util.Locale;
 
-public class ConfigView<continua, giorni> {
+public class ConfigView {
     ConfigController configController;
 
-
-    public ConfigView(Config configurazione){
-        configController = new ConfigController(configurazione);
+    public ConfigView(Config config){
+        configController = new ConfigController(config);
     }
 
     public void printConfig(){
-        System.out.println(configController.showAllconfigurationToString());
+        System.out.println(configController.getConfigAsString());
     }
 
-    public Config addConfig(){  //FIXME TUTTI I CONTROLLI : DEMO VERSION
-        String piazza;
-        List<String> luoghi;
-        List<Day> giorni;
-        List<TimeInterval> intervalli_orari;
-        int deadline;
-            piazza = InputDati.leggiStringaNonVuota("Inserisci piazza di scambio definitiva: ");
-            luoghi = inserisciLuoghi();
-            giorni = inserisciGiorni();
-            intervalli_orari = inserisciIntervalliOrari();
-            deadline = InputDati.leggiInteroConMinimo("inserisci la deadline: ", 0);
-            return configController.addConfigController(piazza,luoghi,giorni,intervalli_orari,deadline);
+    public void createConfig() {
+        // FIXME: solo una volta la piazza, tipo if(!existsPiazza...)
+        String piazza = InputDati.leggiStringaNonVuota("Inserisci piazza di scambio definitiva: ");
+        List<String> luoghi = inserisciLuoghi();
+        List<DayOfWeek> days = inserisciGiorni();
+        List<TimeInterval> timeIntervals = inserisciIntervalliOrari();
+        int deadline = InputDati.leggiInteroConMinimo("Inserisci la deadline: ", 1);
+        configController.makeConfig(piazza, luoghi, days, timeIntervals, deadline);
     }
 
-    private List<String> inserisciLuoghi() { //TODO
-        List<String> luoghi = new ArrayList<>();
-        String luogo;
-        boolean exist = false ;
-        boolean continua;
-        do {
-            luogo = InputDati.leggiStringaNonVuota("inserisci luogo di scambio:");
-            for(String luogoOld : luoghi){
-                if(luogoOld.equals(luogo)){
-                    System.out.println("luogo gia inserito");
-                    exist = true;
-                }
-            }
-            if(!exist) {
-                luoghi.add(luogo);
-                System.out.println("luogo inserito correttamente :)");
-            }
-            continua=InputDati.yesOrNo("vuoi inserire un altro luogo?");
-        }while(continua);
-        return luoghi;
-    }
-
-    private List<Day> inserisciGiorni(){ //FIXME CONTROLLO SU VALUE OF
-        List<Day> giorni = new ArrayList<>();
-        String giorno;
-        boolean exist = false;
-        boolean illegalFormat = false;
-        boolean continua ;
-        Day newDay = null;
-        do{
-          do {
-            giorno = InputDati.leggiStringaNonVuota("inserisci giorno della settimana:");
-            try {
-                newDay = Day.valueOf(giorno);
-                illegalFormat = false;
-            } catch (IllegalArgumentException e) {
-                System.out.println("hai sbagliato formato del giorno");
-                illegalFormat = true;
-            }
-          }while(illegalFormat)   ;
-
-            for(Day oldDay : giorni){
-                if(newDay.equals(oldDay)){
-                    System.out.println("giorno gia inserito");
-                    exist = true;
-                }
-            }
-            if(!exist) {
-                giorni.add(newDay);
-                System.out.println("giorno inserito correttamente :)");
-            }
-            continua = InputDati.yesOrNo("vuoi inserire un altro giorno?");
-        }while(continua);
-        return giorni;
-
-    }
-
-
-    private List<TimeInterval> inserisciIntervalliOrari(){ //FIXME TROVARE MODO PIU ELEGANTE
-        List<TimeInterval> intervalli_orari = new ArrayList<>();
-        boolean continua;
-        int oraIniziale, oraFinale, minutoIniziale, minutoFinale;
-        do{
-            TimeInterval intervallo;
-            do {
-                oraIniziale = InputDati.leggiIntero("inserisci l'ora iniziale :");
-            }while(!configController.checkHour(oraIniziale));
-            do {
-                minutoIniziale = InputDati.leggiIntero("inserisci il minuto iniziale:");
-            }while(!configController.checkMinut(minutoIniziale));
-            do {
-                do {
-                    oraFinale = InputDati.leggiIntero("inserisci l'ora finale :");
-                }while(!configController.checkHour(oraFinale));
-                do {
-                    minutoFinale = InputDati.leggiIntero("inserisci il minuto finale:");
-                }while(!configController.checkMinut(minutoFinale));
-                if((oraFinale == oraIniziale && minutoFinale < minutoIniziale) || (oraFinale < oraIniziale)){
-                    System.out.println("hai inserito orario finale minore di quello iniziale");
-                }
-            } while((oraFinale == oraIniziale && minutoFinale < minutoIniziale) || (oraFinale < oraIniziale) );
-            intervallo = new TimeInterval(oraIniziale,minutoIniziale,oraFinale,minutoFinale);
-            intervalli_orari.add(intervallo);
-            continua = InputDati.yesOrNo("vuoi inserire un altro intervallo?");
-        }while(continua);
-        return intervalli_orari;
-    }
-
-
-
-
-    public void modifyConfig(){ //FIXME  : MEGLIO AGGIUNGERLO IN CONFIGURATOR VIEW ?!
-        MyMenu mainMenu = new MyMenu("Configurazione", new String[] {
-                "Visualizza Configurazione",
-                "Modifica Configurazione"
+    public void execute() {
+        MyMenu mainMenu = new MyMenu("Gestione configurazione", new String[] {
+                "Visualizza configurazione",
+                "Crea configurazione"
         });
 
         int scelta;
@@ -137,13 +41,80 @@ public class ConfigView<continua, giorni> {
             scelta = mainMenu.scegli();
             switch (scelta) {
                 case 1 -> printConfig();
-                // TODO: case 2
-                case 2 -> addConfig();
+                case 2 -> createConfig();
             }
         }while (scelta != 0);
     }
 
+    /**
+     * Inserisce dall'UI una lista di luoghi
+     * @return Una lista di luoghi
+     */
+    private List<String> inserisciLuoghi() {
+        List<String> luoghi = new ArrayList<>();
+        boolean continua = true;
+        do {
+            String luogo = InputDati.leggiStringaNonVuota("Inserisci luogo di scambio: ");
+            if (luoghi.contains(luogo)) {
+                System.out.println("Luogo già presente :(");
+            } else {
+                luoghi.add(luogo);
+                continua = InputDati.yesOrNo("Vuoi inserire un altro luogo? ");
+            }
+        } while(continua || luoghi.isEmpty());
 
+        return luoghi;
+    }
 
+    /**
+     * Stampa i giorni della configurazione
+     */
+    private void printDays() {
+        configController.getDays().forEach(dayOfWeek -> {
+            System.out.printf("%s ", dayOfWeek.getDisplayName(TextStyle.FULL, Locale.ITALIAN));
+        });
+    }
 
+    /**
+     * Inserisce dall'UI una lista di giorni
+     * @return Una lista di giorni
+     */
+    private List<DayOfWeek> inserisciGiorni() {
+        printDays();
+
+        List<DayOfWeek> days = new ArrayList<>();
+        boolean continua = true;
+        do {
+            DayOfWeek day = DayOfWeek.of(InputDati.leggiIntero("Inserisci un giorno della settimana [1-7]: ", 1, 7));
+            if (days.contains(day)) {
+                System.out.println("Giorno già presente :(");
+            } else {
+                days.add(day);
+                continua = InputDati.yesOrNo("Vuoi inserire un altro giorno? ");
+            }
+        } while(continua || days.isEmpty());
+
+        return days;
+    }
+
+    private List<TimeInterval> inserisciIntervalliOrari() {
+        // TODO: Mancano controlli per intervalli sovrapposti nella lista
+        List<TimeInterval> timeIntervals = new ArrayList<>();
+        boolean continua;
+        int oraIniziale, oraFinale, minutoIniziale, minutoFinale;
+        do{
+            oraIniziale = InputDati.leggiIntero("Inserisci l'ora iniziale: ", 0, 23);
+            minutoIniziale = InputDati.leggiInteroDaSet("Inserisci il minuto iniziale: ", configController.allowedMinutes());
+            oraFinale = InputDati.leggiIntero("Inserisci l'ora finale: ", oraIniziale, 23);
+            do {
+                minutoFinale = InputDati.leggiInteroDaSet("Inserisci il minuto finale: ", configController.allowedMinutes());
+                if (minutoIniziale > minutoFinale) {
+                    System.out.println("Orario finale < orario iniziale :(");
+                }
+            } while (minutoIniziale > minutoFinale);
+            timeIntervals.add(new TimeInterval(oraIniziale, minutoIniziale, oraFinale, minutoFinale));
+            continua = InputDati.yesOrNo("Vuoi inserire un altro intervallo? ");
+        } while(continua);
+        return timeIntervals;
+    }
 }

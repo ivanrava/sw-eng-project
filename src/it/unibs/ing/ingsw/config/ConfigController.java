@@ -1,35 +1,31 @@
 package it.unibs.ing.ingsw.config;
 
-import java.util.List;
+import java.time.DayOfWeek;
+import java.util.*;
 
 public class ConfigController {
+    private Config config;
 
-    private Config configurazione;
-
-
-    public ConfigController(Config configurazione) {
-        this.configurazione = configurazione;
+    public ConfigController(Config config) {
+        this.config = config;
     }
 
-    public String showAllconfigurationToString(){
-        return configurazione.toString();
+    public String getConfigAsString(){
+        return config.toString();
     }
 
-    public Config addConfigController(String piazza, List<String> luoghi, List<Day> giorni, List<TimeInterval> intervalli_orari, int deadline){
-        return configurazione = new Config(piazza, luoghi, giorni, intervalli_orari, deadline);
+    public void makeConfig(String piazza, List<String> luoghi, List<DayOfWeek> days, List<TimeInterval> timeIntervals, int deadline) {
+        config = new Config(piazza, luoghi, days, timeIntervals, deadline);
     }
 
-    public boolean checkHour(int hour){
-        return hour >= 0 && hour < 24;
+    public List<DayOfWeek> getDays() {
+        return config.getDays();
     }
 
-    public boolean checkMinut (int minut){
-        return minut == 0 || minut ==30;
+    public Set<int> allowedMinutes() {
+        Set<int> minsAllowed = new HashSet<int>();
+        minsAllowed.add(0);
+        minsAllowed.add(30);
+        return minsAllowed;
     }
-
-
-
-
-
-
 }
