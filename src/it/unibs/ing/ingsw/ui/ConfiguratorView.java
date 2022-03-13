@@ -27,7 +27,7 @@ public class ConfiguratorView {
             switch (scelta) {
                 case 1 -> categoryView.execute();
                 // TODO: case 2
-                case 2 -> configView.modifyConfig();
+                case 2 -> configView.execute();
             }
         }while (scelta != 0);
     }
