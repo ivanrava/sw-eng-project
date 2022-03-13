@@ -19,6 +19,15 @@ public class ConfigController {
         return configurazione = new Config(piazza, luoghi, giorni, intervalli_orari, deadline);
     }
 
+    public boolean checkHour(int hour){
+        return hour >= 0 && hour < 24;
+    }
+
+    public boolean checkMinut (int minut){
+        return minut == 0 || minut ==30;
+    }
+
+
 
 
 

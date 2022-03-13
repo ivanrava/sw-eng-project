@@ -86,18 +86,41 @@ public class ConfigView<continua, giorni> {
                 giorni.add(newDay);
                 System.out.println("giorno inserito correttamente :)");
             }
-
             continua = InputDati.yesOrNo("vuoi inserire un altro giorno?");
-
         }while(continua);
         return giorni;
 
     }
 
 
-    private List<TimeInterval> inserisciIntervalliOrari(){ //TODO
+    private List<TimeInterval> inserisciIntervalliOrari(){ //FIXME TROVARE MODO PIU ELEGANTE
         List<TimeInterval> intervalli_orari = new ArrayList<>();
-        return null;
+        boolean continua;
+        int oraIniziale, oraFinale, minutoIniziale, minutoFinale;
+        do{
+            TimeInterval intervallo;
+            do {
+                oraIniziale = InputDati.leggiIntero("inserisci l'ora iniziale :");
+            }while(!configController.checkHour(oraIniziale));
+            do {
+                minutoIniziale = InputDati.leggiIntero("inserisci il minuto iniziale:");
+            }while(!configController.checkMinut(minutoIniziale));
+            do {
+                do {
+                    oraFinale = InputDati.leggiIntero("inserisci l'ora finale :");
+                }while(!configController.checkHour(oraFinale));
+                do {
+                    minutoFinale = InputDati.leggiIntero("inserisci il minuto finale:");
+                }while(!configController.checkMinut(minutoFinale));
+                if((oraFinale == oraIniziale && minutoFinale < minutoIniziale) || (oraFinale < oraIniziale)){
+                    System.out.println("hai inserito orario finale minore di quello iniziale");
+                }
+            } while((oraFinale == oraIniziale && minutoFinale < minutoIniziale) || (oraFinale < oraIniziale) );
+            intervallo = new TimeInterval(oraIniziale,minutoIniziale,oraFinale,minutoFinale);
+            intervalli_orari.add(intervallo);
+            continua = InputDati.yesOrNo("vuoi inserire un altro intervallo?");
+        }while(continua);
+        return intervalli_orari;
     }
 
 
@@ -119,6 +142,8 @@ public class ConfigView<continua, giorni> {
             }
         }while (scelta != 0);
     }
+
+
 
 
 }
