@@ -2,6 +2,7 @@ package it.unibs.ing.ingsw.config;
 
 import it.unibs.ing.ingsw.io.Saves;
 
+import java.time.DayOfWeek;
 import java.util.List;
 
 public class ConfigController {
@@ -19,7 +20,7 @@ public class ConfigController {
         return configurazione.toString();
     }
 
-    public Config addConfigControllerFirst(String piazza, List<String> luoghi, List<Day> giorni, List<TimeInterval> intervalli_orari, int deadline){
+    public Config addConfigControllerFirst(String piazza, List<String> luoghi, List<DayOfWeek> giorni, List<TimeInterval> intervalli_orari, int deadline){
         return configurazione = new Config(piazza, luoghi, giorni, intervalli_orari, deadline);
     }
 

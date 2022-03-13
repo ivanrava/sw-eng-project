@@ -5,6 +5,7 @@ import it.unibs.ing.fp.mylib.MyMenu;
 import it.unibs.ing.ingsw.category.Field;
 
 import java.sql.Time;
+import java.time.DayOfWeek;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -33,7 +34,7 @@ public class ConfigView<continua, giorni> {
     public Config addConfig(){  //FIXME TUTTI I CONTROLLI : DEMO VERSION
         String piazza;
         List<String> luoghi;
-        List<Day> giorni;
+        List<DayOfWeek> giorni;
         List<TimeInterval> intervalli_orari;
         int deadline;
             piazza = InputDati.leggiStringaNonVuota("Inserisci piazza di scambio definitiva: ");
@@ -86,18 +87,18 @@ public class ConfigView<continua, giorni> {
         return luoghi;
     }
 
-    private List<Day> inserisciGiorni(){ //FIXME CONTROLLO SU VALUE OF
-        List<Day> giorni = new ArrayList<>();
+    private List<DayOfWeek> inserisciGiorni(){ //FIXME CONTROLLO SU VALUE OF
+        List<DayOfWeek> giorni = new ArrayList<>();
         String giorno;
         boolean exist = false;
         boolean illegalFormat = false;
         boolean continua ;
-        Day newDay = null;
+        DayOfWeek newDay = null;
         do{
           do {
             giorno = InputDati.leggiStringaNonVuota("inserisci giorno della settimana:");
             try {
-                newDay = Day.valueOf(giorno);
+                newDay = DayOfWeek.valueOf(giorno);
                 illegalFormat = false;
             } catch (IllegalArgumentException e) {
                 System.out.println("hai sbagliato formato del giorno");
@@ -105,7 +106,7 @@ public class ConfigView<continua, giorni> {
             }
           }while(illegalFormat)   ;
 
-            for(Day oldDay : giorni){
+            for(DayOfWeek oldDay : giorni){
                 if(newDay.equals(oldDay)){
                     System.out.println("giorno gia inserito");
                     exist = true;
