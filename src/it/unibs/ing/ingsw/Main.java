@@ -14,6 +14,7 @@ public class Main {
     public static void main(String[] args) {
         try {
             Saves saves = new Saves();
+            /*
             //TODO permanente in saves
             //FIXME : DEMO  ADDCONFIG IN CONFIGURATOR VIEW
             ArrayList<String> luoghi = new ArrayList<>();
@@ -23,11 +24,11 @@ public class Main {
             giorni.add(Day.GIOVEDI);
             ArrayList<TimeInterval> intervalli = new ArrayList<>();
             intervalli.add(new TimeInterval(10, 30, 14, 30));
+            */
 
 
+            Config configurazione = new Config(null, null, null, null, 0 );
 
-            Config configurazione = new Config("Vittoria", luoghi, giorni, intervalli, 5 );
-                    //
             View view = new View(saves, configurazione);
             view.execute();
             saves.save();

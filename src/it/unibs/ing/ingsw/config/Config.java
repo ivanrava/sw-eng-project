@@ -20,13 +20,12 @@ public class Config implements Serializable{
         this.deadline = deadline;
     }
 
+
+
     public String getPiazza() {
         return piazza;
     }
 
-    public void setPiazza (String piazza){
-        this.piazza=piazza;
-    }
 
 
     public List<String> getLuoghi() {

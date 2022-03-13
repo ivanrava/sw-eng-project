@@ -15,8 +15,8 @@ public class ConfigController {
         return configurazione.toString();
     }
 
-    public void addConfigController(String piazza, List<String> luoghi, List<Day> giorni, List<TimeInterval> intervalli_orari, int deadline{
-        configurazione = new Config(piazza, luoghi, giorni, intervalli_orari, deadline);
+    public Config addConfigController(String piazza, List<String> luoghi, List<Day> giorni, List<TimeInterval> intervalli_orari, int deadline){
+        return configurazione = new Config(piazza, luoghi, giorni, intervalli_orari, deadline);
     }
 
 

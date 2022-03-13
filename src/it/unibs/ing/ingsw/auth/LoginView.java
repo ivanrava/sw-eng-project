@@ -24,12 +24,12 @@ public class LoginView {
                 "Effettua accesso"
         });
 
-        User loggedUser = null; // FIXME: migliorare questa parte
+        User loggedUser = null; // FIXME: migliorare questa parte  !!! problema in questa parte
         int scelta;
         do {
             scelta = loginRegisterMenu.scegli();
             switch (scelta) {
-                case 0 -> System.exit(0);
+                case 0 -> System.exit(0 );
                 case 1 -> startRegister(false);
                 case 2 -> {
                     loggedUser = startLogin();

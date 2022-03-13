@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class ConfigView {
+public class ConfigView<continua, giorni> {
     ConfigController configController;
 
 
@@ -32,15 +32,16 @@ public class ConfigView {
             giorni = inserisciGiorni();
             intervalli_orari = inserisciIntervalliOrari();
             deadline = InputDati.leggiInteroConMinimo("inserisci la deadline: ", 0);
-            configController.addConfigController(piazza,luoghi,giorni,intervalli_orari,deadline);
+            return configController.addConfigController(piazza,luoghi,giorni,intervalli_orari,deadline);
     }
 
     private List<String> inserisciLuoghi() { //TODO
         List<String> luoghi = new ArrayList<>();
         String luogo;
-        boolean exist ;
+        boolean exist = false ;
+        boolean continua;
         do {
-            luogo = InputDati.leggiStringaNonVuota("inserisci luogo di scambio (inserire stringa fine per terminare) :");
+            luogo = InputDati.leggiStringaNonVuota("inserisci luogo di scambio:");
             for(String luogoOld : luoghi){
                 if(luogoOld.equals(luogo)){
                     System.out.println("luogo gia inserito");
@@ -51,16 +52,52 @@ public class ConfigView {
                 luoghi.add(luogo);
                 System.out.println("luogo inserito correttamente :)");
             }
-        }while(!luogo.equals("fine"));
+            continua=InputDati.yesOrNo("vuoi inserire un altro luogo?");
+        }while(continua);
         return luoghi;
     }
 
-    private List<Day> inserisciGiorni(){ //TODO
+    private List<Day> inserisciGiorni(){ //FIXME CONTROLLO SU VALUE OF
+        List<Day> giorni = new ArrayList<>();
+        String giorno;
+        boolean exist = false;
+        boolean illegalFormat = false;
+        boolean continua ;
+        Day newDay = null;
+        do{
+          do {
+            giorno = InputDati.leggiStringaNonVuota("inserisci giorno della settimana:");
+            try {
+                newDay = Day.valueOf(giorno);
+                illegalFormat = false;
+            } catch (IllegalArgumentException e) {
+                System.out.println("hai sbagliato formato del giorno");
+                illegalFormat = true;
+            }
+          }while(illegalFormat)   ;
+
+            for(Day oldDay : giorni){
+                if(newDay.equals(oldDay)){
+                    System.out.println("giorno gia inserito");
+                    exist = true;
+                }
+            }
+            if(!exist) {
+                giorni.add(newDay);
+                System.out.println("giorno inserito correttamente :)");
+            }
+
+            continua = InputDati.yesOrNo("vuoi inserire un altro giorno?");
+
+        }while(continua);
+        return giorni;
 
     }
 
-    private List<TimeInterval> inserisciIntervalliOrari(){ //TODO
 
+    private List<TimeInterval> inserisciIntervalliOrari(){ //TODO
+        List<TimeInterval> intervalli_orari = new ArrayList<>();
+        return null;
     }
 
 

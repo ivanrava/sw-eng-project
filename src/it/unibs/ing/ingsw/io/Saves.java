@@ -9,18 +9,23 @@ public class Saves {
     private final SaveConfig saveConfig;
     private final SaveUsers saveUsers;
     private final SaveHierarchies saveHierarchies;
+   // private final SaveFConfiguration saveFConfiguration;
 
     public Saves() throws IOException, ClassNotFoundException {
         saveConfig = SaveConfig.load();
         saveUsers = SaveUsers.loadUsers();
         saveHierarchies= SaveHierarchies.loadHierarchies();
+        //saveFConfiguration = SaveFConfiguration.loadFConfiguration();
     }
 
     public void save() throws IOException {
         saveConfig.save();
         saveUsers.saveUsers();
         saveHierarchies.saveHierarchies();
+       // saveFConfiguration.saveFConfiguration();
     }
+
+    //public SaveFConfiguration getSaveFConfiguration() { return saveFConfiguration; }
 
     public SaveHierarchies getSaveHierarchies() {
         return saveHierarchies;
