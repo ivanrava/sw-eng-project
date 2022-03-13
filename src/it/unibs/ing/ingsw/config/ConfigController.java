@@ -6,7 +6,7 @@ import java.util.List;
 
 public class ConfigController {
 
-    private final Config configurazione;
+    private Config configurazione;
    // private final Saves saves ;
 
 
@@ -20,7 +20,7 @@ public class ConfigController {
     }
 
     public Config addConfigControllerFirst(String piazza, List<String> luoghi, List<Day> giorni, List<TimeInterval> intervalli_orari, int deadline){
-        return new Config(piazza, luoghi, giorni, intervalli_orari, deadline);
+        return configurazione = new Config(piazza, luoghi, giorni, intervalli_orari, deadline);
     }
 
     public boolean checkHour(int hour){

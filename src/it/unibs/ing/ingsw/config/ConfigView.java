@@ -12,7 +12,6 @@ import java.util.Map;
 public class ConfigView<continua, giorni> {
     ConfigController configController;
 
-
     public ConfigView(Config configurazione){
         configController = new ConfigController(configurazione);
     }
@@ -21,17 +20,17 @@ public class ConfigView<continua, giorni> {
         System.out.println(configController.showAllconfigurationToString());
     }
 
-    public Config addConfig(){
-        if(!configController.existFConfig){
-            return addConfigFirst();
-        } else{
-           return addConfigAfterFirst(addConfigFirst());
-        }
-    }
+    //public Config addConfig(){
+        //if(!configController.existFConfig){
+             //return addConfigFirst();
+       // } else{
+         //  return addConfigAfterFirst(addConfigFirst());
+        //}
+    //}
 
 
 
-    public Config addConfigFirst(){  //FIXME TUTTI I CONTROLLI : DEMO VERSION
+    public Config addConfig(){  //FIXME TUTTI I CONTROLLI : DEMO VERSION
         String piazza;
         List<String> luoghi;
         List<Day> giorni;
@@ -47,6 +46,7 @@ public class ConfigView<continua, giorni> {
 
 
 
+    /*
     public Config addConfigAfterFirst(Config oldConfig){  //FIXME : VADO A SOVRASCRIVERE TUTTI I CAMPI TRANNE PIAZZA (MAGARI SI POTREBBE IMPLEMENTARE AGGIUNTA E NON SOVRASCRIZIONE)
         oldConfig = addConfigFirst();
         List<String> luoghi;
@@ -59,6 +59,8 @@ public class ConfigView<continua, giorni> {
         deadline = InputDati.leggiInteroConMinimo("inserisci la deadline: ", 0);
         return configController.addConfigControllerFirst(oldConfig.getPiazza(),luoghi,giorni,intervalli_orari,deadline);
     }
+    */
+
 
 
 
