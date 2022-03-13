@@ -54,4 +54,7 @@ public class Saves {
     public boolean existsConfiguration() {
         return SaveConfig.exists();
     }
+
+    // public boolean existsFileConfiguration {
+    // return SaveFConfig.exists();}
 }

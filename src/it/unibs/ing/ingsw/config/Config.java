@@ -6,10 +6,10 @@ import java.util.List;
 
 public class Config implements Serializable{
     private final String piazza;
-    private final List<String> luoghi;
-    private final List<Day> giorni;
-    private final List<TimeInterval> intervalli_orari;
-    private final int deadline;
+    private List<String> luoghi;
+    private List<Day> giorni;
+    private List<TimeInterval> intervalli_orari;
+    private int deadline;
 
 
     public Config(String piazza, List<String> luoghi, List<Day> giorni, List<TimeInterval> intervalli_orari, int deadline) {
@@ -60,6 +60,8 @@ public class Config implements Serializable{
                 ", deadline=" + deadline +
                 '}';
     }
+
+
 
 
 }
