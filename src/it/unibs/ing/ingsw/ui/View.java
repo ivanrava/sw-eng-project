@@ -1,6 +1,7 @@
 package it.unibs.ing.ingsw.ui;
 
 import it.unibs.ing.ingsw.auth.LoginView;
+import it.unibs.ing.ingsw.config.Config;
 import it.unibs.ing.ingsw.io.Saves;
 
 import java.io.IOException;
@@ -10,11 +11,12 @@ public class View {
     private final CustomerView customerView;
     private final ConfiguratorView configuratorView;
 
-    public View(Saves saves) {
+    public View(Saves saves, Config configurazione) {
         loginView = new LoginView(saves);
-        customerView = new CustomerView(saves);
-        configuratorView = new ConfiguratorView(saves);
+        customerView = new CustomerView(saves, configurazione);
+        configuratorView = new ConfiguratorView(saves, configurazione);
     }
+
 
     /**
      * Esegue l'UI generale dell'applicazione

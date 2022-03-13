@@ -1,15 +1,34 @@
 package it.unibs.ing.ingsw;
 
+import it.unibs.ing.ingsw.config.Config;
+import it.unibs.ing.ingsw.config.Day;
+import it.unibs.ing.ingsw.config.TimeInterval;
 import it.unibs.ing.ingsw.io.Saves;
 import it.unibs.ing.ingsw.ui.View;
 
 import java.io.IOException;
+import java.sql.Time;
+import java.util.ArrayList;
 
 public class Main {
     public static void main(String[] args) {
         try {
             Saves saves = new Saves();
-            View view = new View(saves);
+            //TODO permanente in saves
+            //FIXME : DEMO  ADDCONFIG IN CONFIGURATOR VIEW
+            ArrayList<String> luoghi = new ArrayList<>();
+            luoghi.add("via brescia");
+            luoghi.add("via napoli");
+            ArrayList<Day> giorni = new ArrayList<>();
+            giorni.add(Day.GIOVEDI);
+            ArrayList<TimeInterval> intervalli = new ArrayList<>();
+            intervalli.add(new TimeInterval(10, 30, 14, 30));
+
+
+
+            Config configurazione = new Config("Vittoria", luoghi, giorni, intervalli, 5 );
+                    //
+            View view = new View(saves, configurazione);
             view.execute();
             saves.save();
         } catch (IOException | ClassNotFoundException e) {

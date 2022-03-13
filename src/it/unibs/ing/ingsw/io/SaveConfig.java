@@ -1,11 +1,14 @@
 package it.unibs.ing.ingsw.io;
 
+import it.unibs.ing.ingsw.config.Config;
+
 import java.io.*;
 
 public class SaveConfig implements Serializable {
     public static final String CONFIG_SAVE_FILENAME = "./config.dat";
     private String username;
     private String password;
+    //private Config configurazione;
 
     public void setUsername(String username) {
         this.username = username;
