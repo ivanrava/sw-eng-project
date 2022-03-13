@@ -28,8 +28,6 @@ public class ConfigView {
         }
     }
 
-
-
     public void addConfigFirst(){  //FIXME TUTTI I CONTROLLI : DEMO VERSION
         // FIXME: solo una volta la piazza, tipo if(!existsPiazza...)
         String piazza = InputDati.leggiStringaNonVuota("Inserisci piazza di scambio definitiva: ");

@@ -4,8 +4,6 @@ import it.unibs.ing.fp.mylib.InputDati;
 import it.unibs.ing.fp.mylib.MyMenu;
 import it.unibs.ing.ingsw.io.Saves;
 
-import java.util.Optional;
-
 public class LoginView {
     private final LoginController loginController;
 
