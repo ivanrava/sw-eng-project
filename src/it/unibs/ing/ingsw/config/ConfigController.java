@@ -3,7 +3,9 @@ package it.unibs.ing.ingsw.config;
 import it.unibs.ing.ingsw.io.Saves;
 
 import java.time.DayOfWeek;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class ConfigController {
 
@@ -24,13 +26,15 @@ public class ConfigController {
         return configurazione = new Config(piazza, luoghi, giorni, intervalli_orari, deadline);
     }
 
-    public boolean checkHour(int hour){
-        return hour >= 0 && hour < 24;
+    public List<DayOfWeek> getDays() {
+        return configurazione.getDays();
     }
 
-
-    public boolean checkMinut (int minut){
-        return minut == 0 || minut ==30;
+    public Set<int> allowedMinutes() {
+        Set<int> minsAllowed = new HashSet<int>();
+        minsAllowed.add(0);
+        minsAllowed.add(30);
+        return minsAllowed;
     }
 
 
