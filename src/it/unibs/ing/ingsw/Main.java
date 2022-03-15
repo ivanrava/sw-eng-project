@@ -23,9 +23,9 @@ public class Main {
             */
 
 
-            Config configurazione = new Config(null, null, null, null, 0 );
+            //Config configurazione = new Config(null, null, null, null, 0 );
 
-            View view = new View(saves, configurazione);
+            View view = new View(saves);
             view.execute();
             saves.save();
         } catch (IOException | ClassNotFoundException e) {

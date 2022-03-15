@@ -10,9 +10,9 @@ public class ConfiguratorView {
     private final CategoryView categoryView;
     private final ConfigView configView;
 
-    public ConfiguratorView(Saves saves, Config configurazione) {
+    public ConfiguratorView(Saves saves) {
         categoryView = new CategoryView(saves);
-        configView = new ConfigView(configurazione);
+        configView = new ConfigView(saves);
     }
 
     public void execute() {

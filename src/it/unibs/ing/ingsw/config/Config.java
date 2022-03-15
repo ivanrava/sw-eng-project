@@ -9,7 +9,7 @@ public class Config implements Serializable {
     private final List<String> luoghi;
     private final List<DayOfWeek> days;
     private final List<TimeInterval> timeIntervals;
-    private final int deadline;
+    private int deadline;
 
     public Config(String piazza, List<String> luoghi, List<DayOfWeek> days, List<TimeInterval> timeIntervals, int deadline) {
         this.piazza = piazza;
@@ -38,6 +38,11 @@ public class Config implements Serializable {
     public int getDeadline() {
         return deadline;
     }
+
+    public void setDeadLine (int deadline){
+        this.deadline = deadline;
+    }
+
 
     @Override
     public String toString() {

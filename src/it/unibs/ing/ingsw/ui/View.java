@@ -11,10 +11,10 @@ public class View {
     private final CustomerView customerView;
     private final ConfiguratorView configuratorView;
 
-    public View(Saves saves, Config configurazione) {
+    public View(Saves saves) {
         loginView = new LoginView(saves);
-        customerView = new CustomerView(saves, configurazione);
-        configuratorView = new ConfiguratorView(saves, configurazione);
+        customerView = new CustomerView(saves);
+        configuratorView = new ConfiguratorView(saves);
     }
 
 

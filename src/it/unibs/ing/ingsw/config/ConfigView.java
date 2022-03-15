@@ -2,6 +2,7 @@ package it.unibs.ing.ingsw.config;
 
 import it.unibs.ing.fp.mylib.InputDati;
 import it.unibs.ing.fp.mylib.MyMenu;
+import it.unibs.ing.ingsw.io.Saves;
 
 import java.time.DayOfWeek;
 import java.time.format.TextStyle;
@@ -12,25 +13,27 @@ import java.util.Locale;
 public class ConfigView {
     ConfigController configController;
 
-    public ConfigView(Config configurazione){
-        configController = new ConfigController(configurazione);
+    public ConfigView(Saves saves){
+        configController = new ConfigController(saves);
     }
 
     public void printConfig(){
         System.out.println(configController.showAllconfigurationToString());
     }
 
-    //public Config addConfig(){
-        //if(!configController.existFConfig){
-             //return addConfigFirst();
-       // } else{
-         //  return addConfigAfterFirst(addConfigFirst());
-        //}
-    //}
+    public void addConfig(){
+        String compare = new String ();
+        if(configController.getPiazza().equals(compare) ){ //FIXME TROVARE CONTROLLO DIVERSO (OPPURE NO ) :)
+             addConfigFirst();
+        }
+        else{
+            addConfigAfterFirst();
+        }
+    }
 
 
 
-    public Config addConfig(){  //FIXME TUTTI I CONTROLLI : DEMO VERSION
+    public void addConfigFirst(){  //FIXME TUTTI I CONTROLLI : DEMO VERSION
         String piazza;
         List<String> luoghi;
         List<DayOfWeek> giorni;
@@ -41,8 +44,21 @@ public class ConfigView {
             giorni = inserisciGiorni();
             intervalli_orari = inserisciIntervalliOrari();
             deadline = InputDati.leggiInteroConMinimo("inserisci la deadline: ", 0);
-            return configController.addConfigControllerFirst(piazza,luoghi,giorni,intervalli_orari,deadline);
+            configController.addConfigControllerFirst(piazza,luoghi,giorni,intervalli_orari,deadline);
     }
+
+    public void addConfigAfterFirst(){ //FIXME
+            List<String> luoghi;
+            List<DayOfWeek> giorni;
+            List<TimeInterval> intervalli_orari;
+            int deadline;
+            luoghi = inserisciLuoghi();
+            giorni = inserisciGiorni();
+            intervalli_orari = inserisciIntervalliOrari();
+            deadline = InputDati.leggiInteroConMinimo("inserisci la deadline: ", 0);
+            configController.addConfigControllerAfterFirst(luoghi,giorni,intervalli_orari,deadline);
+    }
+
 
 
 
@@ -70,7 +86,7 @@ public class ConfigView {
         boolean continua = true;
         do {
             String luogo = InputDati.leggiStringaNonVuota("Inserisci luogo di scambio: ");
-            if (luoghi.contains(luogo)) {
+            if (configController.getLuoghi().contains(luogo)) {  //FIXME SISTEMARLO PER TUTTI GLI ALTRI METODI IN QUESTO MODO
                 System.out.println("Luogo già presente :(");
             } else {
                 luoghi.add(luogo);
@@ -85,9 +101,9 @@ public class ConfigView {
      * Stampa i giorni della configurazione
      */
     private void printDays() {
-        configController.getDays().forEach(dayOfWeek -> {
-            System.out.printf("%s ", dayOfWeek.getDisplayName(TextStyle.FULL, Locale.ITALIAN));
-        });
+            configController.getDays().forEach(dayOfWeek -> {
+                System.out.printf("%s ", dayOfWeek.getDisplayName(TextStyle.FULL, Locale.ITALIAN));
+            });
     }
 
     /**
@@ -108,7 +124,6 @@ public class ConfigView {
                 continua = InputDati.yesOrNo("Vuoi inserire un altro giorno? ");
             }
         } while(continua || days.isEmpty());
-
         return days;
     }
 
@@ -133,7 +148,7 @@ public class ConfigView {
         return timeIntervals;
     }
 
-    public void modifyConfig(){ //FIXME  : MEGLIO AGGIUNGERLO IN CONFIGURATOR VIEW ?!
+    public void execute(){ //FIXME  : MEGLIO AGGIUNGERLO IN CONFIGURATOR VIEW ?!
         MyMenu mainMenu = new MyMenu("Configurazione", new String[] {
                 "Visualizza Configurazione",
                 "Modifica Configurazione"

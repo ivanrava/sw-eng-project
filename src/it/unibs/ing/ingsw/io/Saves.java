@@ -1,6 +1,8 @@
 package it.unibs.ing.ingsw.io;
 
 import it.unibs.ing.ingsw.auth.User;
+import it.unibs.ing.ingsw.category.Category;
+import it.unibs.ing.ingsw.config.Config;
 
 import java.io.IOException;
 import java.util.Map;
@@ -9,26 +11,23 @@ public class Saves {
     private final SaveConfig saveConfig;
     private final SaveUsers saveUsers;
     private final SaveHierarchies saveHierarchies;
-   // private final SaveFConfiguration saveFConfiguration;
 
     public Saves() throws IOException, ClassNotFoundException {
         saveConfig = SaveConfig.load();
         saveUsers = SaveUsers.loadUsers();
         saveHierarchies= SaveHierarchies.loadHierarchies();
-        //saveFConfiguration = SaveFConfiguration.loadFConfiguration();
     }
 
     public void save() throws IOException {
         saveConfig.save();
         saveUsers.saveUsers();
         saveHierarchies.saveHierarchies();
-       // saveFConfiguration.saveFConfiguration();
     }
 
-    //public SaveFConfiguration getSaveFConfiguration() { return saveFConfiguration; }
+    public Config getConfig (){ return saveConfig.getConfig(); }
 
-    public SaveHierarchies getSaveHierarchies() {
-        return saveHierarchies;
+    public Map<String, Category> getSaveHierarchies() {
+        return saveHierarchies.getHierarchies();
     }
 
     public Map<String, User> getUsers() {
@@ -55,6 +54,4 @@ public class Saves {
         return SaveConfig.exists();
     }
 
-    // public boolean existsFileConfiguration {
-    // return SaveFConfig.exists();}
 }

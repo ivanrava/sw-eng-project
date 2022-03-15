@@ -10,28 +10,52 @@ import java.util.Set;
 public class ConfigController {
 
     private Config configurazione;
-   // private final Saves saves ;
+   private final Saves saves ;
 
 
-    public ConfigController(Config configurazione) {
-
-        this.configurazione = configurazione;
+    public ConfigController(Saves saves) {
+        this.saves = saves;
+        this.configurazione = saves.getConfig();
     }
+
+    public boolean existConfig(){
+        return saves.existsConfiguration();
+    }
+
+    public String getPiazza (){
+        return configurazione.getPiazza();
+    }
+
+    public List<String> getLuoghi(){
+        return configurazione.getLuoghi();
+    }
+
+
+
 
     public String showAllconfigurationToString(){
         return configurazione.toString();
     }
 
-    public Config addConfigControllerFirst(String piazza, List<String> luoghi, List<DayOfWeek> giorni, List<TimeInterval> intervalli_orari, int deadline){
-        return configurazione = new Config(piazza, luoghi, giorni, intervalli_orari, deadline);
+    public Config addConfigControllerFirst(String piazza, List<String> luoghi, List<DayOfWeek> giorni, List<TimeInterval> intervalli_orari, int deadline){ //FIXME
+        return configurazione = new Config(piazza,luoghi,giorni,intervalli_orari,deadline);
     }
+
+    public Config addConfigControllerAfterFirst(List<String> luoghi, List<DayOfWeek> giorni, List<TimeInterval> intervalli_orari, int deadline){ //FIXME
+        configurazione.getLuoghi().addAll(luoghi);
+        configurazione.getDays().addAll(giorni);
+        configurazione.getTimeIntervals().addAll(intervalli_orari);
+        configurazione.setDeadLine(deadline);
+        return configurazione;
+    }
+
 
     public List<DayOfWeek> getDays() {
         return configurazione.getDays();
     }
 
-    public Set<int> allowedMinutes() {
-        Set<int> minsAllowed = new HashSet<int>();
+    public Set<Integer> allowedMinutes() {
+        Set<Integer> minsAllowed = new HashSet<Integer>();
         minsAllowed.add(0);
         minsAllowed.add(30);
         return minsAllowed;

@@ -201,7 +201,7 @@ public class InputDati
 			return false;
 	  }
 
-	  public static int leggiInteroDaSet(String messaggio, Set<int> allowedValues) {
+	  public static int leggiInteroDaSet(String messaggio, Set<Integer> allowedValues) {
 		  boolean finito = false;
 		  int valoreLetto = 0;
 		  do

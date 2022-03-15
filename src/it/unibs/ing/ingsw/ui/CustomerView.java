@@ -10,9 +10,9 @@ public class CustomerView {
     private final CategoryView categoryView;
     private final ConfigView configView;
 
-    public CustomerView(Saves saves, Config configurazione) {
+    public CustomerView(Saves saves) {
         categoryView = new CategoryView(saves);
-        configView = new ConfigView(configurazione);
+        configView = new ConfigView(saves);
     }
 
 
