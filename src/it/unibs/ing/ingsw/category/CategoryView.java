@@ -8,6 +8,24 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class CategoryView {
+    public static final String MENU_TITLE = "Gestisci le categorie";
+    public static final String[] VOCI = {
+            "Aggiungi nuova categoria radice",
+            "Aggiungi nuova categoria figlia",
+            "Visualizza gerarchie"
+    };
+    public static final String BACK = "Ritorno al menu principale";
+    public static final String ASSERTION_NEVER = "Il programma non dovrebbe mai arrivare qui!";
+    public static final String INSERT_ROOT_NAME = "Inserisci il nome della nuova categoria radice: ";
+    public static final String ERROR_NAME_DUPLICATE = "Nome non univoco :(";
+    public static final String INSERT_DESCRIPTION = "Inserisci la descrizione: ";
+    public static final String INSERT_PARENT_CATEGORY_NAME = "Inserisci la categoria padre: ";
+    public static final String ERROR_PARENT_UNEXISTANT = "Il genitore non esiste :(";
+    public static final String INSERT_CATEGORY_NAME = "Inserisci il nome della categoria: ";
+    public static final String ASK_NEW_FIELD = "Vuoi aggiungere un nuovo campo?";
+    public static final String ERROR_FIELD_DUPLICATE = "Field duplicato :-(";
+    public static final String ASK_FIELD_REQUIRED = "Obbligatorio? ";
+    public static final String INSERT_FIELD_NAME = "Nome del field: ";
     private final CategoryController categoryController;
 
     public CategoryView(Saves saves) {
@@ -18,11 +36,7 @@ public class CategoryView {
      * Esegue l'UI principale per la gestione delle categorie
      */
     public void execute() {
-        MyMenu mainMenu = new MyMenu("Main menu", new String[] {
-                "Aggiungi nuova categoria radice",
-                "Aggiungi nuova categoria figlia",
-                "Visualizza gerarchie"
-        });
+        MyMenu mainMenu = new MyMenu(MENU_TITLE, VOCI);
         int scelta;
         do {
             scelta = mainMenu.scegli();
@@ -30,9 +44,9 @@ public class CategoryView {
                 case 1 -> insertRootCategory();
                 case 2 -> insertChildCategory();
                 case 3 -> printHierarchies();
-                case 0 -> System.out.println("Uscita dal sistema");
+                case 0 -> System.out.println(BACK);
                 default -> {
-                    assert false : "Il programma non dovrebbe mai arrivare qui!";
+                    assert false : ASSERTION_NEVER;
                 }
             }
         } while (scelta != 0);
@@ -50,16 +64,17 @@ public class CategoryView {
 
     /**
      * Inserisce una nuova categoria radice
+     * FIXME: c'è anche askRootCategoryName(), qualcosa non torna
      */
     private void insertRootCategory() {
         String nome, descrizione;
         do {
-            nome = InputDati.leggiStringaNonVuota("Inserisci il nome della nuova categoria radice: ");
+            nome = InputDati.leggiStringaNonVuota(INSERT_ROOT_NAME);
             if (categoryController.existsRoot(nome)) {
-                System.out.println("Nome non univoco :(");
+                System.out.println(ERROR_NAME_DUPLICATE);
             }
         } while (categoryController.existsRoot(nome));
-        descrizione = InputDati.leggiStringaNonVuota("Inserisci la descrizione della nuova categoria radice: ");
+        descrizione = InputDati.leggiStringaNonVuota(INSERT_DESCRIPTION);
         Map<String, Field> newFields = askFieldsForRoot();
         categoryController.makeRootCategory(nome, descrizione, newFields);
     }
@@ -76,7 +91,7 @@ public class CategoryView {
         // Chiediamo il nome
         String name = askAndCheckCategoryName(rootName);
         // Chiediamo la descrizione
-        String description = InputDati.leggiStringaNonVuota("Inserisci il nome della descrizione: ");
+        String description = InputDati.leggiStringaNonVuota(INSERT_DESCRIPTION);
         Map<String, Field> newFields = askFieldsForCategory(categoryController.searchTree(rootName, parentName));
         categoryController.makeChildCategory(rootName, parentName, name, description, newFields);
     }
@@ -88,9 +103,9 @@ public class CategoryView {
     public String askAndCheckRootName(){
         String rootName;
         do {
-            rootName = InputDati.leggiStringaNonVuota("Inserisci il nome della categoria radice: ");
+            rootName = InputDati.leggiStringaNonVuota(INSERT_ROOT_NAME);
             if (!categoryController.existsRoot(rootName)) {
-                System.out.println("Il nome non esiste :(");
+                System.out.println(ERROR_NAME_DUPLICATE);
             }
         } while (!categoryController.existsRoot(rootName));
         return rootName;
@@ -103,9 +118,9 @@ public class CategoryView {
     public String askAndCheckParentName(String rootName){
         String parentName;
         do {
-            parentName = InputDati.leggiStringaNonVuota("Inserisci la categoria padre: ");
+            parentName = InputDati.leggiStringaNonVuota(INSERT_PARENT_CATEGORY_NAME);
             if (!categoryController.exists(rootName, parentName)) {
-                System.out.println("Il genitore non esiste :(");
+                System.out.println(ERROR_PARENT_UNEXISTANT);
             }
         } while (!categoryController.exists(rootName, parentName));
         return parentName;
@@ -118,9 +133,9 @@ public class CategoryView {
     public String askAndCheckCategoryName(String rootName){
         String name;
         do {
-            name = InputDati.leggiStringaNonVuota("Inserisci il nome della categoria: ");
+            name = InputDati.leggiStringaNonVuota(INSERT_CATEGORY_NAME);
             if (categoryController.exists(rootName, name)) {
-                System.out.println("Il nome della categoria è duplicato :(");
+                System.out.println(ERROR_NAME_DUPLICATE);
             }
         } while (categoryController.exists(rootName, name));
         return name;
@@ -153,7 +168,7 @@ public class CategoryView {
         boolean scelta;
         Map<String, Field> newMap = new HashMap<>(controlMap);
         do {
-            scelta = InputDati.yesOrNo("Vuoi aggiungere un nuovo campo?");
+            scelta = InputDati.yesOrNo(ASK_NEW_FIELD);
             if (scelta){
                 newMap.putAll(newFieldsMap);
                 Field newField = createField(newMap);
@@ -171,13 +186,13 @@ public class CategoryView {
     public Field createField(Map<String, Field> actualFields){
         String fieldName;
         do{
-            fieldName = InputDati.leggiStringaNonVuota("Nome del field: ");
+            fieldName = InputDati.leggiStringaNonVuota(INSERT_FIELD_NAME);
             if (actualFields.containsKey(fieldName)){
-                System.out.println("Field duplicato :-(");
+                System.out.println(ERROR_FIELD_DUPLICATE);
             }
         }while (actualFields.containsKey(fieldName));
 
-        boolean required = InputDati.yesOrNo("Obbligatorio");
+        boolean required = InputDati.yesOrNo(ASK_FIELD_REQUIRED);
         return new Field(required, fieldName);
     }
 
