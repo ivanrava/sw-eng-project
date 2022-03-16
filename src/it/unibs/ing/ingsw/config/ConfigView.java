@@ -183,11 +183,11 @@ public class ConfigView {
         do {
             oraFinale = InputDati.leggiIntero("Inserisci l'ora finale: ", startTime.getHour(), MAX_HOUR);
             minutoFinale = InputDati.leggiInteroDaSet("Inserisci il minuto finale: ", configController.allowedMinutes());
-            if (!LocalTime.of(oraFinale, minutoFinale).isBefore(stopLimit)) {
+            if (LocalTime.of(oraFinale, minutoFinale).isAfter(stopLimit)) {
                 System.out.println("C'è una sovrapposizione con un altro orario :(");
                 System.out.printf(">>> Inserisci un orario <= di %s", stopLimit);
             }
-        } while (!LocalTime.of(oraFinale, minutoFinale).isBefore(stopLimit));
+        } while (LocalTime.of(oraFinale, minutoFinale).isAfter(stopLimit));
 
         return LocalTime.of(oraFinale, minutoFinale);
     }
