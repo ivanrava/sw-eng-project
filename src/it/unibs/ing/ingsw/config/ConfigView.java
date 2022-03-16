@@ -51,7 +51,7 @@ public class ConfigView {
      * Modifica la configurazione
      */
     public void editConfig() {
-        if(configController.existsDefaultValues()) {
+        if(!configController.existsDefaultValues()) {
             addConfigFirst();
         } else {
             updateConfig();
@@ -104,7 +104,7 @@ public class ConfigView {
         boolean continua = true;
         do {
             String luogo = InputDati.leggiStringaNonVuota("Inserisci un luogo di scambio: ");
-            if (configController.exists(luogo)) {
+            if (!configController.exists(luogo)) {
                 configController.addLuogo(luogo);
                 continua = InputDati.yesOrNo("Vuoi inserire un altro luogo? ");
             } else {
@@ -133,7 +133,7 @@ public class ConfigView {
             DayOfWeek day = DayOfWeek.of(InputDati.leggiIntero(
                     String.format("Inserisci un giorno della settimana [%d-%d]: ", MIN_DAYS, MAX_DAYS),
                     MIN_DAYS, MAX_DAYS));
-            if (configController.exists(day)) {
+            if (!configController.exists(day)) {
                 configController.addDay(day);
                 continua = InputDati.yesOrNo("Vuoi inserire un altro giorno? ");
             } else {

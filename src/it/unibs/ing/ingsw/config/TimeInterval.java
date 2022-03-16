@@ -1,12 +1,13 @@
 package it.unibs.ing.ingsw.config;
 
+import java.io.Serializable;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class TimeInterval implements Comparable<TimeInterval> {
+public class TimeInterval implements Comparable<TimeInterval> , Serializable {
     private final LocalTime start;
     private final LocalTime stop;
     public static final LocalTime MAX_STOP = LocalTime.of(23, 30);
