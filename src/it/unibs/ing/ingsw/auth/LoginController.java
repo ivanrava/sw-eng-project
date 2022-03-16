@@ -80,8 +80,7 @@ public class LoginController {
      * @param password Password di default
      */
     public void setDefaultCredentials(String username, String password) {
-        saves.setUsername(username);
-        saves.setPassword(password);
+        saves.setDefaultCredentials(username, password);
     }
 
     /**
@@ -89,6 +88,6 @@ public class LoginController {
      * @return 'true' se esistono, 'false' altrimenti
      */
     public boolean existsDefaultCredentials() {
-        return saves.existsConfiguration() || (saves.getDefaultUsername()!="" && saves.getDefaultPassword()!="");
+        return saves.existsConfiguration() || (saves.isConfigured());
     }
 }

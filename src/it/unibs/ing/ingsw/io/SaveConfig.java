@@ -8,16 +8,19 @@ import java.util.TreeSet;
 
 public class SaveConfig implements Serializable {
     public static final String CONFIG_SAVE_FILENAME = "./config.dat";
-    private String username = "";
-    private String password = "";
+    private String username;
+    private String password;
+    private boolean isConfigured = false;
     private final Config config = new Config("", new HashSet<>(), new TreeSet<>(), new TreeSet<>(), 0);
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
+    public void setImmutableValues(String username, String password) {
+        if (isConfigured) {
+            throw new IllegalArgumentException("I valori obbligatori della Config sono già stati impostati");
+        } else {
+            this.username = username;
+            this.password = password;
+            this.isConfigured = true;
+        }
     }
 
     public String getUsername() {
@@ -67,5 +70,9 @@ public class SaveConfig implements Serializable {
                 new BufferedOutputStream(new FileOutputStream(f)))) {
             outputStream.writeObject(this);
         }
+    }
+
+    public boolean isConfigured() {
+        return isConfigured;
     }
 }

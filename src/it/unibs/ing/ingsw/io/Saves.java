@@ -42,16 +42,15 @@ public class Saves {
         return saveConfig.getPassword();
     }
 
-    public void setUsername(String username) {
-        saveConfig.setUsername(username);
-    }
-
-    public void setPassword(String password) {
-        saveConfig.setPassword(password);
+    public void setDefaultCredentials(String username, String password) {
+        saveConfig.setImmutableValues(username, password);
     }
 
     public boolean existsConfiguration() {
         return SaveConfig.exists();
     }
 
+    public boolean isConfigured() {
+        return saveConfig.isConfigured();
+    }
 }
