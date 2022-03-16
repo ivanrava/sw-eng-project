@@ -7,6 +7,20 @@ import it.unibs.ing.ingsw.io.Saves;
 import java.util.Optional;
 
 public class LoginView {
+    public static final String MENU_TITLE = "Accesso";
+    public static final String[] VOCI = {
+            "Registra nuovo utente",
+            "Effettua accesso"
+    };
+    public static final String INSERT_DEFAULT_USERNAME = "Inserisci lo username di default: ";
+    public static final String INSERT_DEFAULT_PASSWORD = "Inserisci la password di default: ";
+    public static final String INSERT_USERNAME = "Inserisci lo username: ";
+    public static final String INSERT_PASSWORD = "Inserisci la password: ";
+    public static final String ERROR_CREDENTIALS = "Credenziali non corrette! :(";
+    public static final String REGISTER_NEW_USER = "* Registrazione nuovo utente *";
+    public static final String INSERT_NEW_USERNAME = "Inserisci il tuo nuovo username: ";
+    public static final String ERROR_USERNAME_DUPLICATED = "Lo username esiste già :(";
+    public static final String INSERT_NEW_PASSWORD = "Inserisci la tua nuova password: ";
     private final LoginController loginController;
 
     public LoginView(Saves saves) {
@@ -21,10 +35,7 @@ public class LoginView {
             startSettingDefaultCredentials();
         }
 
-        MyMenu loginRegisterMenu = new MyMenu("Accesso", new String[] {
-                "Registra nuovo utente",
-                "Effettua accesso"
-        });
+        MyMenu loginRegisterMenu = new MyMenu(MENU_TITLE, VOCI);
 
         int scelta;
         do {
@@ -49,8 +60,8 @@ public class LoginView {
      */
     private void startSettingDefaultCredentials() {
         String username, password;
-        username = InputDati.leggiStringaNonVuota("Inserisci lo username di default: ");
-        password = InputDati.leggiStringaNonVuota("Inserisci la password di default: ");
+        username = InputDati.leggiStringaNonVuota(INSERT_DEFAULT_USERNAME);
+        password = InputDati.leggiStringaNonVuota(INSERT_DEFAULT_PASSWORD);
         loginController.setDefaultCredentials(username, password);
     }
 
@@ -62,12 +73,12 @@ public class LoginView {
 
         //accesso utente
         do {
-            username = InputDati.leggiStringaNonVuota("Inserisci lo username: ");
-            password = InputDati.leggiStringaNonVuota("Inserisci la password: ");
+            username = InputDati.leggiStringaNonVuota(INSERT_USERNAME);
+            password = InputDati.leggiStringaNonVuota(INSERT_PASSWORD);
             if (loginController.checkDefaultCredentials(username, password)) {
                 startRegister(true);
             } else if (!loginController.login(username, password)) {
-                System.out.println("Credenziali non corrette! :(");
+                System.out.println(ERROR_CREDENTIALS);
             }
         } while (!loginController.login(username, password));
         System.out.printf("Sei dentro, %s%n", username);
@@ -80,15 +91,15 @@ public class LoginView {
      */
     private void startRegister(boolean isAdmin) {
         String username, password;
-        System.out.println("* Registrazione nuovo utente *");
+        System.out.println(REGISTER_NEW_USER);
         do {
             do {
-                username = InputDati.leggiStringaNonVuota("Inserisci il tuo nuovo username: ");
+                username = InputDati.leggiStringaNonVuota(INSERT_NEW_USERNAME);
                 if (loginController.existsUsername(username)) {
-                    System.out.println("Lo username esiste già :(");
+                    System.out.println(ERROR_USERNAME_DUPLICATED);
                 }
             } while (loginController.existsUsername(username));
-            password = InputDati.leggiStringaNonVuota("Inserisci la tua nuova password: ");
+            password = InputDati.leggiStringaNonVuota(INSERT_NEW_PASSWORD);
         } while (loginController.checkDefaultCredentials(username, password));
         loginController.register(username, password, isAdmin);
     }

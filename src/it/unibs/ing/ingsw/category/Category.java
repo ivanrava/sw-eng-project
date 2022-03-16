@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.*;
 
 public class Category implements Serializable {
+    public static final String STATO_DI_CONSERVAZIONE = "Stato di conservazione";
+    public static final String DESCRIZIONE_LIBERA = "Descrizione libera";
     private final String name;
     private final String description;
     private final Map<String, Field> fields;
@@ -51,8 +53,8 @@ public class Category implements Serializable {
 
     public static Map<String, Field> getDefaultFields(){
         Map<String, Field> defaultFields = new HashMap<>();
-        defaultFields.put("Stato di conservazione", new Field(true, "Stato di conservazione"));
-        defaultFields.put("Descrizione libera", new Field(false, "Descrizione libera"));
+        defaultFields.put(STATO_DI_CONSERVAZIONE, new Field(true, STATO_DI_CONSERVAZIONE));
+        defaultFields.put(DESCRIZIONE_LIBERA, new Field(false, DESCRIZIONE_LIBERA));
         return defaultFields;
     }
 
