@@ -26,6 +26,7 @@ public class Saves {
         saveConfig.save();
         saveUsers.saveUsers();
         saveHierarchies.saveHierarchies();
+        saveArticles.saveArticles();
     }
 
     public Config getConfig (){ return saveConfig.getConfig(); }
