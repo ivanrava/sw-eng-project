@@ -106,11 +106,12 @@ public class ArticleView {
     private ArticleState askArticleState() {
         System.out.println(Arrays.toString(ArticleState.values()));
         while (true){
-            String input = InputDati.leggiStringaNonVuota(INSERT_ARTICLE_STATE);
-            if (ArticleState.checkInput(input))
-                return ArticleState.fromString(input);
-            else
+            String state = InputDati.leggiStringaNonVuota(INSERT_ARTICLE_STATE);
+            if (ArticleState.hasState(state)) {
+                return ArticleState.fromString(state);
+            } else {
                 System.out.println("Errore di inserimento");
+            }
         }
     }
 }

@@ -21,7 +21,7 @@ public enum ArticleState implements Serializable {
         return null;
     }
 
-    public static boolean checkInput(String text) {
+    public static boolean hasState(String text) {
         return fromString(text) != null;
     }
 
