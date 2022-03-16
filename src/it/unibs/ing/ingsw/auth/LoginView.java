@@ -21,17 +21,17 @@ public class LoginView {
     public static final String INSERT_NEW_USERNAME = "Inserisci il tuo nuovo username: ";
     public static final String ERROR_USERNAME_DUPLICATED = "Lo username esiste già :(";
     public static final String INSERT_NEW_PASSWORD = "Inserisci la tua nuova password: ";
-    private final LoginController loginController;
+    private final UserController userController;
 
     public LoginView(Saves saves) {
-        loginController = new LoginController(saves);
+        userController = new UserController(saves);
     }
 
     /**
      * Esegue l'UI generale di login
      */
-    public Optional<Boolean> execute() {
-        if (!loginController.existsDefaultCredentials()) {
+    public Optional<User> execute() {
+        if (!userController.existsDefaultCredentials()) {
             startSettingDefaultCredentials();
         }
 
@@ -49,7 +49,7 @@ public class LoginView {
             }
         } while (scelta != 0);
 
-        return Optional.of(startLogin().isAdmin());
+        return Optional.of(startLogin());
     }
 
     /**
@@ -62,7 +62,7 @@ public class LoginView {
         String username, password;
         username = InputDati.leggiStringaNonVuota(INSERT_DEFAULT_USERNAME);
         password = InputDati.leggiStringaNonVuota(INSERT_DEFAULT_PASSWORD);
-        loginController.setDefaultCredentials(username, password);
+        userController.setDefaultCredentials(username, password);
     }
 
     /**
@@ -75,15 +75,15 @@ public class LoginView {
         do {
             username = InputDati.leggiStringaNonVuota(INSERT_USERNAME);
             password = InputDati.leggiStringaNonVuota(INSERT_PASSWORD);
-            if (loginController.checkDefaultCredentials(username, password)) {
+            if (userController.checkDefaultCredentials(username, password)) {
                 startRegister(true);
-            } else if (!loginController.login(username, password)) {
+            } else if (!userController.login(username, password)) {
                 System.out.println(ERROR_CREDENTIALS);
             }
-        } while (!loginController.login(username, password));
+        } while (!userController.login(username, password));
         System.out.printf("Sei dentro, %s%n", username);
 
-        return loginController.getUserByUsername(username);
+        return userController.getUserByUsername(username);
     }
 
     /**
@@ -95,12 +95,12 @@ public class LoginView {
         do {
             do {
                 username = InputDati.leggiStringaNonVuota(INSERT_NEW_USERNAME);
-                if (loginController.existsUsername(username)) {
+                if (userController.existsUsername(username)) {
                     System.out.println(ERROR_USERNAME_DUPLICATED);
                 }
-            } while (loginController.existsUsername(username));
+            } while (userController.existsUsername(username));
             password = InputDati.leggiStringaNonVuota(INSERT_NEW_PASSWORD);
-        } while (loginController.checkDefaultCredentials(username, password));
-        loginController.register(username, password, isAdmin);
+        } while (userController.checkDefaultCredentials(username, password));
+        userController.register(username, password, isAdmin);
     }
 }

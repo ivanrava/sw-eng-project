@@ -5,7 +5,7 @@ import java.io.Serializable;
 public class Field implements Serializable {
     private final boolean required;
     private final String name;
-    private final String value;
+    private String value;
 
     /**
      * Costruttore con valore
@@ -28,6 +28,14 @@ public class Field implements Serializable {
         this(required, name, null);
     }
 
+    public void setValue(String value) {
+        this.value = value;
+    }
+
+    public String getValue() {
+        return value;
+    }
+
     public String getName(){
         return name;
     }
@@ -35,6 +43,10 @@ public class Field implements Serializable {
     @Override
     public String toString() {
         return String.format("(\"%s\", %s)", name, required);
+    }
+
+    public boolean isRequired() {
+        return required;
     }
 }
 

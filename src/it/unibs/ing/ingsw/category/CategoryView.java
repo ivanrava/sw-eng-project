@@ -16,16 +16,20 @@ public class CategoryView {
     };
     public static final String BACK = "Ritorno al menu principale";
     public static final String ASSERTION_NEVER = "Il programma non dovrebbe mai arrivare qui!";
-    public static final String INSERT_ROOT_NAME = "Inserisci il nome della nuova categoria radice: ";
+    public static final String INSERT_NEW_ROOT_NAME = "Inserisci il nome della nuova categoria radice: ";
+    public static final String INSERT_ROOT_NAME = "Inserisci il nome della categoria radice: ";
     public static final String ERROR_NAME_DUPLICATE = "Nome non univoco :(";
     public static final String INSERT_DESCRIPTION = "Inserisci la descrizione: ";
     public static final String INSERT_PARENT_CATEGORY_NAME = "Inserisci la categoria padre: ";
     public static final String ERROR_PARENT_UNEXISTANT = "Il genitore non esiste :(";
+    public static final String ERROR_CATEGORY_UNEXISTANT = "La categoria non esiste :(";
     public static final String INSERT_CATEGORY_NAME = "Inserisci il nome della categoria: ";
     public static final String ASK_NEW_FIELD = "Vuoi aggiungere un nuovo campo?";
     public static final String ERROR_FIELD_DUPLICATE = "Field duplicato :-(";
     public static final String ASK_FIELD_REQUIRED = "Obbligatorio? ";
     public static final String INSERT_FIELD_NAME = "Nome del field: ";
+    public static final String ERROR_NOT_LEAF = "Non è una categoria foglia :(";
+    public static final String INSERT_LEAF_CATEGORY_NAME = "Inserisci il nome della categoria foglia: ";
     private final CategoryController categoryController;
 
     public CategoryView(Saves saves) {
@@ -69,7 +73,7 @@ public class CategoryView {
     private void insertRootCategory() {
         String nome, descrizione;
         do {
-            nome = InputDati.leggiStringaNonVuota(INSERT_ROOT_NAME);
+            nome = InputDati.leggiStringaNonVuota(INSERT_NEW_ROOT_NAME);
             if (categoryController.existsRoot(nome)) {
                 System.out.println(ERROR_NAME_DUPLICATE);
             }
@@ -100,7 +104,7 @@ public class CategoryView {
      * Chiedi il nome della categoria radice (con controlli)
      * @return Nome della categoria radice
      */
-    public String askAndCheckRootName(){
+    public String askAndCheckRootName() {
         String rootName;
         do {
             rootName = InputDati.leggiStringaNonVuota(INSERT_ROOT_NAME);
@@ -113,9 +117,10 @@ public class CategoryView {
 
     /**
      * Chiedi il nome della categoria genitore (con controlli)
+     * @param rootName Nome della categoria radice
      * @return Nome della categoria genitore
      */
-    public String askAndCheckParentName(String rootName){
+    public String askAndCheckParentName(String rootName) {
         String parentName;
         do {
             parentName = InputDati.leggiStringaNonVuota(INSERT_PARENT_CATEGORY_NAME);
@@ -128,6 +133,7 @@ public class CategoryView {
 
     /**
      * Chiedi il nome della categoria (con controlli)
+     * @param rootName Nome della categoria radice
      * @return Nome della categoria
      */
     public String askAndCheckCategoryName(String rootName){
@@ -139,6 +145,24 @@ public class CategoryView {
             }
         } while (categoryController.exists(rootName, name));
         return name;
+    }
+
+    /**
+     * Chiedi il nome di una categoria foglia
+     * @param rootName Nome della categoria radice
+     * @return Nome della categoria foglia
+     */
+    public String askAndCheckLeafName(String rootName) {
+        String leafCategoryName;
+        do {
+            leafCategoryName = InputDati.leggiStringaNonVuota(INSERT_LEAF_CATEGORY_NAME);
+            if (!categoryController.exists(rootName, leafCategoryName)) {
+                System.out.println(ERROR_CATEGORY_UNEXISTANT);
+            } else if (!categoryController.isLeaf(rootName, leafCategoryName)) {
+                System.out.println(ERROR_NOT_LEAF);
+            }
+        } while (!categoryController.isLeaf(rootName, leafCategoryName));
+        return leafCategoryName;
     }
 
     /**

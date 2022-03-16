@@ -4,14 +4,14 @@ import it.unibs.ing.ingsw.io.Saves;
 
 import java.util.Map;
 
-public class LoginController {
+public class UserController {
     public static final String ASSERTION_REGISTER_DEFAULT_CREDENTIALS = "Si sta registrando un utente con credenziali di default!";
     public static final String ASSERTION_USERNAME_DUPLICATED = "Lo username non è univoco!";
     public static final String ASSERTION_USER_NONEXISTANT = "L'utente non esiste";
     private final Map<String, User> users;
     private final Saves saves;
 
-    public LoginController(Saves saves) {
+    public UserController(Saves saves) {
         this.saves = saves;
         users = saves.getUsers();
     }

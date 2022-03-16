@@ -1,6 +1,7 @@
 package it.unibs.ing.ingsw.ui;
 
 import it.unibs.ing.ingsw.auth.LoginView;
+import it.unibs.ing.ingsw.auth.User;
 import it.unibs.ing.ingsw.io.Saves;
 
 import java.io.IOException;
@@ -22,16 +23,16 @@ public class View {
      */
     public void execute() throws IOException {
         do {
-            Optional<Boolean> isAdmin = loginView.execute();
+            Optional<User> user = loginView.execute();
 
-            if (isAdmin.isEmpty()) {
+            if (user.isEmpty()) {
                 break;
             }
 
-            if (isAdmin.get()) {
+            if (user.get().isAdmin()) {
                 configuratorView.execute();
             } else {
-                customerView.execute();
+                customerView.execute(user.get());
             }
         } while (true);
     }

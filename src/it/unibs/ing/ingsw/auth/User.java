@@ -11,6 +11,10 @@ public abstract class User implements Serializable {
         password = pw;
     }
 
+    public String getUsername() {
+        return username;
+    }
+
     public abstract boolean isAdmin();
 
     /**

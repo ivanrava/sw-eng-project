@@ -92,7 +92,7 @@ public class CategoryController {
      * @return La Category cercata, se esiste. Altrimenti 'null'
      */
     public Category searchTree(String rootName, String name) {
-        assert existsRoot(name) : ASSERTION_ROOT_UNEXISTANT;
+        assert existsRoot(rootName) : ASSERTION_ROOT_UNEXISTANT;
         Category root = hierarchies.get(rootName);
         if (rootName.equals(name)) {
             return root;
@@ -115,6 +115,15 @@ public class CategoryController {
                 return searchTree(child.getValue(), name);
             }
         }
+        // FIXME: refactor?
         return null;
+    }
+
+    public boolean isLeaf(String rootCategoryName, String leafCategoryName) {
+        return searchTree(rootCategoryName, leafCategoryName).isLeaf();
+    }
+
+    public Map<String, Field> getFieldsForCategory(String rootCategoryName, String leafCategoryName) {
+        return searchTree(rootCategoryName, leafCategoryName).getFields();
     }
 }

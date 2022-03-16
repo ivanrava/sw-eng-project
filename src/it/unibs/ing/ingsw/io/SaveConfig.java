@@ -48,7 +48,7 @@ public class SaveConfig implements Serializable {
      * @throws IOException Errore di I/O durante l'apertura della config (non per file inesistente)
      * @throws ClassNotFoundException Errore durante la lettura dell'oggetto dal file
      */
-    public static SaveConfig load() throws IOException, ClassNotFoundException {
+    public static SaveConfig loadConfig() throws IOException, ClassNotFoundException {
         File f = new File(CONFIG_SAVE_FILENAME);
         if (f.exists()) {
             try (ObjectInputStream inputStream = new ObjectInputStream(

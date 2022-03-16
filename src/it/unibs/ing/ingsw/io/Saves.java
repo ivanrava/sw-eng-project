@@ -1,21 +1,25 @@
 package it.unibs.ing.ingsw.io;
 
+import it.unibs.ing.ingsw.article.Article;
 import it.unibs.ing.ingsw.auth.User;
 import it.unibs.ing.ingsw.category.Category;
 import it.unibs.ing.ingsw.config.Config;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 
 public class Saves {
     private final SaveConfig saveConfig;
     private final SaveUsers saveUsers;
     private final SaveHierarchies saveHierarchies;
+    private final SaveArticles saveArticles;
 
     public Saves() throws IOException, ClassNotFoundException {
-        saveConfig = SaveConfig.load();
+        saveConfig = SaveConfig.loadConfig();
         saveUsers = SaveUsers.loadUsers();
-        saveHierarchies= SaveHierarchies.loadHierarchies();
+        saveHierarchies = SaveHierarchies.loadHierarchies();
+        saveArticles = SaveArticles.loadArticles();
     }
 
     public void save() throws IOException {
@@ -52,5 +56,9 @@ public class Saves {
 
     public boolean isConfigured() {
         return saveConfig.isConfigured();
+    }
+
+    public Map<Integer, Article> getArticles() {
+        return saveArticles.getArticles();
     }
 }
