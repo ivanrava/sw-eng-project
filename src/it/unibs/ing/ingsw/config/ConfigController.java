@@ -3,72 +3,108 @@ package it.unibs.ing.ingsw.config;
 import it.unibs.ing.ingsw.io.Saves;
 
 import java.time.DayOfWeek;
-import java.util.HashSet;
-import java.util.List;
+import java.time.LocalTime;
 import java.util.Set;
 
 public class ConfigController {
-
-    private Config configurazione;
-   private final Saves saves ;
-
+    private final Saves saves;
 
     public ConfigController(Saves saves) {
         this.saves = saves;
-        this.configurazione = saves.getConfig();
     }
 
-    public boolean existConfig(){
-        return saves.existsConfiguration();
+    public boolean existsDefaultValues(){
+        return saves.existsConfiguration() && saves.getConfig().isConfigured();
     }
 
-    public String getPiazza (){
-        return configurazione.getPiazza();
+    /**
+     * Ritorna la configurazione come stringa human-readable
+     * @return Configurazione come stringa
+     */
+    public String getConfigAsString() {
+        return saves.getConfig().toString();
     }
 
-    public List<String> getLuoghi(){
-        return configurazione.getLuoghi();
+    /**
+     * Imposta la piazza in cui avvengono gli scambi
+     * @param piazza Piazza da impostare
+     */
+    public void setPiazza(String piazza) {
+        saves.getConfig().setImmutableValues(piazza);
     }
 
-
-
-
-    public String showAllconfigurationToString(){
-        return configurazione.toString();
+    /**
+     * Aggiunge un giorno in cui possono avvenire gli scambi
+     * @param day Giorno da aggiungere
+     */
+    public void addDay(DayOfWeek day) {
+        saves.getConfig().addDay(day);
     }
 
-    public Config addConfigControllerFirst(String piazza, List<String> luoghi, List<DayOfWeek> giorni, List<TimeInterval> intervalli_orari, int deadline){ //FIXME
-        return configurazione = new Config(piazza,luoghi,giorni,intervalli_orari,deadline);
+    /**
+     * Aggiunge un luogo in cui possono avvenire gli scambi
+     * @param luogo Luogo da aggiungere
+     */
+    public void addLuogo(String luogo) {
+        saves.getConfig().addLuogo(luogo);
     }
 
-    public Config addConfigControllerAfterFirst(List<String> luoghi, List<DayOfWeek> giorni, List<TimeInterval> intervalli_orari, int deadline){ //FIXME
-        configurazione.getLuoghi().addAll(luoghi);
-        configurazione.getDays().addAll(giorni);
-        configurazione.getTimeIntervals().addAll(intervalli_orari);
-        configurazione.setDeadLine(deadline);
-        return configurazione;
+    /**
+     * Aggiunge un intervallo temporale in cui possono avvenire gli scambi
+     * @param start Orario iniziale dell'intervallo
+     * @param stop Orario finale dell'intervallo
+     */
+    public void addTimeInterval(LocalTime start, LocalTime stop) {
+        saves.getConfig().addTimeInterval(start, stop);
     }
 
-
-    public List<DayOfWeek> getDays() {
-        return configurazione.getDays();
+    /**
+     * Imposta la scadenza di una proposta di baratto
+     * @param deadLine Scadenza, espressa in numero di giorni
+     */
+    public void setDeadLine(int deadLine) {
+        saves.getConfig().setDeadLine(deadLine);
     }
 
+    public Set<DayOfWeek> getDays() {
+        return saves.getConfig().getDays();
+    }
+
+    public boolean exists(String luogo) {
+        return saves.getConfig().getLuoghi().contains(luogo);
+    }
+
+    public boolean exists(DayOfWeek day) {
+        return saves.getConfig().getDays().contains(day);
+    }
+
+    /**
+     * Controlla se l'orario passato è valido come inizio dell'intervallo
+     * @param startHour Ora iniziale
+     * @param startMinutes Minuto iniziale
+     * @return 'true' se valido, 'false' se invalido
+     */
+    public boolean isValidStart(int startHour, int startMinutes) {
+        // Non dev'essere contenuto negli altri intervalli
+        // Non dev'essere uguale al massimo orario possibile
+        return !saves.getConfig().timeIntervalsContain(startHour, startMinutes) || saves.getConfig().isMaxTime(startHour, startMinutes);
+    }
+
+    /**
+     * Ritorna il limite orario finale per l'ora iniziale passata.
+     * Da usare per la validazione degli intervalli orari
+     * @param startTime Orario iniziale per l'intervallo in considerazione
+     * @return Il massimo orario finale ammissibile
+     */
+    public LocalTime getStopLimitFor(LocalTime startTime) {
+        return saves.getConfig().getMaximumStopAfter(startTime);
+    }
+
+    /**
+     * Ritorna i minuti ammessi dall'applicazione
+     * @return Insieme dei minuti ammessi per un orario
+     */
     public Set<Integer> allowedMinutes() {
-        Set<Integer> minsAllowed = new HashSet<Integer>();
-        minsAllowed.add(0);
-        minsAllowed.add(30);
-        return minsAllowed;
+        return TimeInterval.allowedMinutes();
     }
-
-
-    public Config getConfigurazione() {
-        return configurazione;
-    }
-
-    /*
-    public boolean existFConfig(){
-        return saves.existsFileConfiguration();
-    }
-    */   //per verificare che ci sia all'avvio un file di configurazione degli appuntamenti oppure no
 }

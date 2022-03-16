@@ -2,7 +2,6 @@ package it.unibs.ing.ingsw.ui;
 
 import it.unibs.ing.fp.mylib.MyMenu;
 import it.unibs.ing.ingsw.category.CategoryView;
-import it.unibs.ing.ingsw.config.Config;
 import it.unibs.ing.ingsw.config.ConfigView;
 import it.unibs.ing.ingsw.io.Saves;
 
@@ -15,6 +14,9 @@ public class ConfiguratorView {
         configView = new ConfigView(saves);
     }
 
+    /**
+     * Esegui l'UI specifica del configuratore
+     */
     public void execute() {
         MyMenu mainMenu = new MyMenu("Interfaccia di amministrazione", new String[] {
                 "Gestisci categorie",
@@ -26,7 +28,6 @@ public class ConfiguratorView {
             scelta = mainMenu.scegli();
             switch (scelta) {
                 case 1 -> categoryView.execute();
-                // TODO: case 2
                 case 2 -> configView.execute();
             }
         }while (scelta != 0);

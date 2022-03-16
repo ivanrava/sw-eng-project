@@ -1,18 +1,16 @@
 package it.unibs.ing.ingsw.io;
 
 import it.unibs.ing.ingsw.config.Config;
-import it.unibs.ing.ingsw.config.TimeInterval;
 
-import java.awt.*;
 import java.io.*;
-import java.time.DayOfWeek;
-import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.TreeSet;
 
 public class SaveConfig implements Serializable {
     public static final String CONFIG_SAVE_FILENAME = "./config.dat";
     private String username;
     private String password;
-    private Config config = new Config(new String(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), 0);
+    private final Config config = new Config("", new HashSet<>(), new TreeSet<>(), new TreeSet<>(), 0);
 
     public void setUsername(String username) {
         this.username = username;
@@ -36,11 +34,6 @@ public class SaveConfig implements Serializable {
      * Controlla se esiste il file di configurazione globale
      * @return 'true' se esiste, 'false' altrimenti
      */
-
-    public String getPiazza (){
-        return config.getPiazza();
-    }
-
     public static boolean exists() {
         File f = new File(CONFIG_SAVE_FILENAME);
         return f.exists();
