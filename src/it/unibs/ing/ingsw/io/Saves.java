@@ -1,6 +1,8 @@
 package it.unibs.ing.ingsw.io;
 
 import it.unibs.ing.ingsw.auth.User;
+import it.unibs.ing.ingsw.category.Category;
+import it.unibs.ing.ingsw.config.Config;
 
 import java.io.IOException;
 import java.util.Map;
@@ -22,8 +24,10 @@ public class Saves {
         saveHierarchies.saveHierarchies();
     }
 
-    public SaveHierarchies getSaveHierarchies() {
-        return saveHierarchies;
+    public Config getConfig (){ return saveConfig.getConfig(); }
+
+    public Map<String, Category> getSaveHierarchies() {
+        return saveHierarchies.getHierarchies();
     }
 
     public Map<String, User> getUsers() {
@@ -49,4 +53,5 @@ public class Saves {
     public boolean existsConfiguration() {
         return SaveConfig.exists();
     }
+
 }

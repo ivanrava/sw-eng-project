@@ -4,6 +4,8 @@ import it.unibs.ing.fp.mylib.InputDati;
 import it.unibs.ing.fp.mylib.MyMenu;
 import it.unibs.ing.ingsw.io.Saves;
 
+import java.util.Optional;
+
 public class LoginView {
     private final LoginController loginController;
 
@@ -14,7 +16,7 @@ public class LoginView {
     /**
      * Esegue l'UI generale di login
      */
-    public boolean execute() {
+    public Optional<Boolean> execute() {
         if (!loginController.existsDefaultCredentials()) {
             startSettingDefaultCredentials();
         }
@@ -24,21 +26,19 @@ public class LoginView {
                 "Effettua accesso"
         });
 
-        User loggedUser = null; // FIXME: migliorare questa parte
         int scelta;
         do {
             scelta = loginRegisterMenu.scegli();
             switch (scelta) {
-                case 0 -> System.exit(0);
-                case 1 -> startRegister(false);
-                case 2 -> {
-                    loggedUser = startLogin();
-                    scelta = 0;
+                case 0 -> {
+                    return Optional.empty();
                 }
+                case 1 -> startRegister(false);
+                case 2 -> scelta = 0;
             }
         } while (scelta != 0);
-        assert loggedUser != null : "Non dovrebbe essere null";
-        return loggedUser.isAdmin();
+
+        return Optional.of(startLogin().isAdmin());
     }
 
     /**

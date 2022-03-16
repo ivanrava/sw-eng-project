@@ -8,7 +8,7 @@ public class CategoryController {
     private final Map<String, Category> hierarchies;
 
     public CategoryController(Saves saves) {
-        hierarchies = saves.getSaveHierarchies().getHierarchies();
+        hierarchies = saves.getSaveHierarchies();
     }
 
     /**

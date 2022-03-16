@@ -2,7 +2,8 @@ package it.unibs.ing.fp.mylib;
 import java.util.*;
 public class InputDati 
 {
-	  private static Scanner lettore = creaScanner();
+	private static final String ERROR_INTEGER_SET = "Puoi inserire solo un valore tra i seguenti: %s";
+	private static Scanner lettore = creaScanner();
 	  
 	  private final static String ERRORE_FORMATO = "Attenzione: il dato inserito non e' nel formato corretto";
 	  private final static String ERRORE_MINIMO= "Attenzione: e' richiesto un valore maggiore o uguale a ";
@@ -200,4 +201,18 @@ public class InputDati
 			return false;
 	  }
 
+	  public static int leggiInteroDaSet(String messaggio, Set<Integer> allowedValues) {
+		  boolean finito = false;
+		  int valoreLetto = 0;
+		  do
+		  {
+			  valoreLetto = leggiIntero(messaggio);
+			  if (allowedValues.contains(valoreLetto))
+				  finito = true;
+			  else
+				  System.out.printf(ERROR_INTEGER_SET, allowedValues);
+		  } while (!finito);
+
+		  return valoreLetto;
+	  }
 }

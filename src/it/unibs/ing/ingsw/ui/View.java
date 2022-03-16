@@ -4,6 +4,7 @@ import it.unibs.ing.ingsw.auth.LoginView;
 import it.unibs.ing.ingsw.io.Saves;
 
 import java.io.IOException;
+import java.util.Optional;
 
 public class View {
     private final LoginView loginView;
@@ -21,9 +22,13 @@ public class View {
      */
     public void execute() throws IOException {
         do {
-            boolean isAdmin = loginView.execute();
+            Optional<Boolean> isAdmin = loginView.execute();
 
-            if (isAdmin) {
+            if (isAdmin.isEmpty()) {
+                break;
+            }
+
+            if (isAdmin.get()) {
                 configuratorView.execute();
             } else {
                 customerView.execute();
