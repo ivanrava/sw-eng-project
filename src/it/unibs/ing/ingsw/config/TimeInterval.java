@@ -7,7 +7,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class TimeInterval implements Comparable<TimeInterval> , Serializable {
+public class TimeInterval implements Comparable<TimeInterval>, Serializable {
+    public static final String ASSERTION_MINUTES = "I minuti non sono 0 o 30";
+    public static final String ASSERTION_HOURS = "Le ore non sono tra 0 e 23";
     private final LocalTime start;
     private final LocalTime stop;
     public static final LocalTime MAX_STOP = LocalTime.of(23, 30);
@@ -21,18 +23,18 @@ public class TimeInterval implements Comparable<TimeInterval> , Serializable {
      * @param stopMinutes Minuti di fine
      */
     public TimeInterval(int startHour, int startMinutes, int stopHour, int stopMinutes) {
-        assert allowedMinutes().contains(startMinutes) : "I minuti non sono 0 o 30";
-        assert allowedMinutes().contains(stopMinutes) : "I minuti non sono 0 o 30";
-        assert startHour < 24 && startHour >= 0 : "Le ore non sono tra 0 e 23";
-        assert stopHour < 24 && stopHour >= 0 : "Le ore non sono tra 0 e 23";
+        assert allowedMinutes().contains(startMinutes) : ASSERTION_MINUTES;
+        assert allowedMinutes().contains(stopMinutes) : ASSERTION_MINUTES;
+        assert startHour < 24 && startHour >= 0 : ASSERTION_HOURS;
+        assert stopHour < 24 && stopHour >= 0 : ASSERTION_HOURS;
 
         start = LocalTime.of(startHour, startMinutes);
         stop = LocalTime.of(stopHour, stopMinutes);
     }
 
     public TimeInterval(LocalTime start, LocalTime stop) {
-        assert allowedMinutes().contains(start.getMinute()) : "I minuti non sono 0 o 30";
-        assert allowedMinutes().contains(stop.getMinute()) : "I minuti non sono 0 o 30";
+        assert allowedMinutes().contains(start.getMinute()) : ASSERTION_MINUTES;
+        assert allowedMinutes().contains(stop.getMinute()) : ASSERTION_MINUTES;
         this.start = start;
         this.stop = stop;
     }

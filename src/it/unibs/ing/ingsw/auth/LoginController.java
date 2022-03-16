@@ -5,6 +5,9 @@ import it.unibs.ing.ingsw.io.Saves;
 import java.util.Map;
 
 public class LoginController {
+    public static final String ASSERTION_REGISTER_DEFAULT_CREDENTIALS = "Si sta registrando un utente con credenziali di default!";
+    public static final String ASSERTION_USERNAME_DUPLICATED = "Lo username non è univoco!";
+    public static final String ASSERTION_USER_NONEXISTANT = "L'utente non esiste";
     private final Map<String, User> users;
     private final Saves saves;
 
@@ -38,7 +41,7 @@ public class LoginController {
     }
 
     public User getUserByUsername(String username) {
-        assert users.get(username) != null :"l'utente non esiste";
+        assert users.get(username) != null : ASSERTION_USER_NONEXISTANT;
         return users.get(username);
     }
 
@@ -63,8 +66,8 @@ public class LoginController {
      * @param password Password del nuovo utente da aggiungere
      */
     public void register(String username, String password, boolean isAdmin) {
-        assert !existsUsername(username) : "Lo username non è univoco!";
-        assert checkDefaultCredentials(username, password) : "Si sta registrando un utente con credenziali di default!";
+        assert !existsUsername(username) : ASSERTION_USERNAME_DUPLICATED;
+        assert checkDefaultCredentials(username, password) : ASSERTION_REGISTER_DEFAULT_CREDENTIALS;
         if (isAdmin)
             users.put(username, new Configurator(username, password));
         else

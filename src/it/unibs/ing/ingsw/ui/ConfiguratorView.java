@@ -6,6 +6,9 @@ import it.unibs.ing.ingsw.config.ConfigView;
 import it.unibs.ing.ingsw.io.Saves;
 
 public class ConfiguratorView {
+    private static final String MENU_TITLE = "Interfaccia di amministrazione";
+    private static final String MANAGE_CATEGORIES = "Gestisci categorie";
+    private static final String MANAGE_CONFIG = "Gestisci configurazione generale";
     private final CategoryView categoryView;
     private final ConfigView configView;
 
@@ -18,9 +21,9 @@ public class ConfiguratorView {
      * Esegui l'UI specifica del configuratore
      */
     public void execute() {
-        MyMenu mainMenu = new MyMenu("Interfaccia di amministrazione", new String[] {
-                "Gestisci categorie",
-                "Gestisci configurazione generale"
+        MyMenu mainMenu = new MyMenu(MENU_TITLE, new String[] {
+                MANAGE_CATEGORIES,
+                MANAGE_CONFIG
         });
 
         int scelta;

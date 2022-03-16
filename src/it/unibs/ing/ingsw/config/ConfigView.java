@@ -14,7 +14,30 @@ public class ConfigView {
     public static final int MIN_HOUR = 0;
     public static final int MAX_DAYS = 7;
     public static final int MIN_DAYS = 1;
+    public static final String INSERT_DAY = String.format("Inserisci un giorno della settimana [%d-%d]: ", MIN_DAYS, MAX_DAYS);
     public static final int MIN_DEADLINE = 1;
+    public static final String MENU_TITLE = "Configurazione";
+    public static final String[] VOCI = {
+            "Visualizza Configurazione",
+            "Modifica Configurazione"
+    };
+    public static final String EDIT_PLACES = "Vuoi modificare i luoghi inseriti? ";
+    public static final String EDIT_DAYS = "Vuoi modificare i giorni già inseriti? ";
+    public static final String EDIT_TIMES = "Vuoi modificare gli intervalli orari già inseriti? ";
+    public static final String EDIT_DEADLINE = "Vuoi modificare la scadenza predefinita di baratto? ";
+    public static final String INSERT_PIAZZA = "Inserisci piazza di scambio definitiva: ";
+    public static final String INSERT_DEADLINE = "Inserisci la deadline: ";
+    public static final String INSERT_PLACE = "Inserisci un luogo di scambio: ";
+    public static final String INSERT_PLACE_ANOTHER = "Vuoi inserire un altro luogo? ";
+    public static final String ERROR_PLACE_DUPLICATE = "Luogo già presente :(";
+    public static final String INSERT_DAY_ANOTHER = "Vuoi inserire un altro giorno? ";
+    public static final String ERROR_DAY_DUPLICATE = "Giorno già presente :(";
+    public static final String INSERT_TIME_ANOTHER = "Vuoi inserire un altro intervallo? ";
+    public static final String INSERT_TIME_START_HOUR = "Inserisci l'ora iniziale: ";
+    public static final String INSERT_TIME_START_MINUTES = "Inserisci il minuto iniziale: ";
+    public static final String ERROR_TIME_OVERLAP = "C'è una sovrapposizione con un altro orario :(";
+    public static final String INSERT_TIME_STOP_HOUR = "Inserisci l'ora finale: ";
+    public static final String INSERT_TIME_STOP_MINUTES = "Inserisci il minuto finale: ";
     ConfigController configController;
 
     public ConfigView(Saves saves){
@@ -25,10 +48,7 @@ public class ConfigView {
      * Esegui l'UI di gestione della configurazione
      */
     public void execute() {
-        MyMenu mainMenu = new MyMenu("Configurazione", new String[] {
-                "Visualizza Configurazione",
-                "Modifica Configurazione"
-        });
+        MyMenu mainMenu = new MyMenu(MENU_TITLE, VOCI);
 
         int scelta;
         do {
@@ -73,13 +93,13 @@ public class ConfigView {
      * Aggiorna la configurazione già esistente
      */
     public void updateConfig() {
-        if (InputDati.yesOrNo("Vuoi modificare i luoghi inseriti? "))
+        if (InputDati.yesOrNo(EDIT_PLACES))
             inserisciLuoghi();
-        if (InputDati.yesOrNo("Vuoi modificare i giorni già inseriti? "))
+        if (InputDati.yesOrNo(EDIT_DAYS))
             inserisciGiorni();
-        if (InputDati.yesOrNo("Vuoi modificare gli intervalli orari già inseriti? "))
+        if (InputDati.yesOrNo(EDIT_TIMES))
             inserisciIntervalliOrari();
-        if (InputDati.yesOrNo("Vuoi modificare la scadenza predefinita di baratto? "))
+        if (InputDati.yesOrNo(EDIT_DEADLINE))
             inserisciDeadline();
     }
 
@@ -87,14 +107,14 @@ public class ConfigView {
      * Inserisce la piazza
      */
     private void inserisciPiazza() {
-        configController.setPiazza(InputDati.leggiStringaNonVuota("Inserisci piazza di scambio definitiva: "));
+        configController.setPiazza(InputDati.leggiStringaNonVuota(INSERT_PIAZZA));
     }
 
     /**
      * Inserisce la scadenza
      */
     private void inserisciDeadline() {
-        configController.setDeadLine(InputDati.leggiInteroConMinimo("Inserisci la deadline: ", MIN_DEADLINE));
+        configController.setDeadLine(InputDati.leggiInteroConMinimo(INSERT_DEADLINE, MIN_DEADLINE));
     }
 
     /**
@@ -103,12 +123,12 @@ public class ConfigView {
     private void inserisciLuoghi() {
         boolean continua = true;
         do {
-            String luogo = InputDati.leggiStringaNonVuota("Inserisci un luogo di scambio: ");
+            String luogo = InputDati.leggiStringaNonVuota(INSERT_PLACE);
             if (!configController.exists(luogo)) {
                 configController.addLuogo(luogo);
-                continua = InputDati.yesOrNo("Vuoi inserire un altro luogo? ");
+                continua = InputDati.yesOrNo(INSERT_PLACE_ANOTHER);
             } else {
-                System.out.println("Luogo già presente :(");
+                System.out.println(ERROR_PLACE_DUPLICATE);
             }
         } while(continua);
     }
@@ -130,14 +150,12 @@ public class ConfigView {
 
         boolean continua = true;
         do {
-            DayOfWeek day = DayOfWeek.of(InputDati.leggiIntero(
-                    String.format("Inserisci un giorno della settimana [%d-%d]: ", MIN_DAYS, MAX_DAYS),
-                    MIN_DAYS, MAX_DAYS));
+            DayOfWeek day = DayOfWeek.of(InputDati.leggiIntero(INSERT_DAY, MIN_DAYS, MAX_DAYS));
             if (!configController.exists(day)) {
                 configController.addDay(day);
-                continua = InputDati.yesOrNo("Vuoi inserire un altro giorno? ");
+                continua = InputDati.yesOrNo(INSERT_DAY_ANOTHER);
             } else {
-                System.out.println("Giorno già presente :(");
+                System.out.println(ERROR_DAY_DUPLICATE);
             }
         } while(continua);
     }
@@ -151,7 +169,7 @@ public class ConfigView {
             LocalTime startTime = askStartTime();
             LocalTime stopTime = askStopTime(startTime);
             configController.addTimeInterval(startTime, stopTime);
-            continua = InputDati.yesOrNo("Vuoi inserire un altro intervallo? ");
+            continua = InputDati.yesOrNo(INSERT_TIME_ANOTHER);
         } while(continua);
     }
 
@@ -162,10 +180,10 @@ public class ConfigView {
     private LocalTime askStartTime() {
         int oraIniziale, minutoIniziale;
         do {
-            oraIniziale = InputDati.leggiIntero("Inserisci l'ora iniziale: ", MIN_HOUR, MAX_HOUR);
-            minutoIniziale = InputDati.leggiInteroDaSet("Inserisci il minuto iniziale: ", configController.allowedMinutes());
+            oraIniziale = InputDati.leggiIntero(INSERT_TIME_START_HOUR, MIN_HOUR, MAX_HOUR);
+            minutoIniziale = InputDati.leggiInteroDaSet(INSERT_TIME_START_MINUTES, configController.allowedMinutes());
             if (!configController.isValidStart(oraIniziale, minutoIniziale)) {
-                System.out.println("C'è una sovrapposizione con un altro orario :(");
+                System.out.println(ERROR_TIME_OVERLAP);
             }
         } while (!configController.isValidStart(oraIniziale, minutoIniziale));
 
@@ -181,10 +199,10 @@ public class ConfigView {
         LocalTime stopLimit = configController.getStopLimitFor(startTime);
         int oraFinale, minutoFinale;
         do {
-            oraFinale = InputDati.leggiIntero("Inserisci l'ora finale: ", startTime.getHour(), MAX_HOUR);
-            minutoFinale = InputDati.leggiInteroDaSet("Inserisci il minuto finale: ", configController.allowedMinutes());
+            oraFinale = InputDati.leggiIntero(INSERT_TIME_STOP_HOUR, startTime.getHour(), MAX_HOUR);
+            minutoFinale = InputDati.leggiInteroDaSet(INSERT_TIME_STOP_MINUTES, configController.allowedMinutes());
             if (LocalTime.of(oraFinale, minutoFinale).isAfter(stopLimit)) {
-                System.out.println("C'è una sovrapposizione con un altro orario :(");
+                System.out.println(ERROR_TIME_OVERLAP);
                 System.out.printf(">>> Inserisci un orario <= di %s", stopLimit);
             }
         } while (LocalTime.of(oraFinale, minutoFinale).isAfter(stopLimit));

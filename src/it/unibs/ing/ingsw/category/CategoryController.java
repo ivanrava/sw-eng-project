@@ -5,6 +5,9 @@ import it.unibs.ing.ingsw.io.Saves;
 import java.util.*;
 
 public class CategoryController {
+    public static final String ASSERTION_ROOT_OVERWRITE = "Stai sovrascrivendo una radice";
+    public static final String ASSERTION_ROOT_UNEXISTANT = "La categoria radice fornita non esiste!";
+    public static final String ASSERTION_PARENT_UNEXISTANT = "La categoria genitore fornita non esiste!";
     private final Map<String, Category> hierarchies;
 
     public CategoryController(Saves saves) {
@@ -28,7 +31,7 @@ public class CategoryController {
      * @param description Descrizione della nuova categoria radice
      */
     public void makeRootCategory(String name, String description, Map<String, Field> newFields) {
-        assert hierarchies.get(name) == null :"stai sovrascrivendo una radice";
+        assert hierarchies.get(name) == null : ASSERTION_ROOT_OVERWRITE;
         Category rootCategory = new Category(name, description, true, newFields);
         hierarchies.put(name, rootCategory);
     }
@@ -48,7 +51,7 @@ public class CategoryController {
      * @param newFields nuovi fields
      */
     public void makeChildCategory(String rootName, String parentName, String name, String description, Map<String, Field> newFields) {
-        assert searchTree(rootName, parentName) != null : "La categoria genitore fornita non esiste!";
+        assert searchTree(rootName, parentName) != null : ASSERTION_PARENT_UNEXISTANT;
         Category parent = searchTree(rootName, parentName);
         parent.addChildCategory(new Category(name, description, newFields));
     }
@@ -89,7 +92,7 @@ public class CategoryController {
      * @return La Category cercata, se esiste. Altrimenti 'null'
      */
     public Category searchTree(String rootName, String name) {
-        assert existsRoot(name) : "La categoria radice fornita non esiste!";
+        assert existsRoot(name) : ASSERTION_ROOT_UNEXISTANT;
         Category root = hierarchies.get(rootName);
         if (rootName.equals(name)) {
             return root;
