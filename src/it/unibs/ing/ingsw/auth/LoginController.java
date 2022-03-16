@@ -89,6 +89,6 @@ public class LoginController {
      * @return 'true' se esistono, 'false' altrimenti
      */
     public boolean existsDefaultCredentials() {
-        return saves.existsConfiguration();
+        return saves.existsConfiguration() || (saves.getDefaultUsername()!="" && saves.getDefaultPassword()!="");
     }
 }

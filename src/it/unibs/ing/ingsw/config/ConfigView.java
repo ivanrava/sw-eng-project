@@ -71,7 +71,7 @@ public class ConfigView {
      * Modifica la configurazione
      */
     public void editConfig() {
-        if(configController.existsDefaultValues()) {
+        if(!configController.existsDefaultValues()) {
             addConfigFirst();
         } else {
             updateConfig();
@@ -124,7 +124,7 @@ public class ConfigView {
         boolean continua = true;
         do {
             String luogo = InputDati.leggiStringaNonVuota(INSERT_PLACE);
-            if (configController.exists(luogo)) {
+            if (!configController.exists(luogo)) {
                 configController.addLuogo(luogo);
                 continua = InputDati.yesOrNo(INSERT_PLACE_ANOTHER);
             } else {
@@ -151,7 +151,7 @@ public class ConfigView {
         boolean continua = true;
         do {
             DayOfWeek day = DayOfWeek.of(InputDati.leggiIntero(INSERT_DAY, MIN_DAYS, MAX_DAYS));
-            if (configController.exists(day)) {
+            if (!configController.exists(day)) {
                 configController.addDay(day);
                 continua = InputDati.yesOrNo(INSERT_DAY_ANOTHER);
             } else {
@@ -201,11 +201,11 @@ public class ConfigView {
         do {
             oraFinale = InputDati.leggiIntero(INSERT_TIME_STOP_HOUR, startTime.getHour(), MAX_HOUR);
             minutoFinale = InputDati.leggiInteroDaSet(INSERT_TIME_STOP_MINUTES, configController.allowedMinutes());
-            if (!LocalTime.of(oraFinale, minutoFinale).isBefore(stopLimit)) {
+            if (LocalTime.of(oraFinale, minutoFinale).isAfter(stopLimit)) {
                 System.out.println(ERROR_TIME_OVERLAP);
                 System.out.printf(">>> Inserisci un orario <= di %s", stopLimit);
             }
-        } while (!LocalTime.of(oraFinale, minutoFinale).isBefore(stopLimit));
+        } while (LocalTime.of(oraFinale, minutoFinale).isAfter(stopLimit));
 
         return LocalTime.of(oraFinale, minutoFinale);
     }

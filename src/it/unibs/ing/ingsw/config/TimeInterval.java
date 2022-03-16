@@ -1,12 +1,13 @@
 package it.unibs.ing.ingsw.config;
 
+import java.io.Serializable;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class TimeInterval implements Comparable<TimeInterval> {
+public class TimeInterval implements Comparable<TimeInterval>, Serializable {
     public static final String ASSERTION_MINUTES = "I minuti non sono 0 o 30";
     public static final String ASSERTION_HOURS = "Le ore non sono tra 0 e 23";
     private final LocalTime start;
