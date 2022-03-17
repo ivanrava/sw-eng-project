@@ -14,6 +14,14 @@ public class Article implements Serializable {
     private final User user;
     private final int id;
 
+    /**
+     * costruttore
+     * @param id identificatore univoco
+     * @param owner proprietario
+     * @param leafCategory categoria foglia di cui fa parte
+     * @param articleState stato attuale
+     * @param fields campi
+     */
     public Article(int id, User owner, Category leafCategory, ArticleState articleState, Map<String, Field> fields) {
         this.id = id;
         this.user = owner;

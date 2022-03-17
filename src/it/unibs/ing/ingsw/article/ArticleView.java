@@ -31,12 +31,21 @@ public class ArticleView {
             "Modifica stato di un'offerta"
     };
 
+    /**
+     * costruttore
+     * @param saves
+     */
     public ArticleView(Saves saves) {
         articleController = new ArticleController(saves);
         categoryController = new CategoryController(saves);
         categoryView = new CategoryView(saves);
     }
 
+    /**
+     * esegui l'UI generale degli articoli
+     * dovrebbe essere eseguito solo da un utente Customer
+     * @param user utente che esegue la view
+     */
     public void execute(User user) {
         MyMenu mainMenu = new MyMenu(MENU_TITLE, VOCI);
 
@@ -52,14 +61,25 @@ public class ArticleView {
         }while (scelta != 0);
     }
 
-    public void printArticlesList(List<Article> articles) {
+    /**
+     * stampa lista degli articoli
+     * @param articles lista di articoli
+     */
+    private void printArticlesList(List<Article> articles) {
         articles.forEach(System.out::println);
     }
 
+    /**
+     * stampa lista degli articoli di un certo utente
+     * @param user utente che possiede articoli
+     */
     private void printUserArticles(User user) {
         printArticlesList(articleController.getArticlesForUser(user.getUsername()));
     }
 
+    /**
+     * stampa lista di articoli di una certa categoria (leaf)
+     */
     public void printCategoryArticles() {
         categoryView.printHierarchies();
         String rootCategoryName = categoryView.askAndCheckRootName();
@@ -67,6 +87,10 @@ public class ArticleView {
         printArticlesList(articleController.getArticlesForCategory(rootCategoryName, leafCategoryName));
     }
 
+    /**
+     * inserimento di un articolo da tastiera
+     * @param user utente per il quale si vuole inserire un articolo
+     */
     private void addArticle(User user) {
         assert !user.isAdmin() : ASSERTION_CONFIGURATOR_ADD_ARTICLE;
         categoryView.printHierarchies();
@@ -76,6 +100,11 @@ public class ArticleView {
         articleController.addArticle(user.getUsername(), rootCategoryName, leafCategoryName, ArticleState.OFFERTA_APERTA, fieldValues);
     }
 
+    /**
+     * chiede l'inserimento dei valori dei campi di un articolo
+     * @param categoryFields campi richiesti da un articolo che appartiene a una certa categoria
+     * @return map che ha come chiave il nome del campo, e come valore il valore del campo
+     */
     private Map<String, String> askFieldValues(Map<String, Field> categoryFields) {
         Map<String, String> fieldValues = new HashMap<>();
         for (Map.Entry<String, Field> entry: categoryFields.entrySet()) {
@@ -90,6 +119,10 @@ public class ArticleView {
         return fieldValues;
     }
 
+    /**
+     * viene chiesta la modifica dello stato di un articolo
+     * @param user utente che possiede l'articolo a cui va modificato lo stato
+     */
     private void editArticleState(User user) {
         printUserArticles(user);
         int id;
@@ -103,6 +136,10 @@ public class ArticleView {
         articleController.updateState(id, askArticleState());
     }
 
+    /**
+     * viene chiesto lo stato di un certo articolo
+     * @return stato di un articolo
+     */
     private ArticleState askArticleState() {
         System.out.println(Arrays.toString(ArticleState.values()));
         while (true){
