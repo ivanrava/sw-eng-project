@@ -10,6 +10,12 @@ public class SaveArticles implements Serializable {
     public static final String SAVE_ARTICLES = "./articles.dat";
     private final Map<Integer, Article> articles = new HashMap<>();
 
+    /**
+     * Carica articoli dal filesystem. Se non lo trova ne crea uno nuovo
+     * @return articoli caricati
+     * @throws IOException Errore di I/O durante l'apertura del file di articoli (non per file inesistente)
+     * @throws ClassNotFoundException Errore durante la lettura dell'oggetto dal file
+     */
     public static SaveArticles loadArticles() throws IOException, ClassNotFoundException {
         File f = new File(SAVE_ARTICLES);
         if (f.exists()) {
@@ -25,6 +31,10 @@ public class SaveArticles implements Serializable {
         return articles;
     }
 
+    /**
+     * Salva gli articoli sul filesystem
+     * @throws IOException Errore di I/O durante il salvataggio della config
+     */
     public void saveArticles() throws IOException {
         File f = new File(SAVE_ARTICLES);
         try (ObjectOutputStream outputStream = new ObjectOutputStream(

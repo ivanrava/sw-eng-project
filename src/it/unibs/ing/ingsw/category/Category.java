@@ -47,6 +47,10 @@ public class Category implements Serializable {
 
     }
 
+    /**
+     * Controlla se é una categoria radice
+     * @return 'true' se é una categoria radice, 'false' altrimenti
+     */
     public Boolean isRootCategory(){
         return parent == null;
     }

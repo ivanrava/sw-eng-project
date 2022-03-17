@@ -40,6 +40,10 @@ public class UserController {
         return users.get(username).checkCredentials(username, password);
     }
 
+    /**
+     * @param username
+     * @return utente ricavato da username
+     */
     public User getUserByUsername(String username) {
         assert users.get(username) != null : ASSERTION_USER_NONEXISTANT;
         return users.get(username);

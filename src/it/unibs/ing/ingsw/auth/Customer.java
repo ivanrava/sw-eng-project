@@ -6,7 +6,5 @@ public class Customer extends User {
     }
 
     @Override
-    public boolean isAdmin() {
-        return false;
-    }
+    public boolean isAdmin() { return false; }
 }

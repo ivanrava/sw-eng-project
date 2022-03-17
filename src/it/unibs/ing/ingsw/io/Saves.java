@@ -15,6 +15,11 @@ public class Saves {
     private final SaveHierarchies saveHierarchies;
     private final SaveArticles saveArticles;
 
+    /**
+     * costruttore in cui vengono caricati tutti i file
+     * @throws IOException
+     * @throws ClassNotFoundException
+     */
     public Saves() throws IOException, ClassNotFoundException {
         saveConfig = SaveConfig.loadConfig();
         saveUsers = SaveUsers.loadUsers();
@@ -22,6 +27,10 @@ public class Saves {
         saveArticles = SaveArticles.loadArticles();
     }
 
+    /**
+     * Metodo per salvataggio di tutti i file
+     * @throws IOException
+     */
     public void save() throws IOException {
         saveConfig.save();
         saveUsers.saveUsers();
@@ -51,10 +60,16 @@ public class Saves {
         saveConfig.setImmutableValues(username, password);
     }
 
+    /**
+     * @return 'true' se esiste file di configurazione, 'false' altrimenti
+     */
     public boolean existsConfiguration() {
         return SaveConfig.exists();
     }
 
+    /**
+     * @return 'true' se esiste configurazione, 'false' altrimenti
+     */
     public boolean isConfigured() {
         return saveConfig.isConfigured();
     }

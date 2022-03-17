@@ -119,6 +119,14 @@ public class CategoryController {
         return null;
     }
 
+    /**
+     * controlla dato il nome di una categoria radice e un'altra categoria,
+     * che la categoria sia foglia della gerarchia appartenente alla categoria
+     * radice
+     * @param rootCategoryName nome categoria radice
+     * @param leafCategoryName nome categoria foglia
+     * @return 'true' se é una categoria foglia, 'false' altrimenti
+     */
     public boolean isLeaf(String rootCategoryName, String leafCategoryName) {
         return searchTree(rootCategoryName, leafCategoryName).isLeaf();
     }

@@ -14,6 +14,12 @@ public class SaveHierarchies implements Serializable {
         return hierarchies;
     }
 
+    /**
+     * Carica gerarchie dal filesystem. Se non lo trova ne crea uno nuovo
+     * @return gerarchie caricate
+     * @throws IOException Errore di I/O durante l'apertura del file delle gerarchie (non per file inesistente)
+     * @throws ClassNotFoundException Errore durante la lettura dell'oggetto dal file
+     */
     public static SaveHierarchies loadHierarchies() throws IOException, ClassNotFoundException {
         File f = new File(SAVE_HIERARCHIES);
         if (f.exists()) {
@@ -25,6 +31,10 @@ public class SaveHierarchies implements Serializable {
         return new SaveHierarchies();
     }
 
+    /**
+     * Salva gli articoli sul filesystem
+     * @throws IOException Errore di I/O durante il salvataggio delle gerarchie
+     */
     public void saveHierarchies() throws IOException {
         File f = new File(SAVE_HIERARCHIES);
         try (ObjectOutputStream outputStream = new ObjectOutputStream(

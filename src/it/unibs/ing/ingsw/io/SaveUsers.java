@@ -14,6 +14,12 @@ public class SaveUsers implements Serializable {
         return users;
     }
 
+    /**
+     * Carica gli utenti dal filesystem. Se non lo trova ne crea uno nuovo
+     * @return utenti caricati
+     * @throws IOException Errore di I/O durante l'apertura del file di utenti (non per file inesistente)
+     * @throws ClassNotFoundException Errore durante la lettura dell'oggetto dal file
+     */
     public static SaveUsers loadUsers() throws IOException, ClassNotFoundException {
         File f = new File(CONFIG_SAVE_FILEUSER);
         if (f.exists()) {
@@ -26,6 +32,10 @@ public class SaveUsers implements Serializable {
         return new SaveUsers();
     }
 
+    /**
+     * Salva gli utenti sul filesystem
+     * @throws IOException Errore di I/O durante il salvataggio degli utenti
+     */
     public void saveUsers() throws IOException {
         File f = new File(CONFIG_SAVE_FILEUSER);
             try (ObjectOutputStream outputStream = new ObjectOutputStream(
