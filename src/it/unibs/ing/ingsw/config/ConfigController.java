@@ -74,6 +74,16 @@ public class ConfigController {
         return saves.getConfig().getLuoghi().contains(luogo);
     }
 
+    public Set<String> getLuoghi(){
+        return saves.getConfig().getLuoghi();
+    }
+
+    public Set<TimeInterval> getTimeIntervals(){
+        return saves.getConfig().getTimeIntervals();
+    }
+
+
+
     public boolean exists(DayOfWeek day) {
         return saves.getConfig().getDays().contains(day);
     }
