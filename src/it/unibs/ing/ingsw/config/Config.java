@@ -33,6 +33,9 @@ public class Config implements Serializable {
         this.deadline = deadline;
     }
 
+    public Set<TimeInterval> getTimeIntervals() {
+        return timeIntervals;
+    }
 
     @Override
     public String toString() {
@@ -119,4 +122,6 @@ public class Config implements Serializable {
     public boolean isMaxTime(int startHour, int startMinutes) {
         return TimeInterval.MAX_STOP.equals(LocalTime.of(startHour, startMinutes));
     }
+
+
 }

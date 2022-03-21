@@ -1,11 +1,18 @@
 package it.unibs.ing.ingsw.article;
 
+import it.unibs.ing.fp.mylib.InputDati;
 import it.unibs.ing.fp.mylib.MyMenu;
 import it.unibs.ing.ingsw.auth.User;
+import it.unibs.ing.ingsw.config.ConfigController;
+import it.unibs.ing.ingsw.config.TimeInterval;
 import it.unibs.ing.ingsw.io.Saves;
+
+import java.time.LocalDateTime;
+import java.util.Set;
 
 public class ExchangeView {
     private final ExchangeController exchangeController;
+    private final ConfigController configController;
     public static final String MENU_TITLE = "Gestione scambi";
     public static final String[] VOCI = {
             "Mostra i baratti che ti sono stati proposti",
@@ -14,6 +21,7 @@ public class ExchangeView {
 
     public ExchangeView(Saves saves) {
         exchangeController = new ExchangeController(saves);
+        configController = new ConfigController(saves);
     }
 
     private class MenuOption {
@@ -62,6 +70,7 @@ public class ExchangeView {
         exchangeController.getProposals(user).forEach(System.out::println);
     }
 
+
     /**
      * Stampa gli articoli in scambio (e quindi i baratti concordati sugli articoli)
      * @param user L'utente di cui visualizzare gli articoli in scambio / baratti concordati sugli articoli
@@ -69,4 +78,40 @@ public class ExchangeView {
     private void printExchangingArticles(User user) {
         exchangeController.getExchanges(user).forEach(System.out::println);
     }
+
+    private void printUpdateProposal(User user){  //FIXME
+        //selezione da menu di scambi
+        int sizeOfExchanges = exchangeController.getExchanges(user).size();
+        int index;
+        Set<String> luoghi = configController.getLuoghi();
+        Set<TimeInterval> timeIntervals = configController.getTimeIntervals();
+        String proposedWhere;
+        LocalDateTime proposedWhen;
+        do {
+           index = InputDati.leggiInteroConMinimo("inserisci indice scambio da selezionare:", 1);
+        }while(index >=sizeOfExchanges);
+        proposedWhere = askProposedWhere(luoghi);
+        proposedWhen = askProposedWhen(timeIntervals);
+        exchangeController.updateProposal(proposedWhere, proposedWhen, user, index);
+    }
+
+    private String askProposedWhere(Set<String> luoghi){
+        String proposedWhere;
+        do {
+            proposedWhere = InputDati.leggiStringaNonVuota("inserisci nuovo luogo:");
+            if(!luoghi.contains(proposedWhere))
+                System.out.println("devi inserire un luogo che esiste nella configurazione");
+        }while(!luoghi.contains(proposedWhere));
+        return proposedWhere;
+    }
+
+    private LocalDateTime askProposedWhen(Set<TimeInterval> timeIntervals){
+        LocalDateTime proposedWhen;
+        do{
+
+        }while(!timeIntervals.contains(proposedWhen));
+    }
+
+
+
 }

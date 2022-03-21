@@ -3,6 +3,7 @@ package it.unibs.ing.ingsw.article;
 import it.unibs.ing.ingsw.auth.User;
 import it.unibs.ing.ingsw.io.Saves;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -51,5 +52,17 @@ public class ExchangeController {
         assert proposed != null : "L'articolo proposto non esiste!";
         assert wanted != null : "L'articolo desiderato non esiste!";
         exchangeList.add(new Exchange(proposed, wanted));
+    }
+
+    private List<Exchange> getExchangesByUser (User user){  //FIXME
+        return (List<Exchange>) exchangeList.stream()
+                .filter(exchange -> exchange.concerns(user))
+                .filter(Exchange::areExchanging);
+    }
+
+    public void updateProposal(String proposedWhere, LocalDateTime proposedWhen, User user, int indexOfExchange){ //FIXME indexOfExchange decidere come passare la selezione del baratto
+        List<Exchange> exchangeUserList = getExchangesByUser(user);
+        Exchange exchangeToSet = exchangeUserList.get(indexOfExchange);
+        exchangeToSet.updateProposal(proposedWhere, proposedWhen);
     }
 }
