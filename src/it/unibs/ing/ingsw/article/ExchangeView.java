@@ -7,7 +7,9 @@ import it.unibs.ing.ingsw.config.ConfigController;
 import it.unibs.ing.ingsw.config.TimeInterval;
 import it.unibs.ing.ingsw.io.Saves;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.Set;
 
 public class ExchangeView {
@@ -80,7 +82,6 @@ public class ExchangeView {
     }
 
     private void printUpdateProposal(User user){  //FIXME
-        //selezione da menu di scambi
         int sizeOfExchanges = exchangeController.getExchanges(user).size();
         int index;
         Set<String> luoghi = configController.getLuoghi();
@@ -88,8 +89,8 @@ public class ExchangeView {
         String proposedWhere;
         LocalDateTime proposedWhen;
         do {
-           index = InputDati.leggiInteroConMinimo("inserisci indice scambio da selezionare:", 1);
-        }while(index >=sizeOfExchanges);
+           index = InputDati.leggiInteroConMinimo("inserisci indice scambio da selezionare:", 1) - 1;
+        }while(index > sizeOfExchanges);
         proposedWhere = askProposedWhere(luoghi);
         proposedWhen = askProposedWhen(timeIntervals);
         exchangeController.updateProposal(proposedWhere, proposedWhen, user, index);
@@ -105,11 +106,25 @@ public class ExchangeView {
         return proposedWhere;
     }
 
-    private LocalDateTime askProposedWhen(Set<TimeInterval> timeIntervals){
-        LocalDateTime proposedWhen;
-        do{
-
-        }while(!timeIntervals.contains(proposedWhen));
+    private LocalDateTime askProposedWhen(Set<TimeInterval> timeIntervals){ //FIXME
+        LocalDateTime proposedWhen ;
+        LocalTime proposedHourAndMinute;
+        int hour;
+        int minute;
+        boolean correct = false;
+        do {
+            hour = InputDati.leggiIntero("inserisci ora:", 0, 23);
+            minute = InputDati.leggiIntero("inserisci minuto:", 0, 60);
+            proposedHourAndMinute = LocalTime.of(hour, minute);
+            for (TimeInterval localTime : configController.getTimeIntervals()) {
+                correct = localTime.contains(proposedHourAndMinute);
+            }
+        }while(!correct);
+        month = ... //inserimento mese
+        year = ... //inserimento anno
+        day  = ... //inserimento giorno
+        proposedWhen =  LocalDateTime.of(year,month,day,hour,minute); //FIXME cambiare tipo?!
+        return proposedWhen;
     }
 
 

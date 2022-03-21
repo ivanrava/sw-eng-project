@@ -55,7 +55,7 @@ public class ExchangeController {
     }
 
     private List<Exchange> getExchangesByUser (User user){  //FIXME
-        return (List<Exchange>) exchangeList.stream()
+        return  (List<Exchange>) exchangeList.stream()
                 .filter(exchange -> exchange.concerns(user))
                 .filter(Exchange::areExchanging);
     }
