@@ -11,20 +11,20 @@ public class Article implements Serializable {
     private final Category category;
     private final Map<String, Field> fields;
     private ArticleState state;
-    private final User user;
+    private final User owner;
     private final int id;
 
     /**
-     * costruttore
-     * @param id identificatore univoco
-     * @param owner proprietario
-     * @param leafCategory categoria foglia di cui fa parte
-     * @param articleState stato attuale
-     * @param fields campi
+     * Costruttore parametrizzato
+     * @param id Identificatore univoco
+     * @param owner Proprietario dell'articolo
+     * @param leafCategory Categoria foglia di cui fa parte
+     * @param articleState Stato iniziale
+     * @param fields Campi della categoria, idealmente valorizzati
      */
     public Article(int id, User owner, Category leafCategory, ArticleState articleState, Map<String, Field> fields) {
         this.id = id;
-        this.user = owner;
+        this.owner = owner;
         this.category = leafCategory;
         this.state = articleState;
         this.fields = fields;
@@ -35,7 +35,11 @@ public class Article implements Serializable {
     }
 
     public String getOwnerUsername() {
-        return user.getUsername();
+        return owner.getUsername();
+    }
+
+    public User getOwner() {
+        return owner;
     }
 
     @Override

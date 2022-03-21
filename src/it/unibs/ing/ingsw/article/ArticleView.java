@@ -32,8 +32,8 @@ public class ArticleView {
     };
 
     /**
-     * costruttore
-     * @param saves
+     * Costruttore principale
+     * @param saves Istanza dei salvataggi dell'applicazione
      */
     public ArticleView(Saves saves) {
         articleController = new ArticleController(saves);
@@ -42,9 +42,8 @@ public class ArticleView {
     }
 
     /**
-     * esegui l'UI generale degli articoli
-     * dovrebbe essere eseguito solo da un utente Customer
-     * @param user utente che esegue la view
+     * Esegui l'UI generale degli articoli
+     * @param user Utente che esegue la view
      */
     public void execute(User user) {
         MyMenu mainMenu = new MyMenu(MENU_TITLE, VOCI);
@@ -62,23 +61,23 @@ public class ArticleView {
     }
 
     /**
-     * stampa lista degli articoli
-     * @param articles lista di articoli
+     * Stampa lista degli articoli
+     * @param articles Lista di articoli
      */
     private void printArticlesList(List<Article> articles) {
         articles.forEach(System.out::println);
     }
 
     /**
-     * stampa lista degli articoli di un certo utente
-     * @param user utente che possiede articoli
+     * Stampa lista degli articoli di un certo utente
+     * @param user Utente che possiede articoli
      */
     private void printUserArticles(User user) {
         printArticlesList(articleController.getArticlesForUser(user.getUsername()));
     }
 
     /**
-     * stampa lista di articoli di una certa categoria (leaf)
+     * Stampa lista di articoli di una certa categoria (leaf)
      */
     public void printCategoryArticles(User user) {
         categoryView.printHierarchies();
@@ -88,8 +87,8 @@ public class ArticleView {
     }
 
     /**
-     * inserimento di un articolo da tastiera
-     * @param user utente per il quale si vuole inserire un articolo
+     * Inserimento di un articolo da tastiera
+     * @param user Utente per il quale si vuole inserire un articolo
      */
     private void addArticle(User user) {
         assert !user.isAdmin() : ASSERTION_CONFIGURATOR_ADD_ARTICLE;
@@ -101,9 +100,9 @@ public class ArticleView {
     }
 
     /**
-     * chiede l'inserimento dei valori dei campi di un articolo
-     * @param categoryFields campi richiesti da un articolo che appartiene a una certa categoria
-     * @return map che ha come chiave il nome del campo, e come valore il valore del campo
+     * Chiede l'inserimento dei valori dei campi di un articolo
+     * @param categoryFields Campi richiesti da un articolo che appartiene a una certa categoria
+     * @return Map che ha come chiave il nome del campo, e come valore il valore del campo
      */
     private Map<String, String> askFieldValues(Map<String, Field> categoryFields) {
         Map<String, String> fieldValues = new HashMap<>();
@@ -120,8 +119,8 @@ public class ArticleView {
     }
 
     /**
-     * viene chiesta la modifica dello stato di un articolo
-     * @param user utente che possiede l'articolo a cui va modificato lo stato
+     * Viene chiesta la modifica dello stato di un articolo
+     * @param user Utente che possiede l'articolo a cui va modificato lo stato
      */
     private void editArticleState(User user) {
         printUserArticles(user);
@@ -137,8 +136,8 @@ public class ArticleView {
     }
 
     /**
-     * viene chiesto lo stato di un certo articolo
-     * @return stato di un articolo
+     * Viene chiesto lo stato di un certo articolo
+     * @return Stato di un articolo
      */
     private ArticleState askArticleState() {
         System.out.println(Arrays.toString(ArticleState.values()));

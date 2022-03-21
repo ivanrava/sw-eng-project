@@ -19,8 +19,8 @@ public class ArticleController {
     private final CategoryController categoryController;
 
     /**
-     * costruttore
-     * @param saves da cui vengono caricati tutti gli articoli giá esistenti nel file
+     * Costruttore parametrizzato
+     * @param saves Salvataggi dell'applicazione
      */
     public ArticleController(Saves saves) {
         articles = saves.getArticles();
@@ -29,9 +29,9 @@ public class ArticleController {
     }
 
     /**
-     * viene ritornata lista di articoli appartenenti ad un certo User
-     * @param username
-     * @return lista di articoli
+     * Ritorna una lista di articoli appartenenti ad un certo utente
+     * @param username Username dell'utente
+     * @return Lista di articoli di quell'utente
      */
     public List<Article> getArticlesForUser(String username) {
         return articles.values().stream()
@@ -40,11 +40,10 @@ public class ArticleController {
     }
 
     /**
-     * viene ritornata lista di articoli appartenenti ad una certa categoria(Leaf)
      * @param categoryRootName Nome della categoria radice
      * @param categoryLeafName Nome della categoria foglia
-     * @param isAdmin Indica se ricevere i risultati per amministratori o per utenti semplici
-     * @return lista di articoli
+     * @param isAdmin Indica se ricevere i risultati destinati agli utenti privilegiati oppure agli utenti semplici
+     * @return Lista di articoli di una categoria foglia
      */
     public List<Article> getArticlesForCategory(String categoryRootName, String categoryLeafName, boolean isAdmin) {
         Category category = categoryController.searchTree(categoryRootName, categoryLeafName);
@@ -64,13 +63,12 @@ public class ArticleController {
     }
 
     /**
-     * aggiunge un articolo nella map di articoli
-     * come chiave l'id dell'articolo e come valore l'articolo stesso
-     * @param username
-     * @param rootCategoryName
-     * @param leafCategoryName
-     * @param articleState
-     * @param fieldValues
+     * Aggiunge un articolo
+     * @param username Username dell'utente che lo possiede
+     * @param rootCategoryName Nome della categoria radice della categoria dell'articolo
+     * @param leafCategoryName Nome della categoria foglia dell'articolo
+     * @param articleState Stato dell'articolo
+     * @param fieldValues Valori dei campi della categoria foglia
      */
     public void addArticle(String username, String rootCategoryName, String leafCategoryName, ArticleState articleState, Map<String, String> fieldValues) {
         User user = userController.getUserByUsername(username);
@@ -85,8 +83,8 @@ public class ArticleController {
     }
 
     /**
-     * controlla che esista un articolo con un certo id
-     * @param id
+     * Controlla che esista un articolo con un certo id
+     * @param id Identificatore numerico dell'articolo
      * @return 'true' se esiste, 'false' altrimenti
      */
     public boolean exists(int id) {
@@ -94,21 +92,22 @@ public class ArticleController {
     }
 
     /**
-     * @param id
-     * @return visualizzazione di un certo articolo passando l'id
+     * @param id Identificatore numerico dell'articolo
+     * @return L'articolo con l'id passato
      */
-    public String getArticle(int id) {
+    // FIXME: accoppiamento o no?
+    public Article getArticle(int id) {
         assert exists(id) : ASSERTION_ARTICLE_UNEXISTANT;
-        return articles.get(id).toString();
+        return articles.get(id);
     }
 
     /**
-     * viene aggiornato stato dell'articolo
-     * @param id
-     * @param askArticleState indica il nuovo stato dell'articolo
+     * Aggiorna lo stato dell'articolo
+     * @param id Identificatore numerico dell'articolo
+     * @param newArticleState Nuovo stato dell'articolo
      */
-    public void updateState(int id, ArticleState askArticleState) {
+    public void updateState(int id, ArticleState newArticleState) {
         assert exists(id) : ASSERTION_ARTICLE_UNEXISTANT;
-        articles.get(id).setState(askArticleState);
+        articles.get(id).setState(newArticleState);
     }
 }
