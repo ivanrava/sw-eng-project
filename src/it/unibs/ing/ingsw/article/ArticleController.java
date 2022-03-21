@@ -41,15 +41,25 @@ public class ArticleController {
 
     /**
      * viene ritornata lista di articoli appartenenti ad una certa categoria(Leaf)
-     * @param categoryRootName
-     * @param categoryLeafName
+     * @param categoryRootName Nome della categoria radice
+     * @param categoryLeafName Nome della categoria foglia
+     * @param isAdmin Indica se ricevere i risultati per amministratori o per utenti semplici
      * @return lista di articoli
      */
-    public List<Article> getArticlesForCategory(String categoryRootName, String categoryLeafName) {
+    public List<Article> getArticlesForCategory(String categoryRootName, String categoryLeafName, boolean isAdmin) {
         Category category = categoryController.searchTree(categoryRootName, categoryLeafName);
         return articles.values().stream()
                 .filter(article -> article.getCategory().equals(category))
-                .filter(article -> article.getState().equals(ArticleState.OFFERTA_APERTA))
+                .filter(article -> {
+                    ArticleState state = article.getState();
+                    if (isAdmin) {
+                        return state.equals(ArticleState.OFFERTA_APERTA) ||
+                                state.equals(ArticleState.OFFERTA_SCAMBIO) ||
+                                state.equals(ArticleState.OFFERTA_CHIUSA);
+                    } else {
+                        return state.equals(ArticleState.OFFERTA_APERTA);
+                    }
+                })
                 .toList();
     }
 

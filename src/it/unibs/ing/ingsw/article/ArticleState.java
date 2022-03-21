@@ -4,7 +4,11 @@ import java.io.Serializable;
 
 public enum ArticleState implements Serializable {
     OFFERTA_APERTA("Aperta"),
-    OFFERTA_RITIRATA("Ritirata");
+    OFFERTA_RITIRATA("Ritirata"),
+    OFFERTA_ACCOPPIATA("Accoppiata"),
+    OFFERTA_SELEZIONATA("Selezionata"),
+    OFFERTA_SCAMBIO("In scambio"),
+    OFFERTA_CHIUSA("Chiusa");
 
     private final String text;
 

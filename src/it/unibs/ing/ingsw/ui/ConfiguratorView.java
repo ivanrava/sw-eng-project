@@ -11,7 +11,7 @@ public class ConfiguratorView {
     private static final String MENU_TITLE = "Interfaccia di amministrazione";
     private static final String MANAGE_CATEGORIES = "Gestisci categorie";
     private static final String MANAGE_CONFIG = "Gestisci configurazione generale";
-    public static final String SEE_LEAF_OFFERS = "Mostra le offerte aperte per una categoria foglia";
+    public static final String SEE_LEAF_OFFERS = "Mostra le offerte per una categoria foglia";
     private final CategoryView categoryView;
     private final ConfigView configView;
     private final ArticleView articleView;
@@ -25,7 +25,7 @@ public class ConfiguratorView {
     /**
      * Esegui l'UI specifica del configuratore
      */
-    public void execute() {
+    public void execute(User user) {
         MyMenu mainMenu = new MyMenu(MENU_TITLE, new String[] {
                 MANAGE_CATEGORIES,
                 MANAGE_CONFIG,
@@ -38,7 +38,7 @@ public class ConfiguratorView {
             switch (scelta) {
                 case 1 -> categoryView.execute();
                 case 2 -> configView.execute();
-                case 3 -> articleView.printCategoryArticles();
+                case 3 -> articleView.printCategoryArticles(user);
             }
         }while (scelta != 0);
     }

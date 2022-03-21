@@ -54,7 +54,7 @@ public class ArticleView {
             scelta = mainMenu.scegli();
             switch (scelta) {
                 case 1 -> printUserArticles(user);
-                case 2 -> printCategoryArticles();
+                case 2 -> printCategoryArticles(user);
                 case 3 -> addArticle(user);
                 case 4 -> editArticleState(user);
             }
@@ -80,11 +80,11 @@ public class ArticleView {
     /**
      * stampa lista di articoli di una certa categoria (leaf)
      */
-    public void printCategoryArticles() {
+    public void printCategoryArticles(User user) {
         categoryView.printHierarchies();
         String rootCategoryName = categoryView.askAndCheckRootName();
         String leafCategoryName = categoryView.askAndCheckLeafName(rootCategoryName);
-        printArticlesList(articleController.getArticlesForCategory(rootCategoryName, leafCategoryName));
+        printArticlesList(articleController.getArticlesForCategory(rootCategoryName, leafCategoryName, user.isAdmin()));
     }
 
     /**

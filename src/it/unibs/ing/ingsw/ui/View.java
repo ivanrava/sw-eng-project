@@ -30,7 +30,7 @@ public class View {
             }
 
             if (user.get().isAdmin()) {
-                configuratorView.execute();
+                configuratorView.execute(user.get());
             } else {
                 customerView.execute(user.get());
             }
