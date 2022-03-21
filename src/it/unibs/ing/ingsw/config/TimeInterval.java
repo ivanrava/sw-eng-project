@@ -98,4 +98,6 @@ public class TimeInterval implements Comparable<TimeInterval>, Serializable {
         minsAllowed.add(30);
         return minsAllowed;
     }
+
+
 }
