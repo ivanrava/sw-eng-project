@@ -65,4 +65,10 @@ public class ExchangeController {
         Exchange exchangeToSet = exchangeUserList.get(indexOfExchange);
         exchangeToSet.updateProposal(proposedWhere, proposedWhen);
     }
+
+    public void acceptProposal(int indexOfExchange, User user){
+        List<Exchange> exchangeUserList = getExchangesByUser(user);
+        Exchange exchangeAccepted = exchangeUserList.get(indexOfExchange);
+        exchangeAccepted.acceptExchange();
+    }
 }

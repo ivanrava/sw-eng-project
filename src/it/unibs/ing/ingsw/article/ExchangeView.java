@@ -84,7 +84,7 @@ public class ExchangeView {
 
     public void modifyProposal(User user){
         printExchangingArticles(user);
-        boolean scelta=InputDati.yesOrNo("vuoi modificare uno dei baratti?");
+        boolean scelta=InputDati.yesOrNo("vuoi accedere a uno dei baratti?");
         if(scelta){
             askUpdateProposal(user);
         }
@@ -100,11 +100,17 @@ public class ExchangeView {
         String proposedWhere;
         LocalDateTime proposedWhen;
         do {
-           index = InputDati.leggiInteroConMinimo("inserisci il baratto da selezionare da selezionare:", 1) - 1;
+           index = InputDati.leggiInteroConMinimo("inserisci il baratto da selezionare:", 1) - 1;
         }while(index > sizeOfExchanges);
-        proposedWhere = askProposedWhere(luoghi);
-        proposedWhen = askProposedWhen(timeIntervals);
-        exchangeController.updateProposal(proposedWhere, proposedWhen, user, index);
+        boolean scelta = InputDati.yesOrNo("vuoi accettare il luogo/tempo del baratto?");
+        if(scelta){
+            exchangeController.acceptProposal(index,user);
+        }
+        else {
+            proposedWhere = askProposedWhere(luoghi);
+            proposedWhen = askProposedWhen(timeIntervals);
+            exchangeController.updateProposal(proposedWhere, proposedWhen, user, index);
+        }
     }
 
     private String askProposedWhere(Set<String> luoghi){
