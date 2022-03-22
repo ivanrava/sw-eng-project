@@ -106,4 +106,8 @@ public class Exchange {
     public boolean areOnlyPaired() {
         return articleWanted.getState().equals(ArticleState.OFFERTA_SELEZIONATA) && articleProposed.getState().equals(ArticleState.OFFERTA_ACCOPPIATA);
     }
+
+    public User getTo() {
+        return to;
+    }
 }
