@@ -82,9 +82,9 @@ public class ExchangeView {
         exchangeController.getExchanges(user).forEach(System.out::println);
     }
 
-    public void modifyProposal(User user){
+    public void AskmodifyProposal(User user){
         printExchangingArticles(user);
-        boolean scelta=InputDati.yesOrNo("vuoi accedere a uno dei baratti?");
+        boolean scelta=InputDati.yesOrNo("vuoi accedere a uno dei baratti(per accettare/modificare appuntamento)?");
         if(scelta){
             askUpdateProposal(user);
         }
@@ -100,16 +100,22 @@ public class ExchangeView {
         String proposedWhere;
         LocalDateTime proposedWhen;
         do {
-           index = InputDati.leggiInteroConMinimo("inserisci il baratto da selezionare:", 1) - 1;
+           index = InputDati.leggiInteroConMinimo("inserisci il numero del baratto da selezionare:", 1) - 1;
         }while(index > sizeOfExchanges);
-        boolean scelta = InputDati.yesOrNo("vuoi accettare il luogo/tempo del baratto?");
-        if(scelta){
-            exchangeController.acceptProposal(index,user);
+        User toUser = exchangeController.getToUser(user,index);
+        if(toUser.equals(user)) {
+            boolean scelta = InputDati.yesOrNo("vuoi accettare il luogo/tempo del baratto?");
+            if (scelta) {
+                exchangeController.acceptProposal(index, user);
+            } else {
+                proposedWhere = askProposedWhere(luoghi);
+                proposedWhen = askProposedWhen(timeIntervals);
+                exchangeController.updateProposal(proposedWhere, proposedWhen, user, index);
+            }
         }
-        else {
-            proposedWhere = askProposedWhere(luoghi);
-            proposedWhen = askProposedWhen(timeIntervals);
-            exchangeController.updateProposal(proposedWhere, proposedWhen, user, index);
+        else{
+            System.out.println("devi aspettare la risposta dell'altro user...");
+            return;
         }
     }
 

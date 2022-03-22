@@ -66,6 +66,13 @@ public class ExchangeController {
         exchangeToSet.updateProposal(proposedWhere, proposedWhen);
     }
 
+    public User getToUser(User user, int indexOfExchange){
+        List<Exchange> exchangeUserList = getExchangesByUser(user);
+        Exchange exchange = exchangeUserList.get(indexOfExchange);
+        return exchange.getTo();
+    }
+
+
     public void acceptProposal(int indexOfExchange, User user){
         List<Exchange> exchangeUserList = getExchangesByUser(user);
         Exchange exchangeAccepted = exchangeUserList.get(indexOfExchange);
