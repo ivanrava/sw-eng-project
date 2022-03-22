@@ -103,7 +103,7 @@ public class ExchangeView {
         do {
            index = InputDati.leggiInteroConMinimo("inserisci il numero del baratto da selezionare:", 1) - 1;
         }while(index > sizeOfExchanges);
-        User toUser = exchangeController.getToUser(user,index);
+        User toUser = exchangeController.getToUser(user,index); //ricavo destinatario del momento
         if(toUser.equals(user)) {
             boolean scelta = InputDati.yesOrNo("vuoi accettare il luogo/tempo del baratto?");
             if (scelta) {
