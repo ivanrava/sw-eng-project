@@ -7,6 +7,7 @@ import it.unibs.ing.ingsw.config.ConfigController;
 import it.unibs.ing.ingsw.config.TimeInterval;
 import it.unibs.ing.ingsw.io.Saves;
 
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -81,7 +82,17 @@ public class ExchangeView {
         exchangeController.getExchanges(user).forEach(System.out::println);
     }
 
-    private void printUpdateProposal(User user){  //FIXME
+    public void modifyProposal(User user){
+        printExchangingArticles(user);
+        boolean scelta=InputDati.yesOrNo("vuoi modificare uno dei baratti?");
+        if(scelta){
+            askUpdateProposal(user);
+        }
+        else return;
+    }
+
+
+    private void askUpdateProposal(User user){  //FIXME
         int sizeOfExchanges = exchangeController.getExchanges(user).size();
         int index;
         Set<String> luoghi = configController.getLuoghi();
@@ -89,7 +100,7 @@ public class ExchangeView {
         String proposedWhere;
         LocalDateTime proposedWhen;
         do {
-           index = InputDati.leggiInteroConMinimo("inserisci indice scambio da selezionare:", 1) - 1;
+           index = InputDati.leggiInteroConMinimo("inserisci il baratto da selezionare da selezionare:", 1) - 1;
         }while(index > sizeOfExchanges);
         proposedWhere = askProposedWhere(luoghi);
         proposedWhen = askProposedWhen(timeIntervals);
@@ -107,24 +118,48 @@ public class ExchangeView {
     }
 
     private LocalDateTime askProposedWhen(Set<TimeInterval> timeIntervals){ //FIXME
-        LocalDateTime proposedWhen ;
-        LocalTime proposedHourAndMinute;
+        LocalTime proposedHourAndMinute = askHourAndMinute(timeIntervals);
+        LocalDate proposedDayMonthYear = askDayMonthYear();
+        LocalDateTime proposedWhen =  LocalDateTime.of(proposedDayMonthYear.getYear(), proposedDayMonthYear.getMonth(),proposedDayMonthYear.getDayOfMonth(),proposedHourAndMinute.getHour(),proposedHourAndMinute.getMinute());
+        return proposedWhen;
+    }
+
+    private LocalDate askDayMonthYear(){
+        LocalDate proposedDayMonthYear;
+        int year;
+        int month;
+        int day;
+        DayOfWeek dayOfWeek;
+        do {
+            year = InputDati.leggiIntero("inserisci anno:", 2022, 2030);
+            month = InputDati.leggiIntero("inserisci numero mese:", 1, 12);
+            day = InputDati.leggiIntero("inserisci giorno del mese:", 1, 31); //TODO implementare tutti i controlli
+            proposedDayMonthYear = LocalDate.of(year,month,day);
+            dayOfWeek=proposedDayMonthYear.getDayOfWeek();
+            if(!configController.getDays().contains(dayOfWeek)){
+                System.out.println("giorno della settimana non esistente");
+            }
+        }while(!configController.getDays().contains(dayOfWeek));
+        return proposedDayMonthYear;
+    }
+
+    private LocalTime askHourAndMinute(Set<TimeInterval> timeIntervals){
         int hour;
         int minute;
-        boolean correct = false;
+        LocalTime proposedHourAndMinute;
+        boolean correct=false;
         do {
             hour = InputDati.leggiIntero("inserisci ora:", 0, 23);
             minute = InputDati.leggiIntero("inserisci minuto:", 0, 60);
             proposedHourAndMinute = LocalTime.of(hour, minute);
-            for (TimeInterval localTime : configController.getTimeIntervals()) {
-                correct = localTime.contains(proposedHourAndMinute);
+            for (TimeInterval timeInterval : timeIntervals) {
+                if(timeInterval.contains(proposedHourAndMinute)) correct = true;
+            }
+            if(!correct){
+                System.out.println("luogo non esistente!");
             }
         }while(!correct);
-        month = ... //inserimento mese
-        year = ... //inserimento anno
-        day  = ... //inserimento giorno
-        proposedWhen =  LocalDateTime.of(year,month,day,hour,minute); //FIXME cambiare tipo?!
-        return proposedWhen;
+        return proposedHourAndMinute;
     }
 
 
