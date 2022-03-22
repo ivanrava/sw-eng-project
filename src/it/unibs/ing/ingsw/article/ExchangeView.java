@@ -61,6 +61,7 @@ public class ExchangeView {
             switch (scelta) {
                 case 1 -> printProposedExchanges(user);
                 case 2 -> printExchangingArticles(user);
+                case 3 -> printProposal(user);
             }
         }while (scelta != 0);
     }
@@ -82,7 +83,7 @@ public class ExchangeView {
         exchangeController.getExchanges(user).forEach(System.out::println);
     }
 
-    public void AskmodifyProposal(User user){
+    private void printProposal(User user){
         printExchangingArticles(user);
         boolean scelta=InputDati.yesOrNo("vuoi accedere a uno dei baratti(per accettare/modificare appuntamento)?");
         if(scelta){
