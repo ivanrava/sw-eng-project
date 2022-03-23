@@ -11,6 +11,9 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 public class ExchangeView {
@@ -61,7 +64,7 @@ public class ExchangeView {
      * @param user L'utente di cui visualizzare i baratti proposti
      */
     private void printProposedExchanges(User user) {
-        exchangeController.getProposals(user).forEach(System.out::println);
+        exchangeController.getProposalsString(user).forEach(System.out::println);
     }
 
 
@@ -71,6 +74,22 @@ public class ExchangeView {
      */
     private void printExchangingArticles(User user) {
         exchangeController.getExchanges(user).forEach(System.out::println);
+    }
+
+    public Exchange selectExchange(User user) {
+        List<Exchange> proposals = exchangeController.getProposals(user);
+        Map<Integer, Exchange> numberedProposals = listToNumberedList(proposals);
+        System.out.println(numberedProposals);
+        int scelta = InputDati.leggiIntero("Seleziona baratto", 1, numberedProposals.size()+1);
+        return numberedProposals.get(scelta);
+    }
+
+    public Map<Integer, Exchange> listToNumberedList(List<Exchange> list) {
+        Map<Integer, Exchange> numberedList = new HashMap<>();
+        for (Exchange element : list){
+            numberedList.put(numberedList.size()+1, element);
+        }
+        return numberedList;
     }
 
     private void printProposal(User user){

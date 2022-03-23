@@ -20,11 +20,18 @@ public class ExchangeController {
      * @param user L'utente di cui ritornare gli articoli "in scambio"
      * @return La lista delle rappresentazioni degli articoli "in scambio" per quell'utente
      */
-    public List<String> getExchanges(User user) {
+    public List<String> getExchangesString(User user) {
         return exchangeList.stream()
                 .filter(exchange -> exchange.concerns(user))
                 .filter(Exchange::areExchanging)
                 .map(Exchange::toString)
+                .toList();
+    }
+
+    public List<Exchange> getExchanges(User user) {
+        return exchangeList.stream()
+                .filter(exchange -> exchange.concerns(user))
+                .filter(Exchange::areExchanging)
                 .toList();
     }
 
@@ -33,11 +40,18 @@ public class ExchangeController {
      * @param user L'utente di cui ritornare gli articoli "accoppiati / scambiati"
      * @return La lista delle rappresentazioni degli articoli "accoppiati / scambiati" per quell'utente
      */
-    public List<String> getProposals(User user) {
+    public List<String> getProposalsString(User user) {
         return exchangeList.stream()
                 .filter(exchange -> exchange.concerns(user))
                 .filter(Exchange::areOnlyPaired)
                 .map(Exchange::toString)
+                .toList();
+    }
+
+    public List<Exchange> getProposals(User user) {
+        return exchangeList.stream()
+                .filter(exchange -> exchange.concerns(user))
+                .filter(Exchange::areOnlyPaired)
                 .toList();
     }
 
