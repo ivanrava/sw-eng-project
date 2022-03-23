@@ -79,8 +79,9 @@ public class ExchangeView {
     public Exchange selectExchange(User user) {
         List<Exchange> proposals = exchangeController.getProposals(user);
         Map<Integer, Exchange> numberedProposals = listToNumberedList(proposals);
+        //TODO: migliorare toString
         System.out.println(numberedProposals);
-        int scelta = InputDati.leggiIntero("Seleziona baratto", 1, numberedProposals.size()+1);
+        int scelta = InputDati.leggiIntero("Seleziona baratto: ", 1, numberedProposals.size()+1);
         return numberedProposals.get(scelta);
     }
 
