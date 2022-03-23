@@ -14,7 +14,7 @@ import java.util.Map;
 public class ArticleController {
     private static final String ASSERTION_DIFFERENT_FIELDS = "I campi della categoria e i campi passati non sono gli stessi!";
     public static final String ASSERTION_ARTICLE_UNEXISTANT = "Non esiste questo articolo!";
-    private final Map<Integer, Article> articles;
+    public final Map<Integer, Article> articles;
     private final UserController userController;
     private final CategoryController categoryController;
 
@@ -72,14 +72,18 @@ public class ArticleController {
      */
     public void addArticle(String username, String rootCategoryName, String leafCategoryName, ArticleState articleState, Map<String, String> fieldValues) {
         User user = userController.getUserByUsername(username);
-
         Category leafCategory = categoryController.searchTree(rootCategoryName, leafCategoryName);
         assert fieldValues.keySet().equals(leafCategory.getFields()) : ASSERTION_DIFFERENT_FIELDS;
         Map<String, Field> fields = new HashMap<>(leafCategory.getFields());
+        System.out.println(articles);
+
         for (String fieldName: fields.keySet()) {
             fields.get(fieldName).setValue(fieldValues.get(fieldName));
         }
+
+        System.out.println(articles);
         articles.put(articles.size()+1, new Article(articles.size()+1, user, leafCategory, articleState, fields));
+        System.out.println(articles);
     }
 
     /**
