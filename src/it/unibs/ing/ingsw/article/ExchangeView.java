@@ -36,17 +36,6 @@ public class ExchangeView {
      * @param user Utente che la esegue
      */
     public void execute(User user) {
-        /*
-        HashMap<Integer, MenuOption> menu = new HashMap<>();
-
-        if (exchangeController.hasOpenArticles(user))
-            menu.put(menu.size()+1, new MenuOption("Proponi un baratto", () -> proposeExchange()));
-        if (exchangeController.hasSelectedArticles(user))
-            menu.put(menu.size()+1, new MenuOption("Accetta le offerte di baratto", () -> acceptExchangeOffers()));
-        if (exchangeController.hasExchangingArticles(user))
-            menu.put(menu.size()+1, new MenuOption("Conferma i baratti", () -> acceptExchanges()));
-         */
-
         MyMenu mainMenu = new MyMenu(MENU_TITLE, VOCI);
 
         int scelta;
