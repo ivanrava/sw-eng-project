@@ -104,21 +104,17 @@ public class ExchangeView {
 
 
     private void ModifyAppointment(User user){
-        printExchangingArticles(user);
         boolean scelta=InputDati.yesOrNo("vuoi accedere a uno dei baratti(per accettare/modificare appuntamento)?");
         if(scelta){
             askUpdateProposal(user);
         }
     }
 
-
     private void askUpdateProposal(User user){  //FIXME
         Set<String> luoghi = configController.getLuoghi();
         Set<TimeInterval> timeIntervals = configController.getTimeIntervals();
-        String proposedWhere;
-        LocalDateTime proposedWhen;
         Exchange exchange = selectExchange(user);
-        if(exchange == null){
+        if(exchange == null){  //nel caso in cui non ci siano scambi disponibili per l'utente
             return;
         }
         User toUser = exchangeController.getToUser(exchange); //ricavo destinatario del momento
@@ -127,14 +123,18 @@ public class ExchangeView {
             if (scelta) {
                 exchangeController.acceptProposal(exchange);
             } else {
-                proposedWhere = askProposedWhere(luoghi);
-                proposedWhen = askProposedWhen(timeIntervals);
-                exchangeController.updateProposal(proposedWhere, proposedWhen, exchange);
+                updateProposal(luoghi,timeIntervals,exchange);
             }
         }
         else{
             System.out.println("devi aspettare la risposta dell'altro user...");
         }
+    }
+
+    private void updateProposal(Set<String> luoghi, Set<TimeInterval> timeIntervals, Exchange exchange){
+        String proposedWhere = askProposedWhere(luoghi);
+        LocalDateTime proposedWhen = askProposedWhen(timeIntervals);
+        exchangeController.updateProposal(proposedWhere, proposedWhen, exchange);
     }
 
     private String askProposedWhere(Set<String> luoghi){
