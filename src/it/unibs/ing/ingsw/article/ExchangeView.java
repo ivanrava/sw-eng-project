@@ -23,6 +23,7 @@ public class ExchangeView {
     public static final String[] VOCI = {
             "Mostra i baratti che ti sono stati proposti",
             "Mostra i tuoi articoli in scambio (e ultime risposte)",
+            "accetta/modifica luogo/tempo di baratto"
     };
 
     public ExchangeView(Saves saves) {
@@ -54,7 +55,7 @@ public class ExchangeView {
             switch (scelta) {
                 case 1 -> printProposedExchanges(user);
                 case 2 -> printExchangingArticles(user);
-                case 3 -> printProposal(user);
+                case 3 -> ModifyAppointment(user);
             }
         }while (scelta != 0);
     }
@@ -97,12 +98,12 @@ public class ExchangeView {
         List<Exchange> proposals = exchangeController.getExchangesByUser(user);
         Map<Integer, Exchange> numberedExchanges = listToNumberedList(proposals);
         System.out.println(numberedExchanges);
-        int scelta = InputDati.leggiIntero("Seleziona baratto", 1, numberedExchanges.size()+1);
+        int scelta = InputDati.leggiIntero("Seleziona baratto:", 1, numberedExchanges.size());
         return numberedExchanges.get(scelta);
     }
 
 
-    private void printProposal(User user){
+    private void ModifyAppointment(User user){
         printExchangingArticles(user);
         boolean scelta=InputDati.yesOrNo("vuoi accedere a uno dei baratti(per accettare/modificare appuntamento)?");
         if(scelta){
