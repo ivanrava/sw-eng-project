@@ -79,7 +79,10 @@ public class ExchangeController {
         exchange.updateProposal(proposedWhere, proposedWhen);
     }
 
-    public User getToUser(Exchange exchange){ return exchange.getTo(); }
+    public User getToUser(Exchange exchange){
+        assert exchange.getTo() != null : "lo scambio in corso deve sempre avere un destinatario";
+        return exchange.getTo();
+    }
 
     public void acceptProposal(Exchange exchange){ exchange.acceptExchange(); }
 }
