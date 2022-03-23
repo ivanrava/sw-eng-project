@@ -68,28 +68,18 @@ public class ExchangeController {
         exchangeList.add(new Exchange(proposed, wanted));
     }
 
-    private List<Exchange> getExchangesByUser (User user){  //FIXME
-        return  (List<Exchange>) exchangeList.stream()
+    public List<Exchange> getExchangesByUser (User user){
+        return exchangeList.stream()
                 .filter(exchange -> exchange.concerns(user))
-                .filter(Exchange::areExchanging);
+                .filter(Exchange::areExchanging)
+                .toList();
     }
 
-    public void updateProposal(String proposedWhere, LocalDateTime proposedWhen, User user, int indexOfExchange){ //FIXME indexOfExchange decidere come passare la selezione del baratto
-        List<Exchange> exchangeUserList = getExchangesByUser(user);
-        Exchange exchangeToSet = exchangeUserList.get(indexOfExchange);
-        exchangeToSet.updateProposal(proposedWhere, proposedWhen);
+    public void updateProposal(String proposedWhere, LocalDateTime proposedWhen, Exchange exchange){
+        exchange.updateProposal(proposedWhere, proposedWhen);
     }
 
-    public User getToUser(User user, int indexOfExchange){
-        List<Exchange> exchangeUserList = getExchangesByUser(user);
-        Exchange exchange = exchangeUserList.get(indexOfExchange);
-        return exchange.getTo();
-    }
+    public User getToUser(Exchange exchange){ return exchange.getTo(); }
 
-
-    public void acceptProposal(int indexOfExchange, User user){
-        List<Exchange> exchangeUserList = getExchangesByUser(user);
-        Exchange exchangeAccepted = exchangeUserList.get(indexOfExchange);
-        exchangeAccepted.acceptExchange();
-    }
+    public void acceptProposal(Exchange exchange){ exchange.acceptExchange(); }
 }

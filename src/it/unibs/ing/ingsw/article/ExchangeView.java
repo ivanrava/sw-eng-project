@@ -76,7 +76,7 @@ public class ExchangeView {
         exchangeController.getExchanges(user).forEach(System.out::println);
     }
 
-    public Exchange selectExchange(User user) {
+    public Exchange selectProposal(User user) {
         List<Exchange> proposals = exchangeController.getProposals(user);
         Map<Integer, Exchange> numberedProposals = listToNumberedList(proposals);
         System.out.println(numberedProposals);
@@ -92,6 +92,15 @@ public class ExchangeView {
         return numberedList;
     }
 
+    public Exchange selectExchange(User user){
+        List<Exchange> proposals = exchangeController.getExchangesByUser(user);
+        Map<Integer, Exchange> numberedExchanges = listToNumberedList(proposals);
+        System.out.println(numberedExchanges);
+        int scelta = InputDati.leggiIntero("Seleziona baratto", 1, numberedExchanges.size()+1);
+        return numberedExchanges.get(scelta);
+    }
+
+
     private void printProposal(User user){
         printExchangingArticles(user);
         boolean scelta=InputDati.yesOrNo("vuoi accedere a uno dei baratti(per accettare/modificare appuntamento)?");
@@ -102,24 +111,20 @@ public class ExchangeView {
 
 
     private void askUpdateProposal(User user){  //FIXME
-        int sizeOfExchanges = exchangeController.getExchanges(user).size();
-        int index;
         Set<String> luoghi = configController.getLuoghi();
         Set<TimeInterval> timeIntervals = configController.getTimeIntervals();
         String proposedWhere;
         LocalDateTime proposedWhen;
-        do {
-           index = InputDati.leggiInteroConMinimo("inserisci il numero del baratto da selezionare:", 1) - 1;
-        }while(index > sizeOfExchanges);
-        User toUser = exchangeController.getToUser(user,index); //ricavo destinatario del momento
+        Exchange exchange = selectExchange(user);
+        User toUser = exchangeController.getToUser(exchange); //ricavo destinatario del momento
         if(toUser.equals(user)) {
             boolean scelta = InputDati.yesOrNo("vuoi accettare il luogo/tempo del baratto?");
             if (scelta) {
-                exchangeController.acceptProposal(index, user);
+                exchangeController.acceptProposal(exchange);
             } else {
                 proposedWhere = askProposedWhere(luoghi);
                 proposedWhen = askProposedWhen(timeIntervals);
-                exchangeController.updateProposal(proposedWhere, proposedWhen, user, index);
+                exchangeController.updateProposal(proposedWhere, proposedWhen, exchange);
             }
         }
         else{
@@ -140,7 +145,7 @@ public class ExchangeView {
     private LocalDateTime askProposedWhen(Set<TimeInterval> timeIntervals){ //FIXME
         LocalTime proposedHourAndMinute = askHourAndMinute(timeIntervals);
         LocalDate proposedDayMonthYear = askDayMonthYear();
-        LocalDateTime proposedWhen =  LocalDateTime.of(proposedDayMonthYear.getYear(), proposedDayMonthYear.getMonth(),proposedDayMonthYear.getDayOfMonth(),proposedHourAndMinute.getHour(),proposedHourAndMinute.getMinute());
+        LocalDateTime proposedWhen =  LocalDateTime.of(proposedDayMonthYear.getYear(), proposedDayMonthYear.getMonth(), proposedDayMonthYear.getDayOfMonth(),proposedHourAndMinute.getHour(), proposedHourAndMinute.getMinute());
         return proposedWhen;
     }
 
