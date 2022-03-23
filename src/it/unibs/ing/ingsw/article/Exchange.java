@@ -31,7 +31,7 @@ public class Exchange {
     /**
      * Accetta l'offerta, da decidere dove e quando
      */
-    public void acceptOffer() {
+    public void acceptProposal() {
         articleProposed.setState(ArticleState.OFFERTA_SCAMBIO);
         articleWanted.setState(ArticleState.OFFERTA_SCAMBIO);
         whenLastEvent = LocalDate.now();
@@ -107,7 +107,7 @@ public class Exchange {
         return articleWanted.getState().equals(ArticleState.OFFERTA_SELEZIONATA) && articleProposed.getState().equals(ArticleState.OFFERTA_ACCOPPIATA);
     }
 
-    public User getTo() {
-        return to;
+    public boolean awaitsAnswerFrom(User user) {
+        return to.equals(user);
     }
 }
