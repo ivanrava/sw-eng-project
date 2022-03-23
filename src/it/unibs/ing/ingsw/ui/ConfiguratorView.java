@@ -11,7 +11,7 @@ public class ConfiguratorView {
     private static final String MENU_TITLE = "Interfaccia di amministrazione";
     private static final String MANAGE_CATEGORIES = "Gestisci categorie";
     private static final String MANAGE_CONFIG = "Gestisci configurazione generale";
-    public static final String SEE_LEAF_OFFERS = "Mostra le offerte per una categoria foglia";
+    private static final String SEE_LEAF_OFFERS = "Mostra le offerte per una categoria foglia";
     private final CategoryView categoryView;
     private final ConfigView configView;
     private final ArticleView articleView;

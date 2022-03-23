@@ -68,7 +68,6 @@ public class ExchangeView {
         }
         Article articleWanted = selectOptionFromCollection(availableArticlesForExchange);
 
-        // TODO: refactor con ArticleView
         exchangeController.startExchange(articleProposed.getId(), articleWanted.getId());
     }
 
@@ -221,7 +220,7 @@ public class ExchangeView {
             proposedTime = LocalTime.of(hour, minute);
             if(!configController.isValidTime(proposedTime)){
                 System.out.println("Orario non ammesso dall'applicazione :(");
-                // TODO: stampa intervalli orari :P
+                configController.getTimeIntervals().forEach(timeInterval -> System.out.println(timeInterval.allowedTimes()));
             }
         } while(!configController.isValidTime(proposedTime));
         return proposedTime;
