@@ -2,14 +2,13 @@ package it.unibs.ing.ingsw.article;
 
 import it.unibs.ing.ingsw.auth.User;
 import it.unibs.ing.ingsw.category.Category;
-import it.unibs.ing.ingsw.category.Field;
 
 import java.io.Serializable;
 import java.util.Map;
 
 public class Article implements Serializable {
     private final Category category;
-    private final Map<String, Field> fields;
+    private final Map<String, String> fields;
     private ArticleState state;
     private final User owner;
     private final int id;
@@ -22,7 +21,7 @@ public class Article implements Serializable {
      * @param articleState Stato iniziale
      * @param fields Campi della categoria, idealmente valorizzati
      */
-    public Article(int id, User owner, Category leafCategory, ArticleState articleState, Map<String, Field> fields) {
+    public Article(int id, User owner, Category leafCategory, ArticleState articleState, Map<String, String> fields) {
         this.id = id;
         this.owner = owner;
         this.category = leafCategory;
@@ -46,8 +45,8 @@ public class Article implements Serializable {
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append(String.format("%d - %s:%s\n", id, category.getName(), state));
-        for (Field field: fields.values()) {
-            sb.append(String.format("\t%s=%s\n", field.getName(), field.getValue()));
+        for (Map.Entry<String, String> field: fields.entrySet()) {
+            sb.append(String.format("\t%s=%s\n", field.getKey(), field.getValue()));
         }
         return sb.toString();
     }
