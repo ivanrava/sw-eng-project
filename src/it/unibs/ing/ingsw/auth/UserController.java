@@ -1,5 +1,6 @@
 package it.unibs.ing.ingsw.auth;
 
+import it.unibs.ing.ingsw.config.ConfigController;
 import it.unibs.ing.ingsw.io.Saves;
 
 import java.util.Map;
@@ -8,12 +9,14 @@ public class UserController {
     public static final String ASSERTION_REGISTER_DEFAULT_CREDENTIALS = "Si sta registrando un utente con credenziali di default!";
     public static final String ASSERTION_USERNAME_DUPLICATED = "Lo username non è univoco!";
     public static final String ASSERTION_USER_NONEXISTANT = "L'utente non esiste";
+    private final ConfigController configController;
     private final Map<String, User> users;
     private final Saves saves;
 
     public UserController(Saves saves) {
         this.saves = saves;
         users = saves.getUsers();
+        configController = new ConfigController(saves);
     }
 
     /**
@@ -92,6 +95,6 @@ public class UserController {
      * @return 'true' se esistono, 'false' altrimenti
      */
     public boolean existsDefaultCredentials() {
-        return saves.existsConfiguration() || (saves.isConfigured());
+        return saves.existsDefaultCredentials();
     }
 }

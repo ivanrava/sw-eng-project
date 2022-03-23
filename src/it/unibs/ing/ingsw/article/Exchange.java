@@ -2,10 +2,11 @@ package it.unibs.ing.ingsw.article;
 
 import it.unibs.ing.ingsw.auth.User;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-public class Exchange {
+public class Exchange implements Serializable {
     private final Article articleProposed;
     private final Article articleWanted;
     private LocalDate whenLastEvent;

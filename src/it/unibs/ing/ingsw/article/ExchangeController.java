@@ -4,15 +4,15 @@ import it.unibs.ing.ingsw.auth.User;
 import it.unibs.ing.ingsw.io.Saves;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 public class ExchangeController {
-    private final List<Exchange> exchangeList = new ArrayList<>();
+    private final List<Exchange> exchangeList;
     private final ArticleController articleController;
 
     public ExchangeController(Saves saves) {
         articleController = new ArticleController(saves);
+        exchangeList = saves.getExchanges();
     }
 
     /**

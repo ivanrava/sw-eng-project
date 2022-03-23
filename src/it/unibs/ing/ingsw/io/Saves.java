@@ -1,6 +1,7 @@
 package it.unibs.ing.ingsw.io;
 
 import it.unibs.ing.ingsw.article.Article;
+import it.unibs.ing.ingsw.article.Exchange;
 import it.unibs.ing.ingsw.auth.User;
 import it.unibs.ing.ingsw.category.Category;
 import it.unibs.ing.ingsw.config.Config;
@@ -14,6 +15,7 @@ public class Saves {
     private final SaveUsers saveUsers;
     private final SaveHierarchies saveHierarchies;
     private final SaveArticles saveArticles;
+    private final SaveExchanges saveExchanges;
 
     /**
      * costruttore in cui vengono caricati tutti i file
@@ -25,6 +27,7 @@ public class Saves {
         saveUsers = SaveUsers.loadUsers();
         saveHierarchies = SaveHierarchies.loadHierarchies();
         saveArticles = SaveArticles.loadArticles();
+        saveExchanges = SaveExchanges.loadExchanges();
     }
 
     /**
@@ -36,6 +39,7 @@ public class Saves {
         saveUsers.saveUsers();
         saveHierarchies.saveHierarchies();
         saveArticles.saveArticles();
+        saveExchanges.saveExchanges();
     }
 
     public Config getConfig (){ return saveConfig.getConfig(); }
@@ -64,7 +68,7 @@ public class Saves {
      * @return 'true' se esiste file di configurazione, 'false' altrimenti
      */
     public boolean existsConfiguration() {
-        return SaveConfig.exists();
+        return SaveConfig.exists() && saveConfig.isConfigured();
     }
 
     /**
@@ -76,5 +80,13 @@ public class Saves {
 
     public Map<Integer, Article> getArticles() {
         return saveArticles.getArticles();
+    }
+
+    public List<Exchange> getExchanges() {
+        return saveExchanges.getExchanges();
+    }
+
+    public boolean existsDefaultCredentials() {
+        return saveConfig.isConfigured();
     }
 }

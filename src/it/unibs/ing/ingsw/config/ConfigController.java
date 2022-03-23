@@ -14,7 +14,7 @@ public class ConfigController {
     }
 
     public boolean existsDefaultValues(){
-        return saves.existsConfiguration() || saves.getConfig().isConfigured();
+        return saves.existsConfiguration();
     }
 
     /**
