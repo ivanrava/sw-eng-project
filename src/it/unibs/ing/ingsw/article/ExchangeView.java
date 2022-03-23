@@ -79,14 +79,14 @@ public class ExchangeView {
 
     public Exchange selectProposal(User user) {
         List<Exchange> proposals = exchangeController.getProposals(user);
-        Map<Integer, Exchange> numberedProposals = listToNumberedList(proposals);
+        Map<Integer, Exchange> numberedProposals = listToNumberedMap(proposals);
         //TODO: migliorare toString
         System.out.println(numberedProposals);
         int scelta = InputDati.leggiIntero("Seleziona baratto: ", 1, numberedProposals.size()+1);
         return numberedProposals.get(scelta);
     }
 
-    public Map<Integer, Exchange> listToNumberedList(List<Exchange> list) {
+    public Map<Integer, Exchange> listToNumberedMap(List<Exchange> list) {
         Map<Integer, Exchange> numberedList = new HashMap<>();
         for (Exchange element : list){
             numberedList.put(numberedList.size()+1, element);
@@ -96,7 +96,7 @@ public class ExchangeView {
 
     public Exchange selectExchange(User user){
         List<Exchange> proposals = exchangeController.getExchangesByUser(user);
-        Map<Integer, Exchange> numberedExchanges = listToNumberedList(proposals);
+        Map<Integer, Exchange> numberedExchanges = listToNumberedMap(proposals);
         System.out.println(numberedExchanges);
         int scelta = InputDati.leggiIntero("Seleziona baratto:", 1, numberedExchanges.size());
         return numberedExchanges.get(scelta);
