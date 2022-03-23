@@ -104,10 +104,11 @@ public class ArticleView {
      * @param categoryFields Campi richiesti da un articolo che appartiene a una certa categoria
      * @return Map che ha come chiave il nome del campo, e come valore il valore del campo
      */
+
     private Map<String, String> askFieldValues(Map<String, Field> categoryFields) {
         Map<String, String> fieldValues = new HashMap<>();
+        String value;
         for (Map.Entry<String, Field> entry: categoryFields.entrySet()) {
-            String value;
             if (entry.getValue().isRequired()) {
                 value = InputDati.leggiStringaNonVuota(String.format(ASK_FIELD_OBBLIGATORIO, entry.getKey()));
             } else {
