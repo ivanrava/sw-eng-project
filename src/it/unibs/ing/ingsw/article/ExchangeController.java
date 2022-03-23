@@ -27,6 +27,7 @@ public class ExchangeController {
                 .toList();
     }
 
+
     /**
      * Ritorna i baratti "che aspettano conferma" dall'utente passato
      * @param user Utente che deve confermare la proposta
@@ -34,8 +35,7 @@ public class ExchangeController {
      */
     public List<Exchange> getProposalsForUser(User user) {
         return exchangeList.stream()
-                .filter(exchange -> exchange.awaitsAnswerFrom(user))
-                .filter(Exchange::areOnlyPaired)
+                .filter(exchange -> exchange.awaitsAnswerFrom(user) && exchange.areOnlyPaired())
                 .toList();
     }
 

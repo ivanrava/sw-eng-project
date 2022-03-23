@@ -4,10 +4,8 @@ import it.unibs.ing.ingsw.auth.User;
 import it.unibs.ing.ingsw.auth.UserController;
 import it.unibs.ing.ingsw.category.Category;
 import it.unibs.ing.ingsw.category.CategoryController;
-import it.unibs.ing.ingsw.category.Field;
 import it.unibs.ing.ingsw.io.Saves;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -80,17 +78,8 @@ public class ArticleController {
     public void addArticle(String username, String rootCategoryName, String leafCategoryName, ArticleState articleState, Map<String, String> fieldValues) {
         User user = userController.getUserByUsername(username);
         Category leafCategory = categoryController.searchTree(rootCategoryName, leafCategoryName);
-        assert fieldValues.keySet().equals(leafCategory.getFields()) : ASSERTION_DIFFERENT_FIELDS;
-        Map<String, Field> fields = new HashMap<>(leafCategory.getFields());
-        System.out.println(articles);
-
-        for (String fieldName: fields.keySet()) {
-            fields.get(fieldName).setValue(fieldValues.get(fieldName));
-        }
-
-        System.out.println(articles);
-        articles.put(articles.size()+1, new Article(articles.size()+1, user, leafCategory, articleState, fields));
-        System.out.println(articles);
+        assert fieldValues.keySet().equals(leafCategory.getFields().keySet()) : ASSERTION_DIFFERENT_FIELDS;
+        articles.put(articles.size()+1, new Article(articles.size()+1, user, leafCategory, articleState, fieldValues));
     }
 
     /**

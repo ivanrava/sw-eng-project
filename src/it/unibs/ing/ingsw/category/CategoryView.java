@@ -161,7 +161,7 @@ public class CategoryView {
             } else if (!categoryController.isLeaf(rootName, leafCategoryName)) {
                 System.out.println(ERROR_NOT_LEAF);
             }
-        } while (!categoryController.isLeaf(rootName, leafCategoryName));
+        } while (!categoryController.exists(rootName, leafCategoryName) || !categoryController.isLeaf(rootName, leafCategoryName));
         return leafCategoryName;
     }
 

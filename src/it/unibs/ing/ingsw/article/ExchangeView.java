@@ -76,7 +76,12 @@ public class ExchangeView {
      * @param user Utente di cui chiedere la proposta
      */
     private void manageProposals(User user) {
-        Exchange selectedExchange = selectOptionFromCollection(exchangeController.getProposalsForUser(user));
+        List<Exchange> proposalsForUser = exchangeController.getProposalsForUser(user);
+        if (proposalsForUser.isEmpty()){
+            System.out.println("Non hai proposte da gestire :-(");
+            return;
+        }
+        Exchange selectedExchange = selectOptionFromCollection(proposalsForUser);
         System.out.println(selectedExchange);
         if(InputDati.yesOrNo("Accetti il baratto proposto?")) {
             exchangeController.acceptProposal(selectedExchange);
@@ -92,7 +97,11 @@ public class ExchangeView {
      * @param user L'utente di cui visualizzare gli articoli in scambio / baratti concordati sugli articoli
      */
     private void printExchangingArticles(User user) {
-        exchangeController.getExchangingExchanges(user).forEach(System.out::println);
+        List<Exchange> exchangingExchanges = exchangeController.getExchangingExchanges(user);
+        if (exchangingExchanges.isEmpty()){
+            System.out.println("Non hai articoli in scambio :-(");
+        }
+        exchangingExchanges.forEach(System.out::println);
     }
 
     /**

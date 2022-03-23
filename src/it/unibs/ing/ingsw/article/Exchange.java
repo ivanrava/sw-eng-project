@@ -108,6 +108,6 @@ public class Exchange {
     }
 
     public boolean awaitsAnswerFrom(User user) {
-        return to.equals(user);
+        return to.getUsername().equals(user.getUsername());
     }
 }
