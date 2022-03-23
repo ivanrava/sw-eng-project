@@ -27,16 +27,6 @@ public class ExchangeView {
         configController = new ConfigController(saves);
     }
 
-    private class MenuOption {
-        private String option;
-        private Runnable behavior;
-
-        public MenuOption(String option, Runnable behavior) {
-            this.option = option;
-            this.behavior = behavior;
-        }
-    }
-
     /**
      * Esegue la vista
      * @param user Utente che la esegue
@@ -89,7 +79,6 @@ public class ExchangeView {
         if(scelta){
             askUpdateProposal(user);
         }
-        else return;
     }
 
 
@@ -116,7 +105,6 @@ public class ExchangeView {
         }
         else{
             System.out.println("devi aspettare la risposta dell'altro user...");
-            return;
         }
     }
 
