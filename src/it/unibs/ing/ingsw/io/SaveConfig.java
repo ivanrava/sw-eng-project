@@ -75,4 +75,8 @@ public class SaveConfig implements Serializable {
     public boolean isConfigured() {
         return isConfigured;
     }
+
+    public boolean isFirstConfiguration(){
+        return config.isConfigured();
+    }
 }
