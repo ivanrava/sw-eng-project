@@ -39,6 +39,13 @@ public class ArticleController {
                 .toList();
     }
 
+    public List<Article> getArticlesAvailableForUser(String username) {
+        return articles.values().stream()
+                .filter(article -> article.getOwnerUsername().equals(username))
+                .filter(Article::isAvailable)
+                .toList();
+    }
+
     /**
      * @param categoryRootName Nome della categoria radice
      * @param categoryLeafName Nome della categoria foglia
@@ -113,5 +120,18 @@ public class ArticleController {
     public void updateState(int id, ArticleState newArticleState) {
         assert exists(id) : ASSERTION_ARTICLE_UNEXISTANT;
         articles.get(id).setState(newArticleState);
+    }
+
+    /**
+     * Ritorna gli articoli disponibili per il baratto
+     * @param user Utente che richiede lo scambio
+     * @param category Categoria in cui avviene lo scambio
+     * @return Articoli disponibili per il baratto
+     */
+    public List<Article> getAvailableArticlesForExchange(User user, Category category) {
+        assert category.isLeaf() : "La categoria selezionata per il baratto non è una foglia!";
+        return articles.values().stream()
+                .filter(article -> article.getCategory().equals(category) && article.isAvailable() && !article.getOwner().equals(user))
+                .toList();
     }
 }

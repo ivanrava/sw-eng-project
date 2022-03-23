@@ -16,19 +16,11 @@ public class ExchangeController {
     }
 
     /**
-     * Ritorna una lista di rappresentazioni degli articoli "in scambio" per un utente passato
-     * @param user L'utente di cui ritornare gli articoli "in scambio"
-     * @return La lista delle rappresentazioni degli articoli "in scambio" per quell'utente
+     * Ritorna i baratti "in scambio" che riguardano un certo utente
+     * @param user Utente che li riguarda
+     * @return Baratti "in scambio" per quell'utente
      */
-    public List<String> getExchangesString(User user) {
-        return exchangeList.stream()
-                .filter(exchange -> exchange.concerns(user))
-                .filter(Exchange::areExchanging)
-                .map(Exchange::toString)
-                .toList();
-    }
-
-    public List<Exchange> getExchanges(User user) {
+    public List<Exchange> getExchangingExchanges(User user) {
         return exchangeList.stream()
                 .filter(exchange -> exchange.concerns(user))
                 .filter(Exchange::areExchanging)
@@ -36,21 +28,13 @@ public class ExchangeController {
     }
 
     /**
-     * Ritorna una lista di rappresentazioni dei baratti tra articoli "accoppiati / scambiati"
-     * @param user L'utente di cui ritornare gli articoli "accoppiati / scambiati"
-     * @return La lista delle rappresentazioni degli articoli "accoppiati / scambiati" per quell'utente
+     * Ritorna i baratti "che aspettano conferma" dall'utente passato
+     * @param user Utente che deve confermare la proposta
+     * @return Baratti "che aspettano conferma" dall'utente passato
      */
-    public List<String> getProposalsString(User user) {
+    public List<Exchange> getProposalsForUser(User user) {
         return exchangeList.stream()
-                .filter(exchange -> exchange.concerns(user))
-                .filter(Exchange::areOnlyPaired)
-                .map(Exchange::toString)
-                .toList();
-    }
-
-    public List<Exchange> getProposals(User user) {
-        return exchangeList.stream()
-                .filter(exchange -> exchange.concerns(user))
+                .filter(exchange -> exchange.awaitsAnswerFrom(user))
                 .filter(Exchange::areOnlyPaired)
                 .toList();
     }
@@ -68,21 +52,44 @@ public class ExchangeController {
         exchangeList.add(new Exchange(proposed, wanted));
     }
 
-    public List<Exchange> getExchangesByUser (User user){
+    public void updateAppointment(String proposedWhere, LocalDateTime proposedWhen, Exchange exchange){
+        exchange.updateProposal(proposedWhere, proposedWhen);
+    }
+
+    /**
+     * Accetta il baratto definitivamente (con luogo e tempo)
+     * @param exchange Baratto da accettare
+     */
+    public void acceptExchange(Exchange exchange) {
+        exchange.acceptExchange();
+    }
+
+    /**
+     * Ritorna le proposte di baratto che aspettano una risposta dall'utente dato
+     * @param user Utente dato
+     * @return Proposte di baratto che aspettano l'utente
+     */
+    public List<Exchange> getExchangesAwaitingForAnswer(User user) {
         return exchangeList.stream()
-                .filter(exchange -> exchange.concerns(user))
+                .filter(exchange -> exchange.awaitsAnswerFrom(user))
                 .filter(Exchange::areExchanging)
                 .toList();
     }
 
-    public void updateProposal(String proposedWhere, LocalDateTime proposedWhen, Exchange exchange){
-        exchange.updateProposal(proposedWhere, proposedWhen);
+    /**
+     * Accetta la proposta di baratto
+     * @param exchange Baratto di cui accettare la proposta
+     */
+    public void acceptProposal(Exchange exchange) {
+        exchange.acceptProposal();
     }
 
-    public User getToUser(Exchange exchange){
-        assert exchange.getTo() != null : "lo scambio in corso deve sempre avere un destinatario";
-        return exchange.getTo();
+    /**
+     * Rifiuta la proposta, e annulla il baratto
+     * @param exchange Scambio da rifiutare
+     */
+    public void rejectProposal(Exchange exchange) {
+        exchange.resetOffers();
+        exchangeList.remove(exchange);
     }
-
-    public void acceptProposal(Exchange exchange){ exchange.acceptExchange(); }
 }

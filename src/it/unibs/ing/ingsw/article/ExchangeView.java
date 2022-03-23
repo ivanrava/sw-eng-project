@@ -4,31 +4,28 @@ import it.unibs.ing.fp.mylib.InputDati;
 import it.unibs.ing.fp.mylib.MyMenu;
 import it.unibs.ing.ingsw.auth.User;
 import it.unibs.ing.ingsw.config.ConfigController;
-import it.unibs.ing.ingsw.config.TimeInterval;
 import it.unibs.ing.ingsw.io.Saves;
 
-import java.time.DayOfWeek;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.time.*;
+import java.time.format.TextStyle;
+import java.util.*;
 
 public class ExchangeView {
     private final ExchangeController exchangeController;
     private final ConfigController configController;
+    private final ArticleController articleController;
     public static final String MENU_TITLE = "Gestione scambi";
     public static final String[] VOCI = {
+            "Proponi un baratto",
             "Gestisci i baratti che ti sono stati proposti",
             "Mostra i tuoi articoli in scambio (e ultime risposte)",
-            "accetta/modifica luogo/tempo di baratto"
+            "Accetta/modifica luogo/tempo dei baratti"
     };
 
     public ExchangeView(Saves saves) {
         exchangeController = new ExchangeController(saves);
         configController = new ConfigController(saves);
+        articleController = new ArticleController(saves);
     }
 
     /**
@@ -42,160 +39,191 @@ public class ExchangeView {
         do {
             scelta = mainMenu.scegli();
             switch (scelta) {
-                case 1 -> manageProposals(user);
-                case 2 -> printExchangingArticles(user);
-                case 3 -> ModifyAppointment(user);
+                case 1 -> proposeExchange(user);
+                case 2 -> manageProposals(user);
+                case 3 -> printExchangingArticles(user);
+                case 4 -> manageAppointments(user);
             }
         }while (scelta != 0);
     }
 
-    private void manageProposals(User user) {
-        Exchange selectedProposal = selectProposal(user);
-        System.out.println(selectedProposal);
-        if(InputDati.yesOrNo("Accetti il baratto?")){
-            selectedProposal.acceptOffer();
+    /**
+     * Propone uno scambio, selezionando articolo proprio e altrui di ugual categoria
+     * @param user Utente che propone lo scambio
+     */
+    private void proposeExchange(User user) {
+        // Seleziona la proposta
+        List<Article> articlesAvailable = articleController.getArticlesAvailableForUser(user.getUsername());
+        if (articlesAvailable.isEmpty()) {
+            System.out.println("Non hai articoli da scambiare :(");
+            System.out.println("Aggiungi un articolo prima di proporre uno scambio");
+            return;
         }
-        updateProposal(selectedProposal);
+        Article articleProposed = selectOptionFromCollection(articlesAvailable);
+        // Seleziona l'articolo desiderato
+        List<Article> availableArticlesForExchange = articleController.getAvailableArticlesForExchange(user, articleProposed.getCategory());
+        if (availableArticlesForExchange.isEmpty()) {
+            System.out.println("Non ci sono articoli con cui fare lo scambio :(");
+            return;
+        }
+        Article articleWanted = selectOptionFromCollection(availableArticlesForExchange);
+
+        // TODO: refactor con ArticleView
+        exchangeController.startExchange(articleProposed.getId(), articleWanted.getId());
     }
 
     /**
-     * Stampa i baratti proposti all'utente
-     * @param user L'utente di cui visualizzare i baratti proposti
+     * Chiede all'utente di gestire i baratti che gli sono stati proposti
+     * @param user Utente di cui chiedere la proposta
      */
-    private void printProposedExchanges(User user) {
-        exchangeController.getProposalsString(user).forEach(System.out::println);
+    private void manageProposals(User user) {
+        Exchange selectedExchange = selectOptionFromCollection(exchangeController.getProposalsForUser(user));
+        System.out.println(selectedExchange);
+        if(InputDati.yesOrNo("Accetti il baratto proposto?")) {
+            exchangeController.acceptProposal(selectedExchange);
+            System.out.println("Ok, ora proponi un luogo / ora per lo scambio...");
+            editAppointment(selectedExchange);
+        } else {
+            exchangeController.rejectProposal(selectedExchange);
+        }
     }
-
 
     /**
      * Stampa gli articoli in scambio (e quindi i baratti concordati sugli articoli)
      * @param user L'utente di cui visualizzare gli articoli in scambio / baratti concordati sugli articoli
      */
     private void printExchangingArticles(User user) {
-        exchangeController.getExchanges(user).forEach(System.out::println);
+        exchangeController.getExchangingExchanges(user).forEach(System.out::println);
     }
 
-    public Exchange selectProposal(User user) {
-        List<Exchange> proposals = exchangeController.getProposals(user);
-        Map<Integer, Exchange> numberedProposals = listToNumberedMap(proposals);
-        //TODO: migliorare toString
-        System.out.println(numberedProposals);
-        int scelta = InputDati.leggiIntero("Seleziona proposta di baratto: ", 1, numberedProposals.size()+1);
-        return numberedProposals.get(scelta);
-    }
-
-    public Map<Integer, Exchange> listToNumberedMap(List<Exchange> list) {
-        Map<Integer, Exchange> numberedList = new HashMap<>();
-        for (Exchange element : list){
-            numberedList.put(numberedList.size()+1, element);
+    /**
+     * Stampa un menu di selezione per le opzioni di una collezione
+     * @param collection Collezione da cui selezionare un oggetto
+     * @param <T> Tipo della collezione
+     * @return Opzione scelta della collezione
+     */
+    private <T> T selectOptionFromCollection(Collection<T> collection) {
+        assert !collection.isEmpty() : "Stai creando un menu per una collezione vuota";
+        Map<Integer, T> map = new HashMap<>();
+        for (T element : collection){
+            map.put(map.size()+1, element);
         }
-        return numberedList;
+        map.forEach((id, option) -> System.out.printf("%d -> %s\n", id, option));
+        int id = InputDati.leggiIntero("Seleziona l'opzione desiderata: ", 1, map.size());
+        return map.get(id);
     }
 
-    public Exchange selectExchange(User user){
-        List<Exchange> exchanges = exchangeController.getExchangesByUser(user);
-        Map<Integer, Exchange> numberedExchanges = listToNumberedMap(exchanges);
-        System.out.println(numberedExchanges);
-        int scelta = InputDati.leggiIntero("Seleziona baratto:", 1, numberedExchanges.size()+1);
-        return numberedExchanges.get(scelta);
-    }
-
-
-    private void ModifyAppointment(User user){
-        boolean scelta=InputDati.yesOrNo("vuoi accedere a uno dei baratti(per accettare/modificare appuntamento)?");
-        if(scelta){
-            askUpdateProposal(user);
-        }
-    }
-
-    private void askUpdateProposal(User user){  //FIXME
-        Set<String> luoghi = configController.getLuoghi();
-        Set<TimeInterval> timeIntervals = configController.getTimeIntervals();
-        Exchange exchange = selectExchange(user);
-        if(exchange == null){  //nel caso in cui non ci siano scambi disponibili per l'utente
+    /**
+     * Gestisce gli appuntamenti (dei baratti) di un utente
+     * @param user Utente di cui gestire gli appuntamenti
+     */
+    private void manageAppointments(User user) {
+        List<Exchange> exchangeList = exchangeController.getExchangesAwaitingForAnswer(user);
+        if (exchangeList.isEmpty()) {
+            System.out.println("Non hai nessuna proposta da vagliare :(");
             return;
         }
-        User toUser = exchangeController.getToUser(exchange); //ricavo destinatario del momento
-        if(toUser.equals(user)) {
-            boolean scelta = InputDati.yesOrNo("vuoi accettare il luogo/tempo del baratto?");
-            if (scelta) {
-                exchangeController.acceptProposal(exchange);
-            } else {
-                updateProposal(luoghi,timeIntervals,exchange);
+
+        Exchange exchange = selectOptionFromCollection(exchangeList);
+        askAppointmentConfirmation(exchange);
+    }
+
+    /**
+     * Chiede conferma dell'appuntamento, e in caso contrario lo modifica
+     * @param exchange Scambio per cui chiedere la conferma / modifica dell'appuntamento
+     */
+    private void askAppointmentConfirmation(Exchange exchange) {
+        System.out.println(exchange);
+        if (InputDati.yesOrNo("Vuoi accettare il luogo/tempo del baratto? ")) {
+            exchangeController.acceptExchange(exchange);
+        } else {
+            editAppointment(exchange);
+        }
+    }
+
+    /**
+     * Modifica la proposta fatta
+     * @param exchange Scambio di cui modificare la proposta
+     */
+    private void editAppointment(Exchange exchange) {
+        String proposedWhere = selectWhere();
+        LocalDateTime proposedWhen = askProposedWhen();
+        exchangeController.updateAppointment(proposedWhere, proposedWhen, exchange);
+    }
+
+    /**
+     * Seleziona un luogo valido
+     * @return Luogo valido
+     */
+    private String selectWhere() {
+        return selectOptionFromCollection(configController.getLuoghi());
+    }
+
+    /**
+     * Chiedi l'orario per una proposta
+     * @return Orario proposto
+     */
+    private LocalDateTime askProposedWhen() {
+        LocalTime proposedTime = askTime();
+        LocalDate proposedDate = askDate();
+        return LocalDateTime.of(proposedDate, proposedTime);
+    }
+
+    /**
+     * Chiede una data, validata
+     * @return Data validata
+     */
+    private LocalDate askDate(){
+        LocalDate proposedDate;
+        do {
+            int year = InputDati.leggiIntero("Inserisci l'anno: ", LocalDate.now().getYear(), LocalDate.now().getYear()+1);
+            int month = InputDati.leggiIntero("Inserisci il mese [1-12]: ", 1, 12);
+            int day = askDay(year, month);
+            proposedDate = LocalDate.of(year, month, day);
+            if (!proposedDate.isAfter(LocalDate.now())) {
+                System.out.println("La data è già passata :(");
+            }
+        } while(!proposedDate.isAfter(LocalDate.now()));
+        return proposedDate;
+    }
+
+    /**
+     * Chiede un giorno del mese, ammesso dall'applicazione, dato l'anno e il mese
+     * @param year Anno
+     * @param month Mese
+     * @return Giorno del mese, che ricade in un giorno della settimana ammesso dall'applicazione
+     */
+    private int askDay(int year, int month) {
+        // Costruisce i giorni validi
+        HashMap<Integer, String> validDays = new HashMap<>();
+        YearMonth yearMonth = YearMonth.of(year, month);
+        for (int day = 1; day < yearMonth.lengthOfMonth(); day++) {
+            DayOfWeek dayOfWeek = yearMonth.atDay(day).getDayOfWeek();
+            if (configController.isValidDayOfWeek(dayOfWeek)) {
+                validDays.put(day, dayOfWeek.getDisplayName(TextStyle.FULL, Locale.ITALIAN));
             }
         }
-        else{
-            System.out.println("devi aspettare la risposta dell'altro user...");
-        }
+
+        // Chiedi un giorno valido
+        validDays.forEach((day, dayOfWeek) -> System.out.println("\t"+dayOfWeek+' '+day));
+        return InputDati.leggiInteroDaSet("Inserisci un giorno tra quelli validi: ", validDays.keySet());
     }
 
-    public void updateProposal(Exchange exchange){
-        Set<String> luoghi = configController.getLuoghi();
-        Set<TimeInterval> timeIntervals = configController.getTimeIntervals();
-        updateProposal(luoghi, timeIntervals, exchange);
-    }
-
-    private void updateProposal(Set<String> luoghi, Set<TimeInterval> timeIntervals, Exchange exchange){
-        String proposedWhere = askProposedWhere(luoghi);
-        LocalDateTime proposedWhen = askProposedWhen(timeIntervals);
-        exchangeController.updateProposal(proposedWhere, proposedWhen, exchange);
-    }
-
-    private String askProposedWhere(Set<String> luoghi){
-        String proposedWhere;
+    /**
+     * Chiedi un orario per il baratto
+     * @return Orario per il baratto, validato
+     */
+    private LocalTime askTime(){
+        LocalTime proposedTime;
         do {
-            proposedWhere = InputDati.leggiStringaNonVuota("inserisci nuovo luogo:");
-            if(!luoghi.contains(proposedWhere))
-                System.out.println("devi inserire un luogo che esiste nella configurazione");
-        }while(!luoghi.contains(proposedWhere));
-        return proposedWhere;
-    }
-
-    private LocalDateTime askProposedWhen(Set<TimeInterval> timeIntervals){ //FIXME
-        LocalTime proposedHourAndMinute = askHourAndMinute(timeIntervals);
-        LocalDate proposedDayMonthYear = askDayMonthYear();
-        LocalDateTime proposedWhen =  LocalDateTime.of(proposedDayMonthYear.getYear(), proposedDayMonthYear.getMonth(), proposedDayMonthYear.getDayOfMonth(),proposedHourAndMinute.getHour(), proposedHourAndMinute.getMinute());
-        return proposedWhen;
-    }
-
-    private LocalDate askDayMonthYear(){
-        LocalDate proposedDayMonthYear;
-        int year;
-        int month;
-        int day;
-        DayOfWeek dayOfWeek;
-        do {
-            year = InputDati.leggiIntero("inserisci anno:", 2022, 2030);
-            month = InputDati.leggiIntero("inserisci numero mese:", 1, 12);
-            day = InputDati.leggiIntero("inserisci giorno del mese:", 1, 31); //TODO implementare tutti i controlli
-            proposedDayMonthYear = LocalDate.of(year,month,day);
-            dayOfWeek=proposedDayMonthYear.getDayOfWeek();
-            if(!configController.getDays().contains(dayOfWeek)){
-                System.out.println("giorno della settimana non esistente");
+            int hour = InputDati.leggiIntero("Inserisci ora: ", 0, 23);
+            int minute = InputDati.leggiIntero("Inserisci minuto: ", 0, 59);
+            proposedTime = LocalTime.of(hour, minute);
+            if(!configController.isValidTime(proposedTime)){
+                System.out.println("Orario non ammesso dall'applicazione :(");
+                // TODO: stampa intervalli orari :P
             }
-        }while(!configController.getDays().contains(dayOfWeek));
-        return proposedDayMonthYear;
+        } while(!configController.isValidTime(proposedTime));
+        return proposedTime;
     }
-
-    private LocalTime askHourAndMinute(Set<TimeInterval> timeIntervals){
-        int hour;
-        int minute;
-        LocalTime proposedHourAndMinute;
-        boolean correct=false;
-        do {
-            hour = InputDati.leggiIntero("inserisci ora:", 0, 23);
-            minute = InputDati.leggiIntero("inserisci minuto:", 0, 60);
-            proposedHourAndMinute = LocalTime.of(hour, minute);
-            for (TimeInterval timeInterval : timeIntervals) {
-                if(timeInterval.contains(proposedHourAndMinute)) correct = true;
-            }
-            if(!correct){
-                System.out.println("luogo non esistente!");
-            }
-        }while(!correct);
-        return proposedHourAndMinute;
-    }
-
-
-
 }

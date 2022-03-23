@@ -117,4 +117,16 @@ public class ConfigController {
     public Set<Integer> allowedMinutes() {
         return TimeInterval.allowedMinutes();
     }
+
+    public boolean isValidTime(LocalTime proposedTime) {
+        for (TimeInterval timeInterval : getTimeIntervals()) {
+            if(timeInterval.contains(proposedTime))
+                return true;
+        }
+        return false;
+    }
+
+    public boolean isValidDayOfWeek(DayOfWeek dayOfWeek) {
+        return getDays().contains(dayOfWeek);
+    }
 }

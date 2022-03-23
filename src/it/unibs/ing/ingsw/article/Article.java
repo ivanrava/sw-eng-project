@@ -59,4 +59,12 @@ public class Article implements Serializable {
     public ArticleState getState() {
         return state;
     }
+
+    public boolean isAvailable() {
+        return state == ArticleState.OFFERTA_APERTA;
+    }
+
+    public int getId() {
+        return id;
+    }
 }
