@@ -66,7 +66,7 @@ public class ExchangeView {
         if(InputDati.yesOrNo("Accetti il baratto?")){
             selectedProposal.acceptOffer();
         }
-        //TODO: chiedere dove e quando appuntamento
+        updateProposal(selectedProposal);
     }
 
     /**
@@ -138,6 +138,12 @@ public class ExchangeView {
         else{
             System.out.println("devi aspettare la risposta dell'altro user...");
         }
+    }
+
+    public void updateProposal(Exchange exchange){
+        Set<String> luoghi = configController.getLuoghi();
+        Set<TimeInterval> timeIntervals = configController.getTimeIntervals();
+        updateProposal(luoghi, timeIntervals, exchange);
     }
 
     private void updateProposal(Set<String> luoghi, Set<TimeInterval> timeIntervals, Exchange exchange){
