@@ -68,7 +68,7 @@ public class Saves {
      * @return 'true' se esiste file di configurazione, 'false' altrimenti
      */
     public boolean existsConfiguration() {
-        return SaveConfig.exists() && saveConfig.isConfigured();
+        return SaveConfig.exists() && saveConfig.isConfigured() && saveConfig.isFirstConfiguration();
     }
 
     /**
