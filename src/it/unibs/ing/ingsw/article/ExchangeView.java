@@ -98,7 +98,7 @@ public class ExchangeView {
         List<Exchange> proposals = exchangeController.getExchangesByUser(user);
         Map<Integer, Exchange> numberedExchanges = listToNumberedMap(proposals);
         System.out.println(numberedExchanges);
-        int scelta = InputDati.leggiIntero("Seleziona baratto:", 1, numberedExchanges.size());
+        int scelta = InputDati.leggiIntero("Seleziona baratto:", 1, numberedExchanges.size()+1);
         return numberedExchanges.get(scelta);
     }
 
@@ -118,6 +118,9 @@ public class ExchangeView {
         String proposedWhere;
         LocalDateTime proposedWhen;
         Exchange exchange = selectExchange(user);
+        if(exchange == null){
+            return;
+        }
         User toUser = exchangeController.getToUser(exchange); //ricavo destinatario del momento
         if(toUser.equals(user)) {
             boolean scelta = InputDati.yesOrNo("vuoi accettare il luogo/tempo del baratto?");
