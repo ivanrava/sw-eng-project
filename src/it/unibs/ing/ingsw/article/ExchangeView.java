@@ -136,7 +136,6 @@ public class ExchangeView {
             System.out.println("Non hai nessuna proposta da vagliare :(");
             return;
         }
-
         Exchange exchange = selectOptionFromCollection(exchangeList);
         askAppointmentConfirmation(exchange);
     }
