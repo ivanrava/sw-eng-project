@@ -21,7 +21,7 @@ public class ExchangeView {
     private final ConfigController configController;
     public static final String MENU_TITLE = "Gestione scambi";
     public static final String[] VOCI = {
-            "Mostra i baratti che ti sono stati proposti",
+            "Gestisci i baratti che ti sono stati proposti",
             "Mostra i tuoi articoli in scambio (e ultime risposte)",
             "accetta/modifica luogo/tempo di baratto"
     };
@@ -53,11 +53,20 @@ public class ExchangeView {
         do {
             scelta = mainMenu.scegli();
             switch (scelta) {
-                case 1 -> printProposedExchanges(user);
+                case 1 -> manageProposals(user);
                 case 2 -> printExchangingArticles(user);
                 case 3 -> ModifyAppointment(user);
             }
         }while (scelta != 0);
+    }
+
+    private void manageProposals(User user) {
+        Exchange selectedProposal = selectProposal(user);
+        System.out.println(selectedProposal);
+        if(InputDati.yesOrNo("Accetti il baratto?")){
+            selectedProposal.acceptOffer();
+        }
+        //TODO: chiedere dove e quando appuntamento
     }
 
     /**
