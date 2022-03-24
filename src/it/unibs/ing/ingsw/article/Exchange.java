@@ -5,6 +5,7 @@ import it.unibs.ing.ingsw.auth.User;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.temporal.TemporalUnit;
 
 public class Exchange implements Serializable {
     private final Article articleProposed;
@@ -31,6 +32,18 @@ public class Exchange implements Serializable {
 
     public LocalDate getWhenLastEvent() {
         return whenLastEvent;
+    }
+
+    public boolean isExpired(int daysDeadline, TemporalUnit unit) {
+        return getWhenLastEvent().plus(daysDeadline, unit).isAfter(LocalDate.now());
+    }
+
+    public boolean ifExpiredReset(int deadLine, TemporalUnit unit) {
+        if (isExpired(deadLine, unit)){
+            resetOffers();
+            return true;
+        }
+        return false;
     }
 
     /**

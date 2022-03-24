@@ -4,25 +4,25 @@ import it.unibs.ing.ingsw.auth.User;
 import it.unibs.ing.ingsw.config.ConfigController;
 import it.unibs.ing.ingsw.io.Saves;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
+import java.time.temporal.TemporalUnit;
 import java.util.List;
 
 public class ExchangeController {
     private final List<Exchange> exchangeList;
     private final ArticleController articleController;
-    private final ConfigController configController;
 
     public ExchangeController(Saves saves) {
         articleController = new ArticleController(saves);
-        configController = new ConfigController(saves);
+        ConfigController configController = new ConfigController(saves);
         exchangeList = saves.getExchanges();
+        deleteExpiredExchanges(configController.getDeadLine(), ChronoUnit.DAYS);
     }
 
     //TODO: decidere dove chiamare questa funzione
-    public void deleteExpiredExchanges() {
-        exchangeList.removeIf(exchange -> exchange.getWhenLastEvent().plus(configController.getDeadLine(), ChronoUnit.DAYS).isAfter(LocalDate.now()));
+    public void deleteExpiredExchanges(int deadLine, TemporalUnit unit) {
+        exchangeList.removeIf(exchange -> exchange.ifExpiredReset(deadLine, unit));
     }
 
     /**
