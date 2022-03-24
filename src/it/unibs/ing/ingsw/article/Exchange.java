@@ -29,6 +29,10 @@ public class Exchange implements Serializable {
         this.to = articleWanted.getOwner();
     }
 
+    public LocalDate getWhenLastEvent() {
+        return whenLastEvent;
+    }
+
     /**
      * Accetta l'offerta, da decidere dove e quando
      */

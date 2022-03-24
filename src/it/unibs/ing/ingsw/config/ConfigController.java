@@ -66,6 +66,10 @@ public class ConfigController {
         saves.getConfig().setDeadLine(deadLine);
     }
 
+    public int getDeadLine() {
+        return saves.getConfig().getDeadline();
+    }
+
     public Set<DayOfWeek> getDays() {
         return saves.getConfig().getDays();
     }

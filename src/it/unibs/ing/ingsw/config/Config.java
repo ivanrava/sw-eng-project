@@ -33,6 +33,10 @@ public class Config implements Serializable {
         this.deadline = deadline;
     }
 
+    public int getDeadline() {
+        return deadline;
+    }
+
     public Set<TimeInterval> getTimeIntervals() {
         return timeIntervals;
     }
