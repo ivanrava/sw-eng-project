@@ -8,7 +8,6 @@ import it.unibs.ing.ingsw.category.CategoryView;
 import it.unibs.ing.ingsw.category.Field;
 import it.unibs.ing.ingsw.io.Saves;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -141,11 +140,12 @@ public class ArticleView {
      * @return Stato di un articolo
      */
     private ArticleState askArticleState() {
-        System.out.println(Arrays.toString(ArticleState.values()));
+        System.out.printf("Inserisci il nuovo stato dell'offerta [%s, %s]\n", ArticleState.OFFERTA_APERTA, ArticleState.OFFERTA_RITIRATA);
+
         while (true){
             String state = InputDati.leggiStringaNonVuota(INSERT_ARTICLE_STATE);
-            if (ArticleState.hasState(state)) {
-                return ArticleState.fromString(state);
+            if (ArticleState.changeState(state) != null) {
+                return ArticleState.changeState(state);
             } else {
                 System.out.println("Errore di inserimento");
             }

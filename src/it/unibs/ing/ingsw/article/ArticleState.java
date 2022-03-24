@@ -34,12 +34,15 @@ public enum ArticleState implements Serializable {
         return null;
     }
 
-    /**
-     * @param text stringa che indica uno degli stati
-     * @return 'true' se il text equivale a uno stato esistente, 'false' altrimenti
-     */
-    public static boolean hasState(String text) {
-        return fromString(text) != null;
+    public static ArticleState changeState(String newState) {
+        ArticleState state = fromString(newState);
+        if (state == null){
+            return null;
+        }
+        if (state.equals(OFFERTA_APERTA) || state.equals(OFFERTA_RITIRATA)){
+            return state;
+        }
+        return null;
     }
 
     @Override
