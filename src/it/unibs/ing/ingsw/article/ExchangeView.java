@@ -8,7 +8,6 @@ import it.unibs.ing.ingsw.io.Saves;
 
 import java.time.*;
 import java.time.format.TextStyle;
-import java.time.temporal.ChronoUnit;
 import java.util.*;
 
 public class ExchangeView {
@@ -39,8 +38,8 @@ public class ExchangeView {
             System.out.println("Configurazione inesistente :-(");
             return;
         }
-
-        exchangeController.deleteExpiredExchanges(configController.getDeadLine(), ChronoUnit.DAYS);
+        //controllo sugli scambi in scadenza
+        exchangeController.deleteExpiredExchanges();
         MyMenu mainMenu = new MyMenu(MENU_TITLE, VOCI);
 
         int scelta;
