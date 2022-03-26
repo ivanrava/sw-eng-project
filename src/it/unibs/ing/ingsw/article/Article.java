@@ -59,6 +59,17 @@ public class Article implements Serializable {
         return state;
     }
 
+
+    /**
+     * @return 'true' se lo stato dell'articolo é modificabile dall'utente, altrimenti 'false'
+     */
+    public boolean isEditable(){
+        return state == ArticleState.OFFERTA_APERTA || state == ArticleState.OFFERTA_RITIRATA;
+    }
+
+    /**
+     * @return 'true' se articolo disponibile per uno scambio, altrimenti 'false'
+     */
     public boolean isAvailable() {
         return state == ArticleState.OFFERTA_APERTA;
     }

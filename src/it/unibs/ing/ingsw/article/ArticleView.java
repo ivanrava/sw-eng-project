@@ -75,6 +75,10 @@ public class ArticleView {
         printArticlesList(articleController.getArticlesForUser(user.getUsername()));
     }
 
+    private void printEditableArticles(User user) {
+        printArticlesList(articleController.getArticlesEditableForUser(user.getUsername()));
+    }
+
     /**
      * Stampa lista di articoli di una certa categoria (leaf)
      */
@@ -123,14 +127,14 @@ public class ArticleView {
      * @param user Utente che possiede l'articolo a cui va modificato lo stato
      */
     private void editArticleState(User user) {
-        printUserArticles(user);
+        printEditableArticles(user);
         int id;
         do {
             id = InputDati.leggiInteroConMinimo(INSERT_ID, 0);
-            if (!articleController.exists(id)) {
+            if (!articleController.isEditableArticle(id)) {
                 System.out.println(ERROR_ID_UNEXISTANT);
             }
-        } while (!articleController.exists(id));
+        } while (!articleController.isEditableArticle(id));
         System.out.println(articleController.getArticle(id));
         articleController.updateState(id, askArticleState());
     }
