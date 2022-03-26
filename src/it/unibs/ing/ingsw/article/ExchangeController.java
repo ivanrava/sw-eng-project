@@ -21,7 +21,7 @@ public class ExchangeController {
 
     //TODO: decidere dove chiamare questa funzione
     public void deleteExpiredExchanges() {
-        int deadLine = configController.getDeadLine();
+        int deadLine = configController.getDeadline();
         exchangeList.removeIf(exchange -> exchange.ifExpiredReset(deadLine, ChronoUnit.DAYS));
     }
 

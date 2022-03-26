@@ -25,6 +25,9 @@ public class Field implements Serializable {
         return String.format("(\"%s\", %s)", name, required);
     }
 
+    /**
+     * @return 'true' se il campo è di compilazione obbligatoria, 'false' altrimenti
+     */
     public boolean isRequired() {
         return required;
     }

@@ -29,7 +29,7 @@ public class Config implements Serializable {
         return days;
     }
 
-    public void setDeadLine (int deadline){
+    public void setDeadline(int deadline){
         this.deadline = deadline;
     }
 
@@ -76,14 +76,27 @@ public class Config implements Serializable {
         }
     }
 
+    /**
+     * Aggiunge un luogo in cui fare gli scambi
+     * @param luogo Luogo da aggiungere
+     */
     public void addLuogo(String luogo) {
         luoghi.add(luogo);
     }
 
+    /**
+     * Aggiunge un giorno della settimana in cui fare gli scambi
+     * @param day Giorno della settimana da aggiungere
+     */
     public void addDay(DayOfWeek day) {
         days.add(day);
     }
 
+    /**
+     * Aggiunge un intervallo temporale della giornata in cui fare gli scambi
+     * @param start Orario di inizio
+     * @param stop Orario di fine
+     */
     public void addTimeInterval(LocalTime start, LocalTime stop) {
         timeIntervals.add(new TimeInterval(start, stop));
     }
