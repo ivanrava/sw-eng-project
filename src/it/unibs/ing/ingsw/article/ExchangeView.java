@@ -208,7 +208,7 @@ public class ExchangeView {
      */
     private int askDay(int year, int month) {
         // Costruisce i giorni validi
-        HashMap<Integer, String> validDays = new HashMap<>();
+        Map<Integer, String> validDays = new TreeMap<>();
         YearMonth yearMonth = YearMonth.of(year, month);
         for (int day = 1; day < yearMonth.lengthOfMonth(); day++) {
             DayOfWeek dayOfWeek = yearMonth.atDay(day).getDayOfWeek();
@@ -230,7 +230,7 @@ public class ExchangeView {
         LocalTime proposedTime;
         do {
             int hour = InputDati.leggiIntero("Inserisci ora: ", 0, 23);
-            int minute = InputDati.leggiIntero("Inserisci minuto: ", 0, 59);
+            int minute = InputDati.leggiInteroDaSet("Inserisci minuto: ", configController.allowedMinutes());
             proposedTime = LocalTime.of(hour, minute);
             if(!configController.isValidTime(proposedTime)){
                 System.out.println("Orario non ammesso dall'applicazione :(");

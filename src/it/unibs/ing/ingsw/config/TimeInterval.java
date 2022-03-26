@@ -31,15 +31,15 @@ public class TimeInterval implements Comparable<TimeInterval>, Serializable {
      *
      * Un TimeInterval tra 10:30 e 12:00 ritorna:
      *  10:30 11:00 11:30 12:00
-     * @return Lista di stringhe rappresentanti gli eventi scanditi di mezz'ora in mezz'ora
+     * @return Lista di tempi rappresentanti gli eventi scanditi di mezz'ora in mezz'ora
      */
-    public List<String> allowedTimes() {
-        ArrayList<String> times = new ArrayList<>();
-        times.add(start.toString());
+    public List<LocalTime> allowedTimes() {
+        ArrayList<LocalTime> times = new ArrayList<>();
+        times.add(start);
         LocalTime accumulator = start;
         while(accumulator.isBefore(stop)) {
             accumulator = accumulator.plusMinutes(DELTA_MINUTES);
-            times.add(accumulator.toString());
+            times.add(accumulator);
         }
         return times;
     }
@@ -50,12 +50,12 @@ public class TimeInterval implements Comparable<TimeInterval>, Serializable {
     }
 
     /**
-     * Controlla se l'orario passato è contenuto nell'intervallo temporale in oggetto
+     * Controlla se l'orario passato è ammesso
      * @param check Orario di riferimento
-     * @return 'true' se contenuto, 'false' altrimenti
+     * @return 'true' se ammesso, 'false' altrimenti
      */
-    public boolean contains(LocalTime check) {
-        return check.equals(start) || check.equals(stop) || (check.isAfter(start) && check.isBefore(stop));
+    public boolean isAllowed(LocalTime check) {
+        return allowedTimes().contains(check);
     }
 
     @Override
