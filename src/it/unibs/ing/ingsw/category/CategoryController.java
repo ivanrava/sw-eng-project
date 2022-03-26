@@ -58,11 +58,11 @@ public class CategoryController {
 
     /**
      * Controlla se esiste già una categoria radice con il nome fornito
-     * @param name Nome della categoria radice
+     * @param rootName Nome della categoria radice
      * @return 'true' se il nome è duplicato, 'false' altrimenti
      */
-    public boolean existsRoot(String name) {
-        return hierarchies.get(name) != null;
+    public boolean existsRoot(String rootName) {
+        return exists(rootName, rootName);
     }
 
     /**
@@ -93,11 +93,19 @@ public class CategoryController {
      */
     public Category searchTree(String rootName, String name) {
         assert existsRoot(rootName) : ASSERTION_ROOT_UNEXISTANT;
-        Category root = hierarchies.get(rootName);
-        if (rootName.equals(name)) {
+        Category root = getRootCaseInsensitive(rootName);
+        if (rootName.equalsIgnoreCase(name)) {
             return root;
         }
         return searchTree(root, name);
+    }
+
+    public Category getRootCaseInsensitive(String rootName) {
+        for (Map.Entry<String, Category> entry : hierarchies.entrySet()){
+            if (entry.getKey().equalsIgnoreCase(rootName))
+                return entry.getValue();
+        }
+        return null;
     }
 
     /**
@@ -109,7 +117,7 @@ public class CategoryController {
      */
     private Category searchTree(Category category, String name) {
         for (Map.Entry<String, Category> child : category.getChildren().entrySet()) {
-            if (child.getValue().getName().equals(name)) {
+            if (child.getValue().getName().equalsIgnoreCase(name)) {
                 return child.getValue();
             } else if (!child.getValue().isLeaf()) {
                 return searchTree(child.getValue(), name);
