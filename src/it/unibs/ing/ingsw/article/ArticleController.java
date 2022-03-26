@@ -8,6 +8,7 @@ import it.unibs.ing.ingsw.io.Saves;
 
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Stream;
 
 public class ArticleController {
     private static final String ASSERTION_DIFFERENT_FIELDS = "I campi della categoria e i campi passati non sono gli stessi!";
@@ -26,21 +27,34 @@ public class ArticleController {
         categoryController = new CategoryController(saves);
     }
 
+    private Stream<Article> getStreamArticlesForUser(String username) {
+        return articles.values().stream()
+                .filter(article -> article.getOwnerUsername().equals(username));
+    }
+
     /**
      * Ritorna una lista di articoli appartenenti ad un certo utente
      * @param username Username dell'utente
      * @return Lista di articoli di quell'utente
      */
     public List<Article> getArticlesForUser(String username) {
-        return articles.values().stream()
-                .filter(article -> article.getOwnerUsername().equals(username))
+        return getStreamArticlesForUser(username).toList();
+    }
+
+    /**
+     * Ritorna una lista
+     * @param username nome utente
+     * @return lista degli articoli di un utente disponibili per il baratto
+     */
+    public List<Article> getArticlesAvailableForUser(String username) {
+        return getStreamArticlesForUser(username)
+                .filter(Article::isAvailable)
                 .toList();
     }
 
-    public List<Article> getArticlesAvailableForUser(String username) {
-        return articles.values().stream()
-                .filter(article -> article.getOwnerUsername().equals(username))
-                .filter(Article::isAvailable)
+    public List<Article> getArticlesEditableForUser(String username) {
+        return getStreamArticlesForUser(username)
+                .filter(Article::isEditable)
                 .toList();
     }
 
@@ -89,6 +103,13 @@ public class ArticleController {
      */
     public boolean exists(int id) {
         return articles.containsKey(id);
+    }
+
+    public boolean isEditableArticle(int id) {
+        if (exists(id))
+            return getArticle(id).isEditable();
+        else
+            return false;
     }
 
     /**
