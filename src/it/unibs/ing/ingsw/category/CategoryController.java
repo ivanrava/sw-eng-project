@@ -122,7 +122,6 @@ public class CategoryController {
                 return searchTree(child.getValue(), name);
             }
         }
-        // FIXME: refactor?
         return null;
     }
 

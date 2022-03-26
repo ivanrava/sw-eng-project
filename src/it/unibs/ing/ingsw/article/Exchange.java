@@ -25,7 +25,6 @@ public class Exchange implements Serializable {
         articleProposed.setState(ArticleState.OFFERTA_ACCOPPIATA);
         this.articleWanted = articleWanted;
         articleWanted.setState(ArticleState.OFFERTA_SELEZIONATA);
-        // TODO: check timezone and stuff
         this.whenLastEvent = LocalDate.now();
         this.to = articleWanted.getOwner();
     }

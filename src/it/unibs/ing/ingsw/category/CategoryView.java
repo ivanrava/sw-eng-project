@@ -62,13 +62,10 @@ public class CategoryView {
     public void printHierarchies() {
         //versione solo nomi
         System.out.println(categoryController.allHierarchiesToString());
-        //versione super verbose per testing
-        //System.out.println(categoryController.getHierarchies());
     }
 
     /**
      * Inserisce una nuova categoria radice
-     * FIXME: c'è anche askRootCategoryName(), qualcosa non torna
      */
     private void insertRootCategory() {
         String nome, descrizione;

@@ -19,7 +19,9 @@ public class ExchangeController {
         exchangeList = saves.getExchanges();
     }
 
-    //TODO: decidere dove chiamare questa funzione
+    /**
+     * Cancella gli scambi scaduti
+     */
     public void deleteExpiredExchanges() {
         int deadLine = configController.getDeadline();
         exchangeList.removeIf(exchange -> exchange.ifExpiredReset(deadLine, ChronoUnit.DAYS));
