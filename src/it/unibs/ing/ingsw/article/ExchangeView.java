@@ -33,7 +33,6 @@ public class ExchangeView {
      * @param user Utente che la esegue
      */
     public void execute(User user) {
-        //TODO: da vedere controllo
         if (!configController.existsDefaultValues()){
             System.out.println("Configurazione inesistente :-(");
             return;

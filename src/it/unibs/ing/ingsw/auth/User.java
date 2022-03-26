@@ -35,7 +35,6 @@ public abstract class User implements Serializable {
         return u.equals(username) && pw.equals(password);
     }
 
-    //TODO: pensiamo su
     public boolean equals(User user) {
         return user.getUsername().equals(username);
     }
