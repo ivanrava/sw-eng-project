@@ -56,7 +56,7 @@ public class Config implements Serializable {
      * Informa se la config è già stata configurata
      * @return 'true' se già configurata, 'false' altrimenti
      */
-    public boolean isConfigured() {
+    public boolean isConfiguredImmutableValues() {
         return isConfigured;
     }
 

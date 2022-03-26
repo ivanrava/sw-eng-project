@@ -65,17 +65,12 @@ public class Saves {
     }
 
     /**
-     * @return 'true' se esiste file di configurazione, 'false' altrimenti
+     * @return 'true' se esiste file di configurazione
+     * e i valori di default sono stati impostati (credenziali e valori immutabili della configurazione),
+     * 'false' altrimenti
      */
     public boolean existsConfiguration() {
-        return SaveConfig.exists() && saveConfig.isConfigured() && saveConfig.isFirstConfiguration();
-    }
-
-    /**
-     * @return 'true' se esiste configurazione, 'false' altrimenti
-     */
-    public boolean isConfigured() {
-        return saveConfig.isConfigured();
+        return SaveConfig.exists() && saveConfig.isConfiguredDefaultCredentials() && saveConfig.isConfiguredImmutableValues();
     }
 
     public Map<Integer, Article> getArticles() {
@@ -87,6 +82,6 @@ public class Saves {
     }
 
     public boolean existsDefaultCredentials() {
-        return saveConfig.isConfigured();
+        return saveConfig.isConfiguredDefaultCredentials();
     }
 }
