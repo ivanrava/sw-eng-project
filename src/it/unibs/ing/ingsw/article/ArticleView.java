@@ -52,7 +52,7 @@ public class ArticleView {
         do {
             scelta = mainMenu.scegli();
             switch (scelta) {
-                case 1 -> printUserArticles(user);
+                case 1 -> printArticlesList(articleController.getArticlesForUser(user.getUsername()));
                 case 2 -> printCategoryArticles(user);
                 case 3 -> addArticle(user);
                 case 4 -> editArticleState(user);
@@ -66,18 +66,6 @@ public class ArticleView {
      */
     private void printArticlesList(List<Article> articles) {
         articles.forEach(System.out::println);
-    }
-
-    /**
-     * Stampa lista degli articoli di un certo utente
-     * @param user Utente che possiede articoli
-     */
-    private void printUserArticles(User user) {
-        printArticlesList(articleController.getArticlesForUser(user.getUsername()));
-    }
-
-    private void printEditableArticles(User user) {
-        printArticlesList(articleController.getArticlesEditableForUser(user.getUsername()));
     }
 
     /**
@@ -108,7 +96,6 @@ public class ArticleView {
      * @param categoryFields Campi richiesti da un articolo che appartiene a una certa categoria
      * @return Map che ha come chiave il nome del campo, e come valore il valore del campo
      */
-
     private Map<String, String> askFieldValues(Map<String, Field> categoryFields) {
         Map<String, String> fieldValues = new HashMap<>();
         String value;
@@ -128,7 +115,7 @@ public class ArticleView {
      * @param user Utente che possiede l'articolo a cui va modificato lo stato
      */
     private void editArticleState(User user) {
-        printEditableArticles(user);
+        printArticlesList(articleController.getArticlesEditableForUser(user.getUsername()));
         int id;
         do {
             id = InputDati.leggiInteroConMinimo(INSERT_ID, 0);

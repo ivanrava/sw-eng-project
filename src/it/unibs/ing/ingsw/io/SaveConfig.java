@@ -13,6 +13,11 @@ public class SaveConfig implements Serializable {
     private boolean isConfigured = false;
     private final Config config = new Config("", new HashSet<>(), new TreeSet<>(), new TreeSet<>(), 0);
 
+    /**
+     * Imposta i valori immutabili di configurazione
+     * @param username Username di default
+     * @param password Password di default
+     */
     public void setImmutableValues(String username, String password) {
         if (isConfigured) {
             throw new IllegalArgumentException("I valori obbligatori della Config sono già stati impostati");
@@ -72,10 +77,16 @@ public class SaveConfig implements Serializable {
         }
     }
 
+    /**
+     * @return 'true' se sono configurate le credenziali di default, 'false' altrimenti
+     */
     public boolean isConfiguredDefaultCredentials() {
         return isConfigured;
     }
 
+    /**
+     * @return 'true' se sono configurati i valori immutabili di configurazione (es. piazza), 'false' altrimenti
+     */
     public boolean isConfiguredImmutableValues() {
         return config.isConfiguredImmutableValues();
     }

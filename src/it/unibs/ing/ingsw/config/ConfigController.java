@@ -62,11 +62,11 @@ public class ConfigController {
      * Imposta la scadenza di una proposta di baratto
      * @param deadLine Scadenza, espressa in numero di giorni
      */
-    public void setDeadLine(int deadLine) {
-        saves.getConfig().setDeadLine(deadLine);
+    public void setDeadline(int deadLine) {
+        saves.getConfig().setDeadline(deadLine);
     }
 
-    public int getDeadLine() {
+    public int getDeadline() {
         return saves.getConfig().getDeadline();
     }
 
@@ -85,8 +85,6 @@ public class ConfigController {
     public Set<TimeInterval> getTimeIntervals(){
         return saves.getConfig().getTimeIntervals();
     }
-
-
 
     public boolean exists(DayOfWeek day) {
         return saves.getConfig().getDays().contains(day);
@@ -122,6 +120,11 @@ public class ConfigController {
         return TimeInterval.allowedMinutes();
     }
 
+    /**
+     * Controlla se l'orario passato è valido rispetto agli intervalli temporali dell'applicazione
+     * @param proposedTime Tempo da controllare
+     * @return 'true' se è valido, 'false' altrimenti
+     */
     public boolean isValidTime(LocalTime proposedTime) {
         for (TimeInterval timeInterval : getTimeIntervals()) {
             if(timeInterval.contains(proposedTime))
@@ -130,6 +133,11 @@ public class ConfigController {
         return false;
     }
 
+    /**
+     * Controlla se il giorno della settimana passato è valido, rispetto ai giorni impostati dall'applicazione
+     * @param dayOfWeek Giorno della settimana
+     * @return 'true' se valido, 'false' altrimenti
+     */
     public boolean isValidDayOfWeek(DayOfWeek dayOfWeek) {
         return getDays().contains(dayOfWeek);
     }

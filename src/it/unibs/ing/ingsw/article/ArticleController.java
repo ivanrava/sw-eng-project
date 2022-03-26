@@ -27,9 +27,14 @@ public class ArticleController {
         categoryController = new CategoryController(saves);
     }
 
+    /**
+     * Fattorizzazione del controllo di appartenenza ad un utente
+     * @param username Username per il controllo
+     * @return Lo stream di articoli per quell'utente
+     */
     private Stream<Article> getStreamArticlesForUser(String username) {
         return articles.values().stream()
-                .filter(article -> article.getOwnerUsername().equals(username));
+                .filter(article -> article.getOwner().getUsername().equals(username));
     }
 
     /**
@@ -42,9 +47,9 @@ public class ArticleController {
     }
 
     /**
-     * Ritorna una lista
-     * @param username nome utente
-     * @return lista degli articoli di un utente disponibili per il baratto
+     * Ritorna una lista degli articoli disponibili per il baratto
+     * @param username Username
+     * @return Lista degli articoli di un utente disponibili per il baratto
      */
     public List<Article> getArticlesAvailableForUser(String username) {
         return getStreamArticlesForUser(username)
@@ -52,6 +57,11 @@ public class ArticleController {
                 .toList();
     }
 
+    /**
+     * Ritorna una lista degli articoli modificabili nel frontend
+     * @param username Username
+     * @return Lista degli articoli modificabili nel frontend
+     */
     public List<Article> getArticlesEditableForUser(String username) {
         return getStreamArticlesForUser(username)
                 .filter(Article::isEditable)
@@ -105,6 +115,11 @@ public class ArticleController {
         return articles.containsKey(id);
     }
 
+    /**
+     * Dice se l'articolo passato è modificabile dal frontend
+     * @param id Id dell'articolo
+     * @return 'true' se modificabile, 'false' altrimenti
+     */
     public boolean isEditableArticle(int id) {
         if (exists(id))
             return getArticle(id).isEditable();
@@ -116,7 +131,6 @@ public class ArticleController {
      * @param id Identificatore numerico dell'articolo
      * @return L'articolo con l'id passato
      */
-    // FIXME: accoppiamento o no?
     public Article getArticle(int id) {
         assert exists(id) : ASSERTION_ARTICLE_UNEXISTANT;
         return articles.get(id);

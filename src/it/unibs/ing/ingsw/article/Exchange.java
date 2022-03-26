@@ -34,10 +34,23 @@ public class Exchange implements Serializable {
         return whenLastEvent;
     }
 
-    public boolean isExpired(int daysDeadline, TemporalUnit unit) {
-        return getWhenLastEvent().plus(daysDeadline, unit).isAfter(LocalDate.now());
+    /**
+     * Controlla se lo scambio è scaduto
+     * @param deadline Scadenza da considerare
+     * @param unit Unità temporale da considerare
+     * @return 'true' se scaduto, 'false' altrimenti
+     */
+    private boolean isExpired(int deadline, TemporalUnit unit) {
+        return getWhenLastEvent().plus(deadline, unit).isAfter(LocalDate.now());
     }
 
+    /**
+     * Controlla se lo scambio è scaduto.
+     * Se sì, resetta gli stati delle offerte e annulla lo scambio.
+     * @param deadLine Scadenza da usare per la verifica
+     * @param unit Unità temporale
+     * @return 'true' se scaduto, 'false' altrimenti
+     */
     public boolean ifExpiredReset(int deadLine, TemporalUnit unit) {
         if (isExpired(deadLine, unit)){
             resetOffers();
@@ -125,6 +138,11 @@ public class Exchange implements Serializable {
         return articleWanted.getState().equals(ArticleState.OFFERTA_SELEZIONATA) && articleProposed.getState().equals(ArticleState.OFFERTA_ACCOPPIATA);
     }
 
+    /**
+     * Controlla se lo scambio aspetta risposta dall'utente passato
+     * @param user Utente da controllare
+     * @return 'true' se aspetta una risposta dall'utente passato, 'false' altrimenti
+     */
     public boolean awaitsAnswerFrom(User user) {
         return to.getUsername().equals(user.getUsername());
     }

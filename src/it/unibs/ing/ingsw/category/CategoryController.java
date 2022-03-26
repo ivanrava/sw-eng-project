@@ -36,6 +36,9 @@ public class CategoryController {
         hierarchies.put(name, rootCategory);
     }
 
+    /**
+     * @return Campi di default delle categorie
+     */
     public Map<String, Field> getDefaultFields(){
         return Category.getDefaultFields();
     }
@@ -84,14 +87,19 @@ public class CategoryController {
      */
     public Category searchTree(String rootName, String name) {
         assert existsRoot(rootName) : ASSERTION_ROOT_UNEXISTANT;
-        Category root = getRootCaseInsensitive(rootName);
+        Category root = getRootCategoryCaseInsensitive(rootName);
         if (rootName.equalsIgnoreCase(name)) {
             return root;
         }
         return searchTree(root, name);
     }
 
-    public Category getRootCaseInsensitive(String rootName) {
+    /**
+     * Ritorna la categoria radice con controlli case insensitive
+     * @param rootName Nome della categoria radice
+     * @return Categoria radice dal nome dato
+     */
+    public Category getRootCategoryCaseInsensitive(String rootName) {
         for (Map.Entry<String, Category> entry : hierarchies.entrySet()){
             if (entry.getKey().equalsIgnoreCase(rootName))
                 return entry.getValue();
@@ -130,7 +138,13 @@ public class CategoryController {
         return searchTree(rootCategoryName, leafCategoryName).isLeaf();
     }
 
-    public Map<String, Field> getFieldsForCategory(String rootCategoryName, String leafCategoryName) {
-        return searchTree(rootCategoryName, leafCategoryName).getFields();
+    /**
+     * Ritorna i campi per una categoria
+     * @param rootCategoryName Nome della categoria radice a cui appartiene la categoria data
+     * @param categoryName Nome della categoria di cui prendere i campi
+     * @return Campi della categoria, in una mappa nome-campo
+     */
+    public Map<String, Field> getFieldsForCategory(String rootCategoryName, String categoryName) {
+        return searchTree(rootCategoryName, categoryName).getFields();
     }
 }

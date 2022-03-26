@@ -114,7 +114,7 @@ public class ConfigView {
      * Inserisce la scadenza
      */
     private void inserisciDeadline() {
-        configController.setDeadLine(InputDati.leggiInteroConMinimo(INSERT_DEADLINE, MIN_DEADLINE));
+        configController.setDeadline(InputDati.leggiInteroConMinimo(INSERT_DEADLINE, MIN_DEADLINE));
     }
 
     /**

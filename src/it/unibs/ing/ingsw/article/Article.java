@@ -33,10 +33,6 @@ public class Article implements Serializable {
         return category;
     }
 
-    public String getOwnerUsername() {
-        return owner.getUsername();
-    }
-
     public User getOwner() {
         return owner;
     }
@@ -58,7 +54,6 @@ public class Article implements Serializable {
     public ArticleState getState() {
         return state;
     }
-
 
     /**
      * @return 'true' se lo stato dell'articolo é modificabile dall'utente, altrimenti 'false'

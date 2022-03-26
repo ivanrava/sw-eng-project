@@ -33,6 +33,12 @@ public class Category implements Serializable {
         parent = null;
     }
 
+    /**
+     * Costruttore parametrizzato per classi figlie
+     * @param name Nome della categoria
+     * @param description Descrizione
+     * @param newFields Nuovi campi
+     */
     public Category(String name, String description, Map<String, Field> newFields) {
         this(name, description, false, newFields);
     }
@@ -55,6 +61,9 @@ public class Category implements Serializable {
         return parent == null;
     }
 
+    /**
+     * @return Campi di default per una nuova categoria radice
+     */
     public static Map<String, Field> getDefaultFields(){
         Map<String, Field> defaultFields = new HashMap<>();
         defaultFields.put(STATO_DI_CONSERVAZIONE, new Field(true, STATO_DI_CONSERVAZIONE));
@@ -62,6 +71,9 @@ public class Category implements Serializable {
         return defaultFields;
     }
 
+    /**
+     * @return I campi della categoria, uniti con quelli del padre ricorsivamente
+     */
     public Map<String, Field> getFields() {
         if (isRootCategory()){
             return fields;
@@ -95,17 +107,12 @@ public class Category implements Serializable {
      */
     public String onlyNameToString(int initialPrefixNumber) {
         StringBuilder sb = new StringBuilder();
-        sb.append(String.format("%s%s %s%n", prefix(initialPrefixNumber), name, fields));
+        sb.append(String.format("%s%s %s%n", " --> ".repeat(initialPrefixNumber), name, fields));
         for (Category child : children.values()) {
             sb.append(child.onlyNameToString(initialPrefixNumber + 1));
         }
         return sb.toString();
     }
-
-    public String prefix(int n) {
-        return " --> ".repeat(n);
-    }
-
 
     public Map<String, Category> getChildren() {
         return children;

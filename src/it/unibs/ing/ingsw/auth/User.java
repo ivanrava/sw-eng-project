@@ -6,6 +6,11 @@ public abstract class User implements Serializable {
     private final String username;
     private final String password;
 
+    /**
+     * Costruttore parametrizzato
+     * @param u Username dell'utente
+     * @param pw Password dell'utente
+     */
     public User(String u, String pw) {
         username = u;
         password = pw;
@@ -15,6 +20,9 @@ public abstract class User implements Serializable {
         return username;
     }
 
+    /**
+     * @return 'true' se l'utente ha poteri amministrativi, 'false' se non privilegiato
+     */
     public abstract boolean isAdmin();
 
     /**

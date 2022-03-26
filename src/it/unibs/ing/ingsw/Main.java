@@ -8,6 +8,10 @@ import java.io.IOException;
 public class Main {
     private static final String ERROR_LOAD_CONFIG = "La configurazione è presente, ma non riesco a caricarla!";
 
+    /**
+     * Entrypoint dell'applicazione
+     * @param args Argomenti a linea di comando
+     */
     public static void main(String[] args) {
         try {
             Saves saves = new Saves();

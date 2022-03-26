@@ -9,12 +9,16 @@ import java.util.Set;
 
 public class TimeInterval implements Comparable<TimeInterval>, Serializable {
     public static final String ASSERTION_MINUTES = "I minuti non sono 0 o 30";
-    public static final String ASSERTION_HOURS = "Le ore non sono tra 0 e 23";
     private final LocalTime start;
     private final LocalTime stop;
     public static final LocalTime MAX_STOP = LocalTime.of(23, 30);
     public static final int DELTA_MINUTES = 30;
 
+    /**
+     * Costruttore parametrizzato
+     * @param start Orario di partenza dell'intervallo
+     * @param stop Orario di fine dell'intervallo
+     */
     public TimeInterval(LocalTime start, LocalTime stop) {
         assert allowedMinutes().contains(start.getMinute()) : ASSERTION_MINUTES;
         assert allowedMinutes().contains(stop.getMinute()) : ASSERTION_MINUTES;
@@ -45,6 +49,11 @@ public class TimeInterval implements Comparable<TimeInterval>, Serializable {
         return allowedTimes().toString();
     }
 
+    /**
+     * Controlla se l'orario passato è contenuto nell'intervallo temporale in oggetto
+     * @param check Orario di riferimento
+     * @return 'true' se contenuto, 'false' altrimenti
+     */
     public boolean contains(LocalTime check) {
         return check.equals(start) || check.equals(stop) || (check.isAfter(start) && check.isBefore(stop));
     }
@@ -77,6 +86,4 @@ public class TimeInterval implements Comparable<TimeInterval>, Serializable {
         minsAllowed.add(30);
         return minsAllowed;
     }
-
-
 }

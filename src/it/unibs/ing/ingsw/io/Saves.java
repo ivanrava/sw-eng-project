@@ -39,7 +39,7 @@ public class Saves {
         saveExchanges.saveExchanges();
     }
 
-    public Config getConfig (){ return saveConfig.getConfig(); }
+    public Config getConfig () { return saveConfig.getConfig(); }
 
     public Map<String, Category> getSaveHierarchies() {
         return saveHierarchies.getHierarchies();
@@ -57,6 +57,11 @@ public class Saves {
         return saveConfig.getPassword();
     }
 
+    /**
+     * Imposta le credenziali di default
+     * @param username Username di default
+     * @param password Password di default
+     */
     public void setDefaultCredentials(String username, String password) {
         saveConfig.setImmutableValues(username, password);
     }
@@ -77,6 +82,9 @@ public class Saves {
         return saveExchanges.getExchanges();
     }
 
+    /**
+     * @return 'true' se sono state configurate le credenziali, 'false' altrimenti
+     */
     public boolean existsDefaultCredentials() {
         return saveConfig.isConfiguredDefaultCredentials();
     }
