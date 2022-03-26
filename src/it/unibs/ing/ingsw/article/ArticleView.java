@@ -13,12 +13,13 @@ import java.util.List;
 import java.util.Map;
 
 public class ArticleView {
-    public static final String INSERT_ARTICLE_STATE = "Modifica lo stato dell'articolo: ";
     public static final String ASSERTION_CONFIGURATOR_ADD_ARTICLE = "Un configuratore non dovrebbe poter aggiungere articoli!";
     public static final String ASK_FIELD_OBBLIGATORIO = "%s (obbligatorio): ";
     public static final String ASK_FIELD_FACOLTATIVO = "%s (facoltativo): ";
     public static final String INSERT_ID = "Inserisci l'id numerico dell'articolo da modificare: ";
     public static final String ERROR_ID_UNEXISTANT = "Non esiste un articolo identificato da questo numero :(";
+    public static final String ASK_RETIRE_ARTICLE = "Vuoi ritirare l'articolo?";
+    public static final String ASK_AVAILABLE_ARTICLE = "Vuoi rendere disponibile l'articolo?";
     private final ArticleController articleController;
     private final CategoryController categoryController;
     private final CategoryView categoryView;
@@ -135,24 +136,22 @@ public class ArticleView {
                 System.out.println(ERROR_ID_UNEXISTANT);
             }
         } while (!articleController.isEditableArticle(id));
-        System.out.println(articleController.getArticle(id));
-        articleController.updateState(id, askArticleState());
+        Article selectedArticle = articleController.getArticle(id);
+        System.out.println(selectedArticle);
+        articleController.updateState(id, askArticleState(selectedArticle.isAvailable()));
     }
 
     /**
      * Viene chiesto lo stato di un certo articolo
      * @return Stato di un articolo
      */
-    private ArticleState askArticleState() {
-        System.out.printf("Inserisci il nuovo stato dell'offerta [%s, %s]\n", ArticleState.OFFERTA_APERTA, ArticleState.OFFERTA_RITIRATA);
-
-        while (true){
-            String state = InputDati.leggiStringaNonVuota(INSERT_ARTICLE_STATE);
-            if (ArticleState.changeState(state) != null) {
-                return ArticleState.changeState(state);
-            } else {
-                System.out.println("Errore di inserimento");
-            }
+    private ArticleState askArticleState(boolean isAvailable) {
+        if (isAvailable){
+            boolean scelta = InputDati.yesOrNo(ASK_RETIRE_ARTICLE);
+            return scelta? ArticleState.OFFERTA_RITIRATA : ArticleState.OFFERTA_APERTA;
+        }else {
+            boolean scelta = InputDati.yesOrNo(ASK_AVAILABLE_ARTICLE);
+            return scelta? ArticleState.OFFERTA_APERTA : ArticleState.OFFERTA_RITIRATA;
         }
     }
 }
