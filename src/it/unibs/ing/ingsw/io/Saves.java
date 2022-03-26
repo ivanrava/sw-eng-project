@@ -19,8 +19,6 @@ public class Saves {
 
     /**
      * costruttore in cui vengono caricati tutti i file
-     * @throws IOException
-     * @throws ClassNotFoundException
      */
     public Saves() throws IOException, ClassNotFoundException {
         saveConfig = SaveConfig.loadConfig();
@@ -32,7 +30,6 @@ public class Saves {
 
     /**
      * Metodo per salvataggio di tutti i file
-     * @throws IOException
      */
     public void save() throws IOException {
         saveConfig.save();

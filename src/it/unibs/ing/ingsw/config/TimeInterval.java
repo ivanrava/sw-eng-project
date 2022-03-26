@@ -15,23 +15,6 @@ public class TimeInterval implements Comparable<TimeInterval>, Serializable {
     public static final LocalTime MAX_STOP = LocalTime.of(23, 30);
     public static final int DELTA_MINUTES = 30;
 
-    /**
-     * Costruttore parametrizzato
-     * @param startHour Ora di partenza
-     * @param startMinutes Minuti di partenza
-     * @param stopHour Ora di fine
-     * @param stopMinutes Minuti di fine
-     */
-    public TimeInterval(int startHour, int startMinutes, int stopHour, int stopMinutes) {
-        assert allowedMinutes().contains(startMinutes) : ASSERTION_MINUTES;
-        assert allowedMinutes().contains(stopMinutes) : ASSERTION_MINUTES;
-        assert startHour < 24 && startHour >= 0 : ASSERTION_HOURS;
-        assert stopHour < 24 && stopHour >= 0 : ASSERTION_HOURS;
-
-        start = LocalTime.of(startHour, startMinutes);
-        stop = LocalTime.of(stopHour, stopMinutes);
-    }
-
     public TimeInterval(LocalTime start, LocalTime stop) {
         assert allowedMinutes().contains(start.getMinute()) : ASSERTION_MINUTES;
         assert allowedMinutes().contains(stop.getMinute()) : ASSERTION_MINUTES;
@@ -82,10 +65,6 @@ public class TimeInterval implements Comparable<TimeInterval>, Serializable {
 
     public LocalTime getStart() {
         return start;
-    }
-
-    public LocalTime getStop() {
-        return stop;
     }
 
     /**
