@@ -75,15 +75,6 @@ public class CategoryController {
         return searchTree(rootName, name) != null;
     }
 
-
-    /**
-     * Ritorna tutte le gerarchie del sistema
-     * @return Collection delle gerarchie del sistema
-     */
-    public Collection<Category> getHierarchies() {
-        return hierarchies.values();
-    }
-
     /**
      * Precondizione: la categoria radice fornita deve esistere
      *
