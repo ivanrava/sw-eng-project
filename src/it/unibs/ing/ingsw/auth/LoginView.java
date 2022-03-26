@@ -21,6 +21,7 @@ public class LoginView {
     public static final String INSERT_NEW_USERNAME = "Inserisci il tuo nuovo username: ";
     public static final String ERROR_USERNAME_DUPLICATED = "Lo username esiste già :(";
     public static final String INSERT_NEW_PASSWORD = "Inserisci la tua nuova password: ";
+    public static final String LOGIN_BANNER = "Sei dentro, %s%n";
     private final UserController userController;
 
     public LoginView(Saves saves) {
@@ -81,7 +82,7 @@ public class LoginView {
                 System.out.println(ERROR_CREDENTIALS);
             }
         } while (!userController.login(username, password));
-        System.out.printf("Sei dentro, %s%n", username);
+        System.out.printf(LOGIN_BANNER, username);
 
         return userController.getUserByUsername(username);
     }

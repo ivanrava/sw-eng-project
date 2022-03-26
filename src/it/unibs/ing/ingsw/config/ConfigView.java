@@ -38,6 +38,7 @@ public class ConfigView {
     public static final String ERROR_TIME_OVERLAP = "C'è una sovrapposizione con un altro orario :(";
     public static final String INSERT_TIME_STOP_HOUR = "Inserisci l'ora finale: ";
     public static final String INSERT_TIME_STOP_MINUTES = "Inserisci il minuto finale: ";
+    public static final String MESSAGE_INSERT_DAY_LESS_THAN = ">>> Inserisci un orario <= di %s";
     ConfigController configController;
 
     public ConfigView(Saves saves){
@@ -203,7 +204,7 @@ public class ConfigView {
             minutoFinale = InputDati.leggiInteroDaSet(INSERT_TIME_STOP_MINUTES, configController.allowedMinutes());
             if (LocalTime.of(oraFinale, minutoFinale).isAfter(stopLimit)) {
                 System.out.println(ERROR_TIME_OVERLAP);
-                System.out.printf(">>> Inserisci un orario <= di %s", stopLimit);
+                System.out.printf(MESSAGE_INSERT_DAY_LESS_THAN, stopLimit);
             }
         } while (LocalTime.of(oraFinale, minutoFinale).isAfter(stopLimit));
 

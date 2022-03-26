@@ -12,7 +12,8 @@ import java.util.stream.Stream;
 
 public class ArticleController {
     private static final String ASSERTION_DIFFERENT_FIELDS = "I campi della categoria e i campi passati non sono gli stessi!";
-    public static final String ASSERTION_ARTICLE_UNEXISTANT = "Non esiste questo articolo!";
+    private static final String ASSERTION_ARTICLE_UNEXISTANT = "Non esiste questo articolo!";
+    private static final String ASSERTION_CATEGORY_NOT_LEAF = "La categoria selezionata per il baratto non è una foglia!";
     public final Map<Integer, Article> articles;
     private final UserController userController;
     private final CategoryController categoryController;
@@ -153,7 +154,7 @@ public class ArticleController {
      * @return Articoli disponibili per il baratto
      */
     public List<Article> getAvailableArticlesForExchange(User user, Category category) {
-        assert category.isLeaf() : "La categoria selezionata per il baratto non è una foglia!";
+        assert category.isLeaf() : ASSERTION_CATEGORY_NOT_LEAF;
         return articles.values().stream()
                 .filter(article -> article.getCategory().equals(category) && article.isAvailable() && !article.getOwner().equals(user))
                 .toList();

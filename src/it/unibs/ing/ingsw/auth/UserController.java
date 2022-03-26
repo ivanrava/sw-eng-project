@@ -1,6 +1,5 @@
 package it.unibs.ing.ingsw.auth;
 
-import it.unibs.ing.ingsw.config.ConfigController;
 import it.unibs.ing.ingsw.io.Saves;
 
 import java.util.Map;

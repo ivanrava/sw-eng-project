@@ -11,6 +11,25 @@ import java.time.format.TextStyle;
 import java.util.*;
 
 public class ExchangeView {
+    private static final String ASSERT_EMPTY_COLLECTION_MENU = "Stai creando un menu per una collezione vuota";
+    private static final String ASK_ACCEPT_BARTER = "Accetti il baratto proposto?";
+    private static final String ASK_ACCEPT_APPOINTMENT = "Vuoi accettare il luogo/tempo del baratto? ";
+    private static final String INPUT_WHERE_WHEN = "Ok, ora proponi un luogo / ora per lo scambio...";
+    private static final String INPUT_MENU_GENERIC_PROMPT = "Seleziona l'opzione desiderata: ";
+    private static final String INPUT_YEAR = "Inserisci l'anno: ";
+    private static final String INPUT_MONTH = "Inserisci il mese [1-12]: ";
+    private static final String INPUT_DAY = "Inserisci un giorno tra quelli validi: ";
+    private static final String INPUT_HOUR = "Inserisci ora: ";
+    private static final String INPUT_MINUTE = "Inserisci minuto: ";
+    private static final String ERROR_UNEXISTANT_CONFIGURATION = "Configurazione inesistente :-(";
+    private static final String ERROR_NO_OPEN_ARTICLES = "Non hai articoli da scambiare :(";
+    private static final String ERROR_ADD_ARTICLE_BEFORE_PROPOSAL = "Aggiungi un articolo prima di proporre uno scambio";
+    private static final String ERROR_NO_MATCHING_ARTICLES = "Non ci sono articoli con cui fare lo scambio :(";
+    private static final String ERROR_NO_PROPOSALS = "Non hai proposte da gestire :-(";
+    private static final String ERROR_NO_ARTICLES_EXCHANGE = "Non hai articoli in scambio :-(";
+    private static final String ERROR_NO_DISCUSSIONS = "Non hai nessuna proposta da vagliare :(";
+    private static final String ERROR_PAST_DATE = "La data è già passata :(";
+    private static final String ERROR_INVALID_TIME = "Orario non ammesso dall'applicazione :(";
     private final ExchangeController exchangeController;
     private final ConfigController configController;
     private final ArticleController articleController;
@@ -34,7 +53,7 @@ public class ExchangeView {
      */
     public void execute(User user) {
         if (!configController.existsDefaultValues()){
-            System.out.println("Configurazione inesistente :-(");
+            System.out.println(ERROR_UNEXISTANT_CONFIGURATION);
             return;
         }
         //controllo sugli scambi in scadenza
@@ -61,15 +80,15 @@ public class ExchangeView {
         // Seleziona la proposta
         List<Article> articlesAvailable = articleController.getArticlesAvailableForUser(user.getUsername());
         if (articlesAvailable.isEmpty()) {
-            System.out.println("Non hai articoli da scambiare :(");
-            System.out.println("Aggiungi un articolo prima di proporre uno scambio");
+            System.out.println(ERROR_NO_OPEN_ARTICLES);
+            System.out.println(ERROR_ADD_ARTICLE_BEFORE_PROPOSAL);
             return;
         }
         Article articleProposed = selectOptionFromCollection(articlesAvailable);
         // Seleziona l'articolo desiderato
         List<Article> availableArticlesForExchange = articleController.getAvailableArticlesForExchange(user, articleProposed.getCategory());
         if (availableArticlesForExchange.isEmpty()) {
-            System.out.println("Non ci sono articoli con cui fare lo scambio :(");
+            System.out.println(ERROR_NO_MATCHING_ARTICLES);
             return;
         }
         Article articleWanted = selectOptionFromCollection(availableArticlesForExchange);
@@ -84,14 +103,14 @@ public class ExchangeView {
     private void manageProposals(User user) {
         List<Exchange> proposalsForUser = exchangeController.getProposalsForUser(user);
         if (proposalsForUser.isEmpty()){
-            System.out.println("Non hai proposte da gestire :-(");
+            System.out.println(ERROR_NO_PROPOSALS);
             return;
         }
         Exchange selectedExchange = selectOptionFromCollection(proposalsForUser);
         System.out.println(selectedExchange);
-        if(InputDati.yesOrNo("Accetti il baratto proposto?")) {
+        if(InputDati.yesOrNo(ASK_ACCEPT_BARTER)) {
             exchangeController.acceptProposal(selectedExchange);
-            System.out.println("Ok, ora proponi un luogo / ora per lo scambio...");
+            System.out.println(INPUT_WHERE_WHEN);
             editAppointment(selectedExchange);
         } else {
             exchangeController.rejectProposal(selectedExchange);
@@ -105,7 +124,7 @@ public class ExchangeView {
     private void printExchangingArticles(User user) {
         List<Exchange> exchangingExchanges = exchangeController.getExchangingExchanges(user);
         if (exchangingExchanges.isEmpty()){
-            System.out.println("Non hai articoli in scambio :-(");
+            System.out.println(ERROR_NO_ARTICLES_EXCHANGE);
         }
         exchangingExchanges.forEach(System.out::println);
     }
@@ -117,13 +136,13 @@ public class ExchangeView {
      * @return Opzione scelta della collezione
      */
     private <T> T selectOptionFromCollection(Collection<T> collection) {
-        assert !collection.isEmpty() : "Stai creando un menu per una collezione vuota";
+        assert !collection.isEmpty() : ASSERT_EMPTY_COLLECTION_MENU;
         Map<Integer, T> map = new HashMap<>();
         for (T element : collection){
             map.put(map.size()+1, element);
         }
         map.forEach((id, option) -> System.out.printf("%d -> %s\n", id, option));
-        int id = InputDati.leggiIntero("Seleziona l'opzione desiderata: ", 1, map.size());
+        int id = InputDati.leggiIntero(INPUT_MENU_GENERIC_PROMPT, 1, map.size());
         return map.get(id);
     }
 
@@ -134,7 +153,7 @@ public class ExchangeView {
     private void manageAppointments(User user) {
         List<Exchange> exchangeList = exchangeController.getExchangesAwaitingForAnswer(user);
         if (exchangeList.isEmpty()) {
-            System.out.println("Non hai nessuna proposta da vagliare :(");
+            System.out.println(ERROR_NO_DISCUSSIONS);
             return;
         }
         Exchange exchange = selectOptionFromCollection(exchangeList);
@@ -147,7 +166,7 @@ public class ExchangeView {
      */
     private void askAppointmentConfirmation(Exchange exchange) {
         System.out.println(exchange);
-        if (InputDati.yesOrNo("Vuoi accettare il luogo/tempo del baratto? ")) {
+        if (InputDati.yesOrNo(ASK_ACCEPT_APPOINTMENT)) {
             exchangeController.acceptExchange(exchange);
         } else {
             editAppointment(exchange);
@@ -189,12 +208,12 @@ public class ExchangeView {
     private LocalDate askDate(){
         LocalDate proposedDate;
         do {
-            int year = InputDati.leggiIntero("Inserisci l'anno: ", LocalDate.now().getYear(), LocalDate.now().getYear()+1);
-            int month = InputDati.leggiIntero("Inserisci il mese [1-12]: ", 1, 12);
+            int year = InputDati.leggiIntero(INPUT_YEAR, LocalDate.now().getYear(), LocalDate.now().getYear()+1);
+            int month = InputDati.leggiIntero(INPUT_MONTH, 1, 12);
             int day = askDay(year, month);
             proposedDate = LocalDate.of(year, month, day);
             if (!proposedDate.isAfter(LocalDate.now())) {
-                System.out.println("La data è già passata :(");
+                System.out.println(ERROR_PAST_DATE);
             }
         } while(!proposedDate.isAfter(LocalDate.now()));
         return proposedDate;
@@ -219,7 +238,7 @@ public class ExchangeView {
 
         // Chiedi un giorno valido
         validDays.forEach((day, dayOfWeek) -> System.out.println("\t"+dayOfWeek+' '+day));
-        return InputDati.leggiInteroDaSet("Inserisci un giorno tra quelli validi: ", validDays.keySet());
+        return InputDati.leggiInteroDaSet(INPUT_DAY, validDays.keySet());
     }
 
     /**
@@ -229,11 +248,11 @@ public class ExchangeView {
     private LocalTime askTime(){
         LocalTime proposedTime;
         do {
-            int hour = InputDati.leggiIntero("Inserisci ora: ", 0, 23);
-            int minute = InputDati.leggiInteroDaSet("Inserisci minuto: ", configController.allowedMinutes());
+            int hour = InputDati.leggiIntero(INPUT_HOUR, 0, 23);
+            int minute = InputDati.leggiInteroDaSet(INPUT_MINUTE, configController.allowedMinutes());
             proposedTime = LocalTime.of(hour, minute);
             if(!configController.isValidTime(proposedTime)){
-                System.out.println("Orario non ammesso dall'applicazione :(");
+                System.out.println(ERROR_INVALID_TIME);
                 configController.getTimeIntervals().forEach(timeInterval -> System.out.println(timeInterval.allowedTimes()));
             }
         } while(!configController.isValidTime(proposedTime));

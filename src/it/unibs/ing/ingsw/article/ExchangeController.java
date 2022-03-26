@@ -9,6 +9,8 @@ import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 public class ExchangeController {
+    private static final String ASSERTION_ARTICLE_PROPOSED_NOT_EXISTS = "L'articolo proposto non esiste!";
+    private static final String ASSERTION_ARTICLE_WANTED_NOT_EXISTS = "L'articolo desiderato non esiste!";
     private final List<Exchange> exchangeList;
     private final ArticleController articleController;
     private final ConfigController configController;
@@ -59,8 +61,8 @@ public class ExchangeController {
     public void startExchange(int articleProposedId, int articleWantedId) {
         Article proposed = articleController.getArticle(articleProposedId);
         Article wanted = articleController.getArticle(articleWantedId);
-        assert proposed != null : "L'articolo proposto non esiste!";
-        assert wanted != null : "L'articolo desiderato non esiste!";
+        assert proposed != null : ASSERTION_ARTICLE_PROPOSED_NOT_EXISTS;
+        assert wanted != null : ASSERTION_ARTICLE_WANTED_NOT_EXISTS;
         exchangeList.add(new Exchange(proposed, wanted));
     }
 
