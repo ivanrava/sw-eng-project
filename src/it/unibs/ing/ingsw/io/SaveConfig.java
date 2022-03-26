@@ -72,11 +72,11 @@ public class SaveConfig implements Serializable {
         }
     }
 
-    public boolean isConfigured() {
+    public boolean isConfiguredDefaultCredentials() {
         return isConfigured;
     }
 
-    public boolean isFirstConfiguration(){
-        return config.isConfigured();
+    public boolean isConfiguredImmutableValues() {
+        return config.isConfiguredImmutableValues();
     }
 }
