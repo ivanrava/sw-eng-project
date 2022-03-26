@@ -40,7 +40,7 @@ public class Exchange implements Serializable {
      * @return 'true' se scaduto, 'false' altrimenti
      */
     private boolean isExpired(int deadline, TemporalUnit unit) {
-        return getWhenLastEvent().plus(deadline, unit).isAfter(LocalDate.now());
+        return getWhenLastEvent().plus(deadline, unit).isBefore(LocalDate.now());
     }
 
     /**
@@ -112,10 +112,9 @@ public class Exchange implements Serializable {
 
     @Override
     public String toString() {
-        return String.format("Il %s qualcuno ha proposto lo scambio (a %s in data %s):\n%s\n%s\n",
+        String whereAndWhen = areExchanging() ? String.format(" (a %s in data %s)", proposedWhere, proposedWhen) : "";
+        return String.format("Il %s qualcuno ha proposto lo scambio" + whereAndWhen + ":\n\t%s\n\t%s\n",
                 whenLastEvent,
-                proposedWhere,
-                proposedWhen,
                 articleWanted.toString(),
                 articleProposed.toString());
     }

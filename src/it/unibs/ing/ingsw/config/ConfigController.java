@@ -127,7 +127,7 @@ public class ConfigController {
      */
     public boolean isValidTime(LocalTime proposedTime) {
         for (TimeInterval timeInterval : getTimeIntervals()) {
-            if(timeInterval.contains(proposedTime))
+            if(timeInterval.isAllowed(proposedTime))
                 return true;
         }
         return false;

@@ -109,7 +109,7 @@ public class Config implements Serializable {
      */
     public boolean timeIntervalsContain(int hour, int minutes) {
         for (TimeInterval timeInterval: timeIntervals) {
-            if (timeInterval.contains(LocalTime.of(hour, minutes))) {
+            if (timeInterval.isAllowed(LocalTime.of(hour, minutes))) {
                 return true;
             }
         }
