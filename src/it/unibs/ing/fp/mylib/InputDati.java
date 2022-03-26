@@ -2,7 +2,7 @@ package it.unibs.ing.fp.mylib;
 import java.util.*;
 public class InputDati 
 {
-	private static final String ERROR_INTEGER_SET = "Puoi inserire solo un valore tra i seguenti: %s";
+	private static final String ERROR_INTEGER_SET = "Puoi inserire solo un valore tra i seguenti: %s\n";
 	private static Scanner lettore = creaScanner();
 	  
 	  private final static String ERRORE_FORMATO = "Attenzione: il dato inserito non e' nel formato corretto";
