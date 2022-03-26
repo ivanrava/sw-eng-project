@@ -10,7 +10,6 @@ public class Field implements Serializable {
      * Costruttore con valore
      * @param required Se il campo è richiesto
      * @param name Nome del campo
-     * @param value Valore del campo
      */
     public Field(boolean required, String name) {
         this.required = required;
