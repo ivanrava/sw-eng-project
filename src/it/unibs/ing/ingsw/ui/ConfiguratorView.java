@@ -32,6 +32,8 @@ public class ConfiguratorView {
                 SEE_LEAF_OFFERS
         });
 
+
+
         int scelta;
         do {
             scelta = mainMenu.scegli();

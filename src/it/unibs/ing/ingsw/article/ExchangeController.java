@@ -6,23 +6,23 @@ import it.unibs.ing.ingsw.io.Saves;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
-import java.time.temporal.TemporalUnit;
 import java.util.List;
 
 public class ExchangeController {
     private final List<Exchange> exchangeList;
     private final ArticleController articleController;
+    private final ConfigController configController;
 
     public ExchangeController(Saves saves) {
         articleController = new ArticleController(saves);
-        ConfigController configController = new ConfigController(saves);
+        configController = new ConfigController(saves);
         exchangeList = saves.getExchanges();
-        deleteExpiredExchanges(configController.getDeadLine(), ChronoUnit.DAYS);
     }
 
     //TODO: decidere dove chiamare questa funzione
-    public void deleteExpiredExchanges(int deadLine, TemporalUnit unit) {
-        exchangeList.removeIf(exchange -> exchange.ifExpiredReset(deadLine, unit));
+    public void deleteExpiredExchanges() {
+        int deadLine = configController.getDeadLine();
+        exchangeList.removeIf(exchange -> exchange.ifExpiredReset(deadLine, ChronoUnit.DAYS));
     }
 
     /**
