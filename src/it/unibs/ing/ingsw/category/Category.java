@@ -103,11 +103,18 @@ public class Category implements Serializable {
 
     /**
      * Metodo che visualizza indentato il nome della categoria e tutte le sotto categorie
+     */
+    public String onlyNameToString() {
+        return onlyNameToString(0);
+    }
+
+    /**
+     * Metodo che visualizza indentato il nome della categoria e tutte le sotto categorie
      * @param initialPrefixNumber Numero di ripetizioni della stringa prefissa inizialmente
      */
-    public String onlyNameToString(int initialPrefixNumber) {
+    private String onlyNameToString(int initialPrefixNumber) {
         StringBuilder sb = new StringBuilder();
-        sb.append(String.format("%s%s %s%n", " --> ".repeat(initialPrefixNumber), name, fields));
+        sb.append(String.format("%s%s %s%n", " --> ".repeat(initialPrefixNumber), name, fields.values()));
         for (Category child : children.values()) {
             sb.append(child.onlyNameToString(initialPrefixNumber + 1));
         }

@@ -20,7 +20,7 @@ public class CategoryController {
     public String allHierarchiesToString() {
         StringBuilder sb = new StringBuilder();
         for (Category cat : hierarchies.values()) {
-            sb.append(cat.onlyNameToString(0));
+            sb.append(cat.onlyNameToString());
         }
         return sb.toString();
     }
