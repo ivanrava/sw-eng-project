@@ -30,15 +30,15 @@ public class View {
 
         do {
             Optional<User> user = loginView.execute();
-
             if (user.isEmpty()) {
                 break;
             }
+            User loggedInUser = user.get();
 
-            if (user.get().isAdmin()) {
-                configuratorView.execute(user.get());
+            if (loggedInUser.isAdmin()) {
+                configuratorView.execute(loggedInUser);
             } else {
-                customerView.execute(user.get());
+                customerView.execute(loggedInUser);
             }
         } while (true);
     }
