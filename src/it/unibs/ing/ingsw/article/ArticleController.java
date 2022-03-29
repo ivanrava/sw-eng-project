@@ -122,10 +122,7 @@ public class ArticleController {
      * @return 'true' se modificabile, 'false' altrimenti
      */
     public boolean isEditableArticle(int id) {
-        if (exists(id))
-            return getArticle(id).isEditable();
-        else
-            return false;
+        return exists(id) && getArticle(id).isEditable();
     }
 
     /**
