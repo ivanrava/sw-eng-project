@@ -1,9 +1,12 @@
 package it.unibs.ing.ingsw.category;
 
+import com.google.gson.JsonParseException;
 import it.unibs.ing.fp.mylib.InputDati;
 import it.unibs.ing.fp.mylib.MyMenu;
+import it.unibs.ing.ingsw.article.ArticleController;
 import it.unibs.ing.ingsw.io.Saves;
 
+import java.io.FileNotFoundException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -12,7 +15,8 @@ public class CategoryView {
     public static final String[] VOCI = {
             "Aggiungi nuova categoria radice",
             "Aggiungi nuova categoria figlia",
-            "Visualizza gerarchie"
+            "Visualizza gerarchie",
+            "Importa da file"
     };
     public static final String BACK = "Ritorno al menu principale";
     public static final String ASSERTION_NEVER = "Il programma non dovrebbe mai arrivare qui!";
@@ -31,9 +35,11 @@ public class CategoryView {
     public static final String ERROR_NOT_LEAF = "Non è una categoria foglia :(";
     public static final String INSERT_LEAF_CATEGORY_NAME = "Inserisci il nome della categoria foglia: ";
     private final CategoryController categoryController;
+    private final ArticleController articleController;
 
     public CategoryView(Saves saves) {
         categoryController = new CategoryController(saves);
+        articleController = new ArticleController(saves);
     }
 
     /**
@@ -48,12 +54,27 @@ public class CategoryView {
                 case 1 -> insertRootCategory();
                 case 2 -> insertChildCategory();
                 case 3 -> printHierarchies();
+                case 4 -> importFromBatch();
                 case 0 -> System.out.println(BACK);
                 default -> {
                     assert false : ASSERTION_NEVER;
                 }
             }
         } while (scelta != 0);
+    }
+
+    private void importFromBatch() {
+        try {
+            if (articleController.emptyArticles()){
+                categoryController.importFromBatch();
+                System.out.println("Importazione avvenuta con successo :-)");
+            } else {
+                System.out.println("Errore nell'importazione (articoli già presenti)");
+            }
+        } catch (FileNotFoundException | JsonParseException e) {
+            System.out.println("Errore lettura file...");
+            System.out.println(e.getMessage());
+        }
     }
 
     /**

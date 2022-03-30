@@ -1,7 +1,11 @@
 package it.unibs.ing.ingsw.category;
 
+import com.google.gson.JsonParseException;
+import it.unibs.ing.ingsw.article.ArticleController;
 import it.unibs.ing.ingsw.io.Saves;
+import it.unibs.ing.ingsw.io.batch.JsonParser;
 
+import java.io.FileNotFoundException;
 import java.util.*;
 
 public class CategoryController {
@@ -12,6 +16,13 @@ public class CategoryController {
 
     public CategoryController(Saves saves) {
         hierarchies = saves.getSaveHierarchies();
+    }
+
+    public void importFromBatch() throws FileNotFoundException, JsonParseException {
+        JsonParser jsonParser = new JsonParser();
+        Arrays.stream(jsonParser.readCategoriesJson()).forEach(category -> {
+            hierarchies.put(category.getName(), category);
+        });
     }
 
     /**

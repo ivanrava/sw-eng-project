@@ -28,6 +28,10 @@ public class ArticleController {
         categoryController = new CategoryController(saves);
     }
 
+    public boolean emptyArticles() {
+        return articles.isEmpty();
+    }
+
     /**
      * Fattorizzazione del controllo di appartenenza ad un utente
      * @param username Username per il controllo
