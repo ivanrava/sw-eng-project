@@ -75,11 +75,11 @@ public class ConfigController {
     }
 
     public boolean exists(String luogo) {
-        return saves.getConfig().getLuoghi().contains(luogo);
+        return saves.getConfig().getPlaces().contains(luogo);
     }
 
     public Set<String> getLuoghi(){
-        return saves.getConfig().getLuoghi();
+        return saves.getConfig().getPlaces();
     }
 
     public Set<TimeInterval> getTimeIntervals(){

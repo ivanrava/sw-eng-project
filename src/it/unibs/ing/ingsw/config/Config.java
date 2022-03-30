@@ -7,22 +7,22 @@ import java.util.Set;
 
 public class Config implements Serializable {
     private boolean isConfigured = false;
-    private String piazza;
-    private final Set<String> luoghi;
+    private String square;
+    private final Set<String> places;
     private final Set<DayOfWeek> days;
     private final Set<TimeInterval> timeIntervals;
     private int deadline;
 
-    public Config(String piazza, Set<String> luoghi, Set<DayOfWeek> days, Set<TimeInterval> timeIntervals, int deadline) {
-        this.piazza = piazza;
-        this.luoghi = luoghi;
+    public Config(String square, Set<String> places, Set<DayOfWeek> days, Set<TimeInterval> timeIntervals, int deadline) {
+        this.square = square;
+        this.places = places;
         this.days = days;
         this.timeIntervals = timeIntervals;
         this.deadline = deadline;
     }
 
-    public Set<String> getLuoghi() {
-        return luoghi;
+    public Set<String> getPlaces() {
+        return places;
     }
 
     public Set<DayOfWeek> getDays() {
@@ -44,8 +44,8 @@ public class Config implements Serializable {
     @Override
     public String toString() {
         return "Config{" +
-                "piazza='" + piazza + '\'' +
-                ", luoghi=" + luoghi +
+                "piazza='" + square + '\'' +
+                ", luoghi=" + places +
                 ", giorni=" + days +
                 ", intervalli orari=" + timeIntervals +
                 ", scadenza=" + deadline +
@@ -71,7 +71,7 @@ public class Config implements Serializable {
         if (isConfigured) {
             throw new IllegalArgumentException("I valori obbligatori della Config sono già stati impostati");
         } else {
-            this.piazza = piazza;
+            this.square = piazza;
             this.isConfigured = true;
         }
     }
@@ -81,7 +81,7 @@ public class Config implements Serializable {
      * @param luogo Luogo da aggiungere
      */
     public void addLuogo(String luogo) {
-        luoghi.add(luogo);
+        places.add(luogo);
     }
 
     /**
@@ -139,6 +139,4 @@ public class Config implements Serializable {
     public boolean isMaxTime(int startHour, int startMinutes) {
         return TimeInterval.MAX_STOP.equals(LocalTime.of(startHour, startMinutes));
     }
-
-
 }

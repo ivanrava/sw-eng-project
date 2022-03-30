@@ -1,0 +1,20 @@
+{
+  "square": "Brescia",
+  "places": ["Portici", "UniBS - via Branze 38", "Fermata metro Vittoria"],
+  "deadline": 10,
+  "days": [6,7],
+  "timeIntervals": [
+    {
+      "start": "08:00",
+      "stop": "11:30"
+    },
+    {
+      "start": "14:00",
+      "stop": "18:30"
+    },
+    {
+      "start": "20:00",
+      "stop": "22:00"
+    }
+  ]
+}
