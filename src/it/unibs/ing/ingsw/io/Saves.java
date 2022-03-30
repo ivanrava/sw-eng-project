@@ -41,6 +41,8 @@ public class Saves {
 
     public Config getConfig () { return saveConfig.getConfig(); }
 
+    public void setConfig (Config config) { saveConfig.setConfig(config); }
+
     public Map<String, Category> getSaveHierarchies() {
         return saveHierarchies.getHierarchies();
     }

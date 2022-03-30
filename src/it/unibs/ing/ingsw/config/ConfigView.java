@@ -1,9 +1,11 @@
 package it.unibs.ing.ingsw.config;
 
+import com.google.gson.JsonParseException;
 import it.unibs.ing.fp.mylib.InputDati;
 import it.unibs.ing.fp.mylib.MyMenu;
 import it.unibs.ing.ingsw.io.Saves;
 
+import java.io.FileNotFoundException;
 import java.time.DayOfWeek;
 import java.time.LocalTime;
 import java.time.format.TextStyle;
@@ -19,7 +21,8 @@ public class ConfigView {
     public static final String MENU_TITLE = "Configurazione";
     public static final String[] VOCI = {
             "Visualizza Configurazione",
-            "Modifica Configurazione"
+            "Modifica Configurazione",
+            "Importa Configurazione"
     };
     public static final String EDIT_PLACES = "Vuoi modificare i luoghi inseriti? ";
     public static final String EDIT_DAYS = "Vuoi modificare i giorni già inseriti? ";
@@ -57,8 +60,25 @@ public class ConfigView {
             switch (scelta) {
                 case 1 -> printConfig();
                 case 2 -> editConfig();
+                case 3 -> importBatch();
             }
         }while (scelta != 0);
+    }
+
+    /**
+     * importa la configurazione da un file batch
+     */
+    private void importBatch() {
+        if (configController.existsDefaultValues()) {
+            System.out.println("Attenzione: La piazza non verrà modificata");
+        }
+        try {
+            configController.loadConfigFromBatch();
+            System.out.println("Configurazione importata con successo :-)");
+        } catch (FileNotFoundException | JsonParseException e) {
+            System.out.println("Errore lettura file...");
+            System.out.println(e.getMessage());
+        }
     }
 
     /**

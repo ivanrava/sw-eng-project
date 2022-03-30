@@ -11,7 +11,7 @@ public class SaveConfig implements Serializable {
     private String username;
     private String password;
     private boolean isConfigured = false;
-    private final Config config = new Config("", new HashSet<>(), new TreeSet<>(), new TreeSet<>(), 0);
+    private final Config config = new Config(new HashSet<>(), new TreeSet<>(), new TreeSet<>(), 1);
 
     /**
      * Imposta i valori immutabili di configurazione
@@ -37,6 +37,20 @@ public class SaveConfig implements Serializable {
     }
 
     public Config getConfig() { return config; }
+
+    /**
+     * imposta la configurazione (con controllo sui valori immutabili)
+     * @param newConfig
+     */
+    public void setConfig(Config newConfig) {
+        if (!config.isConfiguredImmutableValues()) {
+            config.setImmutableValues(newConfig.getSquare());
+        }
+        config.setPlaces(newConfig.getPlaces());
+        config.setDays(newConfig.getDays());
+        config.setTimeIntervals(newConfig.getTimeIntervals());
+        config.setDeadline(newConfig.getDeadline());
+    }
 
     /**
      * Controlla se esiste il file di configurazione globale

@@ -1,7 +1,11 @@
 package it.unibs.ing.ingsw.config;
 
+import com.google.gson.JsonParseException;
+import it.unibs.ing.ingsw.io.SaveConfig;
 import it.unibs.ing.ingsw.io.Saves;
+import it.unibs.ing.ingsw.io.batch.JsonParser;
 
+import java.io.FileNotFoundException;
 import java.time.DayOfWeek;
 import java.time.LocalTime;
 import java.util.Set;
@@ -15,6 +19,17 @@ public class ConfigController {
 
     public boolean existsDefaultValues(){
         return saves.existsConfiguration();
+    }
+
+    /**
+     * importa la configurazione da un file batch
+     * @throws FileNotFoundException file non esiste
+     * @throws JsonParseException errori nel formato del file
+     */
+    public void loadConfigFromBatch() throws FileNotFoundException, JsonParseException {
+        JsonParser jsonParser = new JsonParser();
+        Config configFromBatch = jsonParser.readConfigJson();
+        saves.setConfig(configFromBatch);
     }
 
     /**
