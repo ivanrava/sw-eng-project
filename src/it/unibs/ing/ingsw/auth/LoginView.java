@@ -4,8 +4,6 @@ import it.unibs.ing.fp.mylib.InputDati;
 import it.unibs.ing.fp.mylib.MyMenu;
 import it.unibs.ing.ingsw.io.Saves;
 
-import java.util.Optional;
-
 public class LoginView {
     public static final String MENU_TITLE = "Accesso";
     public static final String[] VOCI = {
@@ -22,6 +20,7 @@ public class LoginView {
     public static final String ERROR_USERNAME_DUPLICATED = "Lo username esiste già :(";
     public static final String INSERT_NEW_PASSWORD = "Inserisci la tua nuova password: ";
     public static final String LOGIN_BANNER = "Sei dentro, %s%n";
+    public static final String ERROR_NO_LOGIN = "Non é stato effettuato l'accesso";
     private final UserController userController;
 
     public LoginView(Saves saves) {
@@ -31,7 +30,7 @@ public class LoginView {
     /**
      * Esegue l'UI generale di login
      */
-    public Optional<User> execute() {
+    public User execute() {
         if (!userController.existsDefaultCredentials()) {
             startSettingDefaultCredentials();
         }
@@ -42,15 +41,13 @@ public class LoginView {
         do {
             scelta = loginRegisterMenu.scegli();
             switch (scelta) {
-                case 0 -> {
-                    return Optional.empty();
-                }
                 case 1 -> startRegister(false);
-                case 2 -> scelta = 0;
+                case 2 -> {
+                    return startLogin();
+                }
             }
         } while (scelta != 0);
-
-        return Optional.of(startLogin());
+        throw new RuntimeException(ERROR_NO_LOGIN);
     }
 
     /**
@@ -71,15 +68,13 @@ public class LoginView {
      */
     private User startLogin() {
         String username, password;
-
-        //accesso utente
         do {
             username = InputDati.leggiStringaNonVuota(INSERT_USERNAME);
             password = InputDati.leggiStringaNonVuota(INSERT_PASSWORD);
             if (userController.checkDefaultCredentials(username, password)) {
                 startRegister(true);
             } else if (!userController.login(username, password)) {
-                System.out.println(ERROR_CREDENTIALS);
+                throw new IllegalArgumentException(ERROR_CREDENTIALS);
             }
         } while (!userController.login(username, password));
         System.out.printf(LOGIN_BANNER, username);

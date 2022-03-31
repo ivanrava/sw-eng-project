@@ -6,7 +6,6 @@ import it.unibs.ing.ingsw.auth.User;
 import it.unibs.ing.ingsw.io.Saves;
 
 import java.io.IOException;
-import java.util.Optional;
 
 public class View {
     private final LoginView loginView;
@@ -27,18 +26,19 @@ public class View {
     public void execute() throws IOException {
         //controlla scambi scaduti
         exchangeController.deleteExpiredExchanges();
-
         do {
-            Optional<User> user = loginView.execute();
-            if (user.isEmpty()) {
+            try {
+                User user = loginView.execute();
+                if (user.isAdmin()) {
+                    configuratorView.execute(user);
+                } else {
+                    customerView.execute(user);
+                }
+            }catch (IllegalArgumentException e) {
+                System.out.println(e.getMessage());
+            }catch (RuntimeException e) {
+                System.out.println("Uscita dal sistema");
                 break;
-            }
-            User loggedInUser = user.get();
-
-            if (loggedInUser.isAdmin()) {
-                configuratorView.execute(loggedInUser);
-            } else {
-                customerView.execute(loggedInUser);
             }
         } while (true);
     }
