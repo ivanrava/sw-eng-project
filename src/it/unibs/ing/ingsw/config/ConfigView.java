@@ -73,11 +73,11 @@ public class ConfigView {
             System.out.println("Attenzione: La piazza non verrà modificata");
         }
         try {
-            configController.loadConfigFromBatch();
+            String filePath = InputDati.leggiStringaNonVuota("Inserisci il percorso assoluto del file: ");
+            configController.loadConfigFromBatch(filePath);
             System.out.println("Configurazione importata con successo :-)");
         } catch (FileNotFoundException | JsonParseException e) {
             System.out.println("Errore lettura file...");
-            System.out.println(e.getMessage());
         }
     }
 

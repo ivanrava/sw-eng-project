@@ -1,12 +1,12 @@
 package it.unibs.ing.ingsw.category;
 
 import com.google.gson.JsonParseException;
-import it.unibs.ing.ingsw.article.ArticleController;
 import it.unibs.ing.ingsw.io.Saves;
 import it.unibs.ing.ingsw.io.batch.JsonParser;
 
 import java.io.FileNotFoundException;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Map;
 
 public class CategoryController {
     public static final String ASSERTION_ROOT_OVERWRITE = "Stai sovrascrivendo una radice";
@@ -18,11 +18,9 @@ public class CategoryController {
         hierarchies = saves.getSaveHierarchies();
     }
 
-    public void importFromBatch() throws FileNotFoundException, JsonParseException {
+    public void importFromBatch(String filePath) throws FileNotFoundException, JsonParseException {
         JsonParser jsonParser = new JsonParser();
-        Arrays.stream(jsonParser.readCategoriesJson()).forEach(category -> {
-            hierarchies.put(category.getName(), category);
-        });
+        Arrays.stream(jsonParser.readCategoriesJson(filePath)).forEach(category -> hierarchies.put(category.getName(), category));
     }
 
     /**

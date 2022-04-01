@@ -66,14 +66,14 @@ public class CategoryView {
     private void importFromBatch() {
         try {
             if (articleController.emptyArticles()){
-                categoryController.importFromBatch();
+                String filePath = InputDati.leggiStringaNonVuota("Inserisci il percorso assoluto del file: ");
+                categoryController.importFromBatch(filePath);
                 System.out.println("Importazione avvenuta con successo :-)");
             } else {
                 System.out.println("Errore nell'importazione (articoli già presenti)");
             }
         } catch (FileNotFoundException | JsonParseException e) {
             System.out.println("Errore lettura file...");
-            System.out.println(e.getMessage());
         }
     }
 

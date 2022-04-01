@@ -8,13 +8,12 @@ import it.unibs.ing.ingsw.category.Category;
 import it.unibs.ing.ingsw.config.Config;
 import it.unibs.ing.ingsw.config.TimeInterval;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.time.DayOfWeek;
 
 public class JsonParser {
-    public static final String CONFIG_JSON = "./config.json";
-    public static final String CATEGORIES_JSON = "./categories.json";
     private final Gson gson;
 
     public JsonParser() {
@@ -27,21 +26,23 @@ public class JsonParser {
 
     /**
      * Legge la configurazione da ./config.json
+     * @param filePath percorso assoluto file
      * @return La configurazione letta dal file
      * @throws FileNotFoundException Se il file non esiste
      * @throws JsonParseException Se il file non è correttamente scritto
      */
-    public Config readConfigJson() throws FileNotFoundException, JsonParseException {
-        return gson.fromJson(new JsonReader(new FileReader(CONFIG_JSON)), Config.class);
+    public Config readConfigJson(String filePath) throws FileNotFoundException, JsonParseException {
+        return gson.fromJson(new JsonReader(new FileReader(filePath)), Config.class);
     }
 
     /**
      * Legge le categorie da ./categories.json
+     * @param filePath percorso assoluto file
      * @return Le gerarchie di categorie lette da ./categories.json
      * @throws FileNotFoundException Se il file non esiste
      * @throws JsonParseException Se il file non è correttamente scritto
      */
-    public Category[] readCategoriesJson() throws FileNotFoundException, JsonParseException {
-        return gson.fromJson(new JsonReader(new FileReader(CATEGORIES_JSON)), Category[].class);
+    public Category[] readCategoriesJson(String filePath) throws FileNotFoundException, JsonParseException {
+        return gson.fromJson(new JsonReader(new FileReader(filePath)), Category[].class);
     }
 }

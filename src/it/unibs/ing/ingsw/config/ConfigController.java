@@ -1,7 +1,6 @@
 package it.unibs.ing.ingsw.config;
 
 import com.google.gson.JsonParseException;
-import it.unibs.ing.ingsw.io.SaveConfig;
 import it.unibs.ing.ingsw.io.Saves;
 import it.unibs.ing.ingsw.io.batch.JsonParser;
 
@@ -25,10 +24,11 @@ public class ConfigController {
      * importa la configurazione da un file batch
      * @throws FileNotFoundException file non esiste
      * @throws JsonParseException errori nel formato del file
+     * @param filePath percorso assoluto del file
      */
-    public void loadConfigFromBatch() throws FileNotFoundException, JsonParseException {
+    public void loadConfigFromBatch(String filePath) throws FileNotFoundException, JsonParseException {
         JsonParser jsonParser = new JsonParser();
-        Config configFromBatch = jsonParser.readConfigJson();
+        Config configFromBatch = jsonParser.readConfigJson(filePath);
         saves.setConfig(configFromBatch);
     }
 
