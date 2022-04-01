@@ -15,6 +15,8 @@ import java.time.DayOfWeek;
 
 public class JsonParser {
     private final Gson gson;
+    private final String CONFIG_JSON = "config.json";
+    private final String CATEGORIES_JSON = "categories.json";
 
     public JsonParser() {
         GsonBuilder builder = new GsonBuilder();
@@ -35,6 +37,11 @@ public class JsonParser {
         return gson.fromJson(new JsonReader(new FileReader(filePath)), Config.class);
     }
 
+    //TODO: da implementare
+    public Config readConfigJson() throws FileNotFoundException, JsonParseException {
+        return readConfigJson(CONFIG_JSON);
+    }
+
     /**
      * Legge le categorie da ./categories.json
      * @param filePath percorso assoluto file
@@ -44,5 +51,10 @@ public class JsonParser {
      */
     public Category[] readCategoriesJson(String filePath) throws FileNotFoundException, JsonParseException {
         return gson.fromJson(new JsonReader(new FileReader(filePath)), Category[].class);
+    }
+
+    //TODO: da implementare
+    public Category[] readCategoriesJson() throws FileNotFoundException, JsonParseException {
+        return readCategoriesJson(CATEGORIES_JSON);
     }
 }

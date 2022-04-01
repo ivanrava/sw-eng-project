@@ -20,7 +20,8 @@ public class CategoryController {
 
     public void importFromBatch(String filePath) throws FileNotFoundException, JsonParseException {
         JsonParser jsonParser = new JsonParser();
-        Arrays.stream(jsonParser.readCategoriesJson(filePath)).forEach(category -> hierarchies.put(category.getName(), category));
+        Arrays.stream(jsonParser.readCategoriesJson(filePath)).
+                forEach(category -> hierarchies.put(category.getName(), category));
     }
 
     /**
