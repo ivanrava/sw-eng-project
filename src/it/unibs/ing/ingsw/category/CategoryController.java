@@ -130,7 +130,9 @@ public class CategoryController {
             if (child.getValue().getName().equalsIgnoreCase(name)) {
                 return child.getValue();
             } else if (!child.getValue().isLeaf()) {
-                return searchTree(child.getValue(), name);
+                if (searchTree(child.getValue(), name) != null) {
+                    return searchTree(child.getValue(), name);
+                }
             }
         }
         return null;
