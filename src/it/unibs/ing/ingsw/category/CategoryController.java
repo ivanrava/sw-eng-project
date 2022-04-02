@@ -7,7 +7,6 @@ import it.unibs.ing.ingsw.io.batch.JsonParser;
 import java.io.FileNotFoundException;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.List;
 import java.util.Map;
 
 public class CategoryController {
