@@ -19,7 +19,7 @@ public class Category implements Serializable {
      * @param isRootCategory 'true' se la categoria è radice, 'false' altrimenti
      */
     public Category(String name, String description, boolean isRootCategory, Map<String, Field> newFields) {
-        this.name = name;
+        this.name = name.toUpperCase();
         this.description = description;
 
         fields = new HashMap<>();
@@ -48,7 +48,7 @@ public class Category implements Serializable {
      * @param childCategory La categoria figlia da aggiungere
      */
     public void addChildCategory(Category childCategory) {
-        this.children.put(childCategory.name, childCategory);
+        this.children.put(childCategory.name.toUpperCase(), childCategory);
         childCategory.setParent(this);
 
     }
