@@ -6,6 +6,8 @@ import it.unibs.ing.ingsw.io.batch.JsonParser;
 
 import java.io.FileNotFoundException;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 
 public class CategoryController {
@@ -22,17 +24,6 @@ public class CategoryController {
         JsonParser jsonParser = new JsonParser();
         Arrays.stream(jsonParser.readCategoriesJson(filePath)).
                 forEach(category -> hierarchies.put(category.getName(), category));
-    }
-
-    /**
-     * Metodo che visualizza tutta la gerarchia (solo nome per ogni categoria)
-     */
-    public String allHierarchiesToString() {
-        StringBuilder sb = new StringBuilder();
-        for (Category cat : hierarchies.values()) {
-            sb.append(cat.onlyNameToString());
-        }
-        return sb.toString();
     }
 
     /**
@@ -157,5 +148,9 @@ public class CategoryController {
      */
     public Map<String, Field> getFieldsForCategory(String rootCategoryName, String categoryName) {
         return searchTree(rootCategoryName, categoryName).getFields();
+    }
+
+    public Collection<Category> getRootCategories() {
+        return hierarchies.values();
     }
 }

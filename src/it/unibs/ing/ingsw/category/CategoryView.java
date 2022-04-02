@@ -82,7 +82,19 @@ public class CategoryView {
      */
     public void printHierarchies() {
         //versione solo nomi
-        System.out.println(categoryController.allHierarchiesToString());
+        System.out.println(allHierarchiesToString());
+    }
+
+    /**
+     * Metodo che visualizza tutta la gerarchia (solo nome per ogni categoria)
+     */
+    public String allHierarchiesToString() {
+        StringBuilder sb = new StringBuilder();
+        for (Category cat : categoryController.getRootCategories()) {
+            sb.append("\n");
+            sb.append(cat.onlyNameToString());
+        }
+        return sb.toString();
     }
 
     /**
