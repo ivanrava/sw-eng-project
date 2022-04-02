@@ -41,7 +41,7 @@ public class CategoryController {
      * @param description Descrizione della nuova categoria radice
      */
     public void makeRootCategory(String name, String description, Map<String, Field> newFields) {
-        assert hierarchies.get(name) == null : ASSERTION_ROOT_OVERWRITE;
+        assert searchTree(name, name) == null : ASSERTION_ROOT_OVERWRITE;
         Category rootCategory = new Category(name, description, true, newFields);
         hierarchies.put(name, rootCategory);
     }
