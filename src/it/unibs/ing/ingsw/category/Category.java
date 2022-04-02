@@ -1,7 +1,8 @@
 package it.unibs.ing.ingsw.category;
 
 import java.io.Serializable;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Category implements Serializable {
     public static final String STATO_DI_CONSERVAZIONE = "Stato di conservazione";
@@ -98,7 +99,7 @@ public class Category implements Serializable {
 
     @Override
     public String toString() {
-        return String.format("[name = %s | description = %s | {fields = %s} | {childrens = %s} ]\n", name, description, fields, children);
+        return String.format("[name = %s | description = %s | {fields = %s} | {children = %s} ]\n", name, description, fields, children);
     }
 
     /**
