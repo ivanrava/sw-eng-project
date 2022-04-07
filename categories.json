@@ -144,5 +144,52 @@
       }
     ],
     "children": []
+  },
+  {
+    "name": "Macchina",
+    "description": "brum",
+    "fields": [
+      {
+      "name": "Titolo",
+      "required": true
+      }
+    ],
+    "children": [
+      {
+        "name": "sportiva",
+        "description": "rossa",
+        "fields": [
+          {
+            "name": "cilindrata",
+            "required": false
+          }
+        ],
+        "children": []
+      }
+    ]
+  },
+  {
+    "name": "Moto",
+    "description": "brumbrum",
+    "fields": [
+      {
+        "name": "Titolo",
+        "required": true
+      }
+    ],
+    "children": [
+      {
+        "name": "ducati",
+        "description": "rossa",
+        "fields": [
+          {
+            "name": "cilindrata",
+            "required": false
+          }
+        ],
+        "children": []
+      }
+    ]
   }
 ]
+

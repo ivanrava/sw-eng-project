@@ -116,7 +116,7 @@ public class ArticleController {
      * @param id Identificatore numerico dell'articolo
      * @return 'true' se esiste, 'false' altrimenti
      */
-    public boolean exists(int id) {
+    private boolean exists(int id) {
         return articles.containsKey(id);
     }
 

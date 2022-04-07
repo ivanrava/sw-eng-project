@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class CategoryDeserializer implements JsonDeserializer<Category> {
+
     @Override
     public Category deserialize(JsonElement jsonElement, Type type, JsonDeserializationContext jsonDeserializationContext) throws JsonParseException {
         // Create root

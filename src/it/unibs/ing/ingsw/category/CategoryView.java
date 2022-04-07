@@ -88,7 +88,7 @@ public class CategoryView {
     /**
      * Metodo che visualizza tutta la gerarchia (solo nome per ogni categoria)
      */
-    public String allHierarchiesToString() {
+    private String allHierarchiesToString() {
         StringBuilder sb = new StringBuilder();
         for (Category cat : categoryController.getRootCategories()) {
             sb.append("\n");
@@ -150,7 +150,7 @@ public class CategoryView {
      * @param rootName Nome della categoria radice
      * @return Nome della categoria genitore
      */
-    public String askAndCheckParentName(String rootName) {
+    private String askAndCheckParentName(String rootName) {
         String parentName;
         do {
             parentName = InputDati.leggiStringaNonVuota(INSERT_PARENT_CATEGORY_NAME);
@@ -166,7 +166,7 @@ public class CategoryView {
      * @param rootName Nome della categoria radice
      * @return Nome della categoria
      */
-    public String askAndCheckCategoryName(String rootName){
+    private String askAndCheckCategoryName(String rootName){
         String name;
         do {
             name = InputDati.leggiStringaNonVuota(INSERT_CATEGORY_NAME);
@@ -199,7 +199,7 @@ public class CategoryView {
      * Chiedi i campi per una categoria radice
      * @return I campi per la categoria radice
      */
-    public Map<String, Field> askFieldsForRoot() {
+    private Map<String, Field> askFieldsForRoot() {
         return askFields(categoryController.getDefaultFields(), categoryController.getDefaultFields());
     }
 
@@ -208,7 +208,7 @@ public class CategoryView {
      * @param parent Categoria genitore
      * @return Campi della categoria figlia
      */
-    public Map<String, Field> askFieldsForCategory(Category parent){
+    private Map<String, Field> askFieldsForCategory(Category parent){
         return askFields(parent.getFields(), new HashMap<>());
     }
 
@@ -218,7 +218,7 @@ public class CategoryView {
      * @param newFieldsMap Mappa dei nuovi campi
      * @return Mappa dei nuovi campi con quelli inseriti
      */
-    public Map<String, Field> askFields(Map<String, Field> controlMap, Map<String, Field> newFieldsMap){
+    private Map<String, Field> askFields(Map<String, Field> controlMap, Map<String, Field> newFieldsMap){
         boolean scelta;
         Map<String, Field> newMap = new HashMap<>(controlMap);
         do {
@@ -237,7 +237,7 @@ public class CategoryView {
      * @param actualFields Campi già inseriti, usati per i controlli
      * @return Il nuovo campo inserito
      */
-    public Field createField(Map<String, Field> actualFields){
+    private Field createField(Map<String, Field> actualFields){
         String fieldName;
         do{
             fieldName = InputDati.leggiStringaNonVuota(INSERT_FIELD_NAME);

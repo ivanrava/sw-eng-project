@@ -91,7 +91,7 @@ public class ConfigView {
     /**
      * Modifica la configurazione
      */
-    public void editConfig() {
+    private void editConfig() {
         if(!configController.existsDefaultValues()) {
             addConfigFirst();
         } else {
@@ -102,7 +102,7 @@ public class ConfigView {
     /**
      * Crea la prima configurazione
      */
-    public void addConfigFirst() {
+    private void addConfigFirst() {
         inserisciPiazza();
         inserisciLuoghi();
         inserisciGiorni();
@@ -113,7 +113,7 @@ public class ConfigView {
     /**
      * Aggiorna la configurazione già esistente
      */
-    public void updateConfig() {
+    private void updateConfig() {
         if (InputDati.yesOrNo(EDIT_PLACES))
             inserisciLuoghi();
         if (InputDati.yesOrNo(EDIT_DAYS))

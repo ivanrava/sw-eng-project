@@ -29,7 +29,7 @@ public class Exchange implements Serializable {
         this.to = articleWanted.getOwner();
     }
 
-    public LocalDate getWhenLastEvent() {
+    private LocalDate getWhenLastEvent() {
         return whenLastEvent;
     }
 
