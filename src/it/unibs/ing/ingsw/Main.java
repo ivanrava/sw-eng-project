@@ -16,16 +16,6 @@ public class Main {
      * @param args Argomenti a linea di comando
      */
     public static void main(String[] args) {
-//        // FIXME: delete this thing
-//        JsonParser jsonParser = new JsonParser();
-//        try {
-//            Arrays.stream(jsonParser.readCategoriesJson()).forEach(category -> System.out.println(category.onlyNameToString()));
-//            System.out.println(jsonParser.readConfigJson());
-//        } catch (FileNotFoundException e) {
-//            e.printStackTrace();
-//        }
-//        System.exit(0);
-//        // FIXME: stop here
         try {
             Saves saves = new Saves();
             View view = new View(saves);
