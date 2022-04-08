@@ -8,7 +8,7 @@ Tecnologie utilizzate:
 
 # Spiegazione generale
 Applicazione che permette a degli utenti di registrarsi, aggiungere i propri articoli da barattare in categorie predisposte dall'amministratore dell'applicazione
-e proporre scambi con altri utenti, che potranno poi decidere se accettare o meno lo scambio
+e proporre scambi con altri utenti, che potranno poi decidere se accettare o meno lo scambio. 
 
 # Come eseguire l'applicazione?
 Prerequisiti:
