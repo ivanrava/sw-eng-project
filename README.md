@@ -1,7 +1,6 @@
 # sw-eng-project
 Group project realized for the Software Engineering full-year course @ UniBS
 
-# Baratti
 Tecnologie utilizzate:
 - Java 18
 - gson-2.9.0 (libreria per serializzazione/deserializzazione Json)
