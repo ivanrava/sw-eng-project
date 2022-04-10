@@ -8,7 +8,23 @@ Tecnologie utilizzate:
 
 # Spiegazione generale
 Applicazione che permette a degli utenti di registrarsi, aggiungere i propri articoli da barattare in categorie predisposte dall'amministratore dell'applicazione
-e proporre scambi con altri utenti, che potranno poi decidere se accettare o meno lo scambio. 
+e proporre scambi con altri utenti, che potranno poi decidere se accettare o meno lo scambio. Ogni utente può aggiungere articoli al proprio profilo, e può proporre e gestire proposte di scambio con altri utenti. Dopo aver confermato uno scambio, gli utenti potranno accordarsi, direttamente tramite l'applicazione, sul luogo e sulla data dell'appuntamento. In qualunque momento un utente può ritirare un proprio articolo (nel caso non lo voglia più scambiare), e questo non sarà più visibile agli altri utenti.
+
+## Aggiunta articolo
+_Prerequisiti:_
+ - Essere registrati
+
+Dopo aver effettuato l'accesso all'applicazione selezionare _"Gestisci gli articoli"_ e successivamente _"Aggiungi un articolo/offerta"_. Inserire tutti i dati richiesti (categoria di appartenenza, stato di conservazione, e tutti gli altri campi), nel caso siano _facoltativi_, é possibile non scrivere nulla. Terminata l'aggiunta dell'articolo sarà possibile visualizzarlo, insieme a tutti gli altri articoli aggiunti in precedenza, nella sezione _"Visualizza articoli/offerte dell'utente"_.
+
+## Proporre uno scambio
+_Prerequisiti:_
+ - Essere registrati
+ - Avere almeno un articolo _"aperto"_ allo scambio sul profilo
+
+Dopo aver effettuato l'accesso all'applicazione selezionare _"Gestisci i baratti"_ e successivamente _"Proponi un baratto"_. Selezionare l'articolo da proporre, poi selezionare l'articolo desiderato tra tutti gli articoli altrui della stessa categoria (Non è possibile effettuare scambi con articoli di categorie differenti). Ora sarà l'altro utente a dover accettare o meno lo scambio.
+
+## Accettare/Rifiutare uno scambio
+TODO
 
 # Come eseguire l'applicazione?
 Prerequisiti:
@@ -36,7 +52,7 @@ Dopo aver fatto l'accesso con le credenziali di default e creato l'account di co
 Andranno configurate prima dell'utilizzo da parte degli utenti finali le categorie, che poi andranno a ospitare gli articoli (Libro, Videogioco, Abbigliamento, ecc...),
 e i luoghi e gli orari di ritrovo per effettuare fisicamente gli scambi.
 
-# Setup Categorie
+## Setup Categorie
 Dopo aver effettuato l'accesso con un account configuratore andare nel menù di gestione delle categorie.
 Da li sarà possibile creare categorie direttamente dall'applicazione inserendo i dati richiesti, o altrimenti, 
 é possibile importare le categorie tramite un file Json. Dall'applicazione andrà inserito il percorso assoluto del file su disco. Ecco un esempio di file Json per l'importazione delle categorie...
@@ -87,7 +103,7 @@ Da li sarà possibile creare categorie direttamente dall'applicazione inserendo 
 ]
 ```
 
-# Setup Luoghi/Orari di scambio
+## Setup Luoghi/Orari di scambio
 Dopo aver effettuato l'accesso con un account configuratore andare nel menù di gestione della configurazione. Da li sarà possibile inserire Luoghi/Orari di scambio direttamente dall'applicazione inserendo i dati richiesti, o altrimenti, é possibile importarli tramite un file Json. Dall'applicazione andrà inserito il percorso assoluto del file su disco. Ecco un esempio di file Json per l'importazione dei Luoghi/Orari di scambio...
 ```json
 {
@@ -112,7 +128,7 @@ Dopo aver effettuato l'accesso con un account configuratore andare nel menù di 
 }
 ```
 
-# Screenshots
+## Screenshots
 ### Accesso
 ![Cattura](https://user-images.githubusercontent.com/44038580/162405056-dc4d4f59-f6a0-46e9-95df-f6f6dccbcdc2.PNG)
 ### Interfaccia di amministrazione (configuratore)
