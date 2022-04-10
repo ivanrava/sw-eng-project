@@ -7,8 +7,7 @@ Tecnologie utilizzate:
 - gson-2.9.0 (libreria per serializzazione/deserializzazione Json)
 
 # Spiegazione generale
-Applicazione che permette a degli utenti di registrarsi, aggiungere i propri articoli da barattare in categorie predisposte dall'amministratore dell'applicazione
-e proporre scambi con altri utenti, che potranno poi decidere se accettare o meno lo scambio. Ogni utente può aggiungere articoli al proprio profilo, e può proporre e gestire proposte di scambio con altri utenti. Dopo aver confermato uno scambio, gli utenti potranno accordarsi, direttamente tramite l'applicazione, sul luogo e sulla data dell'appuntamento. In qualunque momento un utente può ritirare un proprio articolo (nel caso non lo voglia più scambiare), e questo non sarà più visibile agli altri utenti.
+Applicazione che permette a degli utenti di creare un proprio profilo, aggiungere articoli da barattare in categorie predisposte dall'amministratore dell'applicazione e proporre baratti con altri utenti. Ogni utente può aggiungere articoli al proprio profilo, e può proporre e gestire proposte di scambio con altri utenti. Dopo aver confermato uno scambio, gli utenti potranno accordarsi, direttamente tramite l'applicazione, sul luogo e sulla data dell'appuntamento. In qualunque momento un utente può ritirare un proprio articolo (nel caso non lo voglia più scambiare), e questo non sarà più visibile agli altri utenti.
 
 ## Aggiunta articolo
 _Prerequisiti:_
@@ -24,7 +23,10 @@ _Prerequisiti:_
 Dopo aver effettuato l'accesso all'applicazione selezionare _"Gestisci i baratti"_ e successivamente _"Proponi un baratto"_. Selezionare l'articolo da proporre, poi selezionare l'articolo desiderato tra tutti gli articoli altrui della stessa categoria (Non è possibile effettuare scambi con articoli di categorie differenti). Ora sarà l'altro utente a dover accettare o meno lo scambio.
 
 ## Accettare/Rifiutare uno scambio
-TODO
+_Prerequisiti:_
+ - Essere registrati
+
+Per visualizzare/gestire le offerte di scambio che ci sono state proposte selezionare dal menù principale _"Gestisci i baratti"_ e successivamente _"Gestisci i baratti che ti sono stati proposti"_. Da qui sarà possibile visualizzare tutte le offerte di scambio, e per ognuna sarà possibile accettare o rifiutare l'offerta. Nel caso si rifiuti lo scambio il nostro articolo tornerà ad essere _aperto_ ad altre offerte. Nel caso si accetti lo scambio si dovrà proporre all'altro utente un luogo e una data per l'appuntamento.
 
 # Come eseguire l'applicazione?
 Prerequisiti:
@@ -58,48 +60,48 @@ Da li sarà possibile creare categorie direttamente dall'applicazione inserendo 
 é possibile importare le categorie tramite un file Json. Dall'applicazione andrà inserito il percorso assoluto del file su disco. Ecco un esempio di file Json per l'importazione delle categorie...
 ```json
 [
-    {
-        "name": "Libro",
-        "description": "Opera cartacea",
-        "fields": [
-            {
-                "name": "Titolo",
-                "required": true
-            },
-            {
-                "name": "Anno di uscita",
-                "required": true
-            },
-            {
-                "name": "Edizione",
-                "required": false
-            },
-            {
-                "name": "Autore",
-                "required": true
-            }
-        ],
+  {
+    "name": "Libro",
+    "description": "Opera cartacea",
+    "fields": [
+      {
+        "name": "Titolo",
+        "required": true
+      },
+      {
+        "name": "Anno di uscita",
+        "required": true
+      },
+      {
+        "name": "Edizione",
+        "required": false
+      },
+      {
+        "name": "Autore",
+        "required": true
+      }
+    ],
+    "children": [
+      {
+        "name": "Romanzo",
+        "description": "Narrazione scritta in prosa",
+        "fields": [],
         "children": [
-            {
-                "name": "Romanzo",
-                "description": "Narrazione scritta in prosa",
-                "fields": [],
-                "children": [
-                    {
-                        "name": "Romanzo straniero",
-                        "description": "Romanzo in lingua non italiana",
-                        "fields": [
-                            {
-                                "name": "Lingua originale",
-                                "required": true
-                            }
-                        ],
-                        "children": []
-                    }
-                ]
-            }
+          {
+            "name": "Romanzo straniero",
+            "description": "Romanzo in lingua non italiana",
+            "fields": [
+              {
+                "name": "Lingua originale",
+                "required": true
+              }
+            ],
+            "children": []
+          }
         ]
-    }
+      }
+    ]
+  }
 ]
 ```
 
@@ -108,9 +110,16 @@ Dopo aver effettuato l'accesso con un account configuratore andare nel menù di 
 ```json
 {
   "square": "Brescia",
-  "places": ["Portici", "UniBS - via Branze 38", "Fermata metro Vittoria"],
+  "places": [
+    "Portici",
+    "UniBS - via Branze 38",
+    "Fermata metro Vittoria"
+  ],
   "deadline": 10,
-  "days": [6,7],
+  "days": [
+    6,
+    7
+  ],
   "timeIntervals": [
     {
       "start": "08:00",
