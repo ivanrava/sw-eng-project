@@ -12,29 +12,47 @@ Applicazione che permette a degli utenti di creare un proprio profilo, aggiunger
 _Prerequisiti:_
  - Essere registrati
 
-Dopo aver effettuato l'accesso all'applicazione selezionare _"Gestisci gli articoli"_ e successivamente _"Aggiungi un articolo/offerta"_. Inserire tutti i dati richiesti (categoria di appartenenza, stato di conservazione, e tutti gli altri campi), nel caso siano _facoltativi_, é possibile non scrivere nulla. Terminata l'aggiunta dell'articolo sarà possibile visualizzarlo, insieme a tutti gli altri articoli aggiunti in precedenza, nella sezione _"Visualizza articoli/offerte dell'utente"_.
+Dopo aver effettuato l'accesso all'applicazione selezionare _"Gestisci gli articoli"_ e successivamente _"Aggiungi un articolo/offerta"_. Inserire tutti i dati richiesti (la _categoria_ di appartenenza e poi tutti i campi da compilare relativi alla categoria scelta, come ad esempio lo stato di conservazione).
+Nel caso i campi siano _facoltativi_, é possibile non scrivere nulla.
+
+L'aggiunta della categoria va fatta identificando prima la "categoria radice" e poi selezionando la "categoria foglia" desiderata all'interno delle categorie individuate dalla categoria radice scelta.
+
+Terminata l'aggiunta dell'articolo sarà possibile visualizzarlo, insieme a tutti gli altri articoli aggiunti in precedenza, nella sezione _"Visualizza articoli/offerte dell'utente"_.
+
+Gli articoli aggiunti saranno automaticamente resi disponibili per gli scambi (l'applicazione li indica come "aperti"). Se l'utente desidera ritirare gli articoli aggiunti può farlo successivamente con l'ausilio dell'applicazione.
+
+Ogni utente che dispone di articoli "aperti" allo scambio può quindi proporre dei baratti agli altri utenti.
 
 ## Proporre uno scambio
 _Prerequisiti:_
  - Essere registrati
  - Avere almeno un articolo _"aperto"_ allo scambio sul profilo
 
-Dopo aver effettuato l'accesso all'applicazione selezionare _"Gestisci i baratti"_ e successivamente _"Proponi un baratto"_. Selezionare l'articolo da proporre, poi selezionare l'articolo desiderato tra tutti gli articoli altrui della stessa categoria (Non è possibile effettuare scambi con articoli di categorie differenti). Ora sarà l'altro utente a dover accettare o meno lo scambio.
+Dopo aver effettuato l'accesso all'applicazione selezionare _"Gestisci i baratti"_ e successivamente _"Proponi un baratto"_. Selezionare l'articolo da proporre, poi selezionare l'articolo desiderato tra tutti gli articoli della stessa categoria caricati dagli altri utenti (non è possibile effettuare scambi con articoli di categorie differenti).
 
-## Accettare/Rifiutare uno scambio
+Ora sarà l'altro utente a dover accettare o meno lo scambio.
+
+## Accettare / rifiutare uno scambio
 _Prerequisiti:_
  - Essere registrati
 
-Per visualizzare/gestire le offerte di scambio che ci sono state proposte selezionare dal menù principale _"Gestisci i baratti"_ e successivamente _"Gestisci i baratti che ti sono stati proposti"_. Da qui sarà possibile visualizzare tutte le offerte di scambio, e per ognuna sarà possibile accettare o rifiutare l'offerta. Nel caso si rifiuti lo scambio il nostro articolo tornerà ad essere _aperto_ ad altre offerte. Nel caso si accetti lo scambio si dovrà proporre all'altro utente un luogo e una data per l'appuntamento.
+Per visualizzare/gestire le offerte di scambio che ci sono state proposte selezionare dal menu principale _"Gestisci i baratti"_ e successivamente _"Gestisci i baratti che ti sono stati proposti"_. Da qui sarà possibile visualizzare tutte le offerte di scambio, e per ognuna sarà possibile accettare o rifiutare l'offerta:
+- Nel caso si **rifiuti** lo scambio il nostro articolo tornerà ad essere _"aperto"_ ad altre offerte, senza rimanere "bloccato" dall'offerta indesiderata.
+- Nel caso si **accetti** lo scambio si dovrà proporre all'altro utente un luogo e una data per l'appuntamento. Il luogo può essere scelto da una lista di località predeterminata dai configuratori dell'applicazione e tutte localizzate in una stessa "piazza" (visibile chiedendo di mostrare le _"generalità dell'applicazione"_ dal menu principale del fruitore). Allo stesso modo, anche la data è vincolata a delle finestre temporali imposte dal configuratore: il giorno è selezionabile solo tra una lista predeterminata di giorni della settimana, mentre l'ora è vincolata all'interno di intervalli temporali con granularità di mezz'ora (anche questi intervalli sono visibili dalla schermata delle _"generalità"_).
 
-# Come eseguire l'applicazione?
+Dopo l'accettazione e la proposta di luogo / data / orario, l'onere della risposta viene rimpallato all'altro utente, che potrà accettare e chiudere lo scambio oppure rifiutare e redigere un'altra proposta spazio-temporale. Il flusso continua sino a che un utente non accetta la proposta della controparte oppure sino a quando la proposta non scade senza ricevere risposta (la scadenza è anch'essa fissata in giorni dal configuratore, ed è visualizzabile nelle _"generalità"_).
+
+# Prerequisiti
 Prerequisiti:
 - Java Runtime Environment
 - Eseguibile sw-eng-project.jar
 
-Creare una cartella e inserire al suo interno il file eseguibile (l'app durante l'utilizzo creerà dei file di configurazion
-ed é necessario che siano nella stessa cartella dell'eseguibile), ora aprire una finestra di terminale (Bash, cmd, Powershell, ecc..)
-nella cartella. dare il comando...
+# Installazione
+1. Creare una cartella e inserire al suo interno il file eseguibile (l'app durante l'utilizzo creerà dei file di configurazion
+ed é necessario che siano nella stessa cartella dell'eseguibile)
+2. Aprire un emulatore di terminale (bash, cmd, Powershell, ecc..) e spostarsi nella cartella.
+3. Dare il comando apposito per eseguire il .jar da linea di comando, che può essere ad esempio:
+
 ### Windows
 ```
 java -jar .\sw-eng-project.jar
@@ -45,18 +63,27 @@ java -jar .\sw-eng-project.jar
 java -jar ./sw-eng-project.jar
 ```
 
-# Setup Iniziale (per configuratore)
-Al primo avvio dell'applicazione il configuratore dovrà decidere una password di default
-che sarà poi utilizzata per creare degli account con permessi di configurazione del sistema.
-Dopo aver fatto l'accesso con le credenziali di default e creato l'account di configuratore sarà necessario un setup iniziale.
+# Configurazione / setup iniziale (per configuratore)
+Al primo avvio dell'applicazione il configuratore dovrà decidere una password di default che sarà poi utilizzata per creare degli account con permessi di configurazione del sistema.
+Queste credenziali non possono essere modificate in un secondo momento e conferiscono la possibilità di creare nuovi utenti / credenziali con privilegi amministrativi. Per questi motivi è imperativo che **non vengano mai condivise con nessuno e che non siano mai dimenticate**. Idealmente dovrebbero essere scelte delle credenziali di non facile deduzione.
 
-Andranno configurate prima dell'utilizzo da parte degli utenti finali le categorie, che poi andranno a ospitare gli articoli (Libro, Videogioco, Abbigliamento, ecc...),
-e i luoghi e gli orari di ritrovo per effettuare fisicamente gli scambi.
+Fare l'accesso con le credenziali di default permetterà di creare un account "configuratore", definendone username e password. Gli username sono univoci per tutti gli utenti (che siano "configuratori" o "fruitori").
 
-## Setup Categorie
-Dopo aver effettuato l'accesso con un account configuratore andare nel menù di gestione delle categorie.
-Da li sarà possibile creare categorie direttamente dall'applicazione inserendo i dati richiesti, o altrimenti, 
-é possibile importare le categorie tramite un file Json. Dall'applicazione andrà inserito il percorso assoluto del file su disco. Ecco un esempio di file Json per l'importazione delle categorie...
+Prima dell'uso da parte degli utenti finali gli utenti configuratori dovranno creare le categorie, che poi andranno ad identificare gli articoli degli utenti (come ad es. Libro, Videogioco, Abbigliamento, ecc... - ma ne parleremo meglio successivamente), ma anche la "configurazione" dell'applicazione, ovvero i luoghi dove avvengono gli scambi, la città in cui avvengono gli scambi (detta "piazza" e determinabile una sola volta), la scadenza delle offerte e delle proposte, nonché gli orari / giorni di ritrovo in cui effettuare fisicamente gli scambi (usati in fase di definizione delle proposte).
+
+## Configurazione categorie
+L'applicazione gestisce categorie tramite più gerarchie ad albero, identificate dalla radice degli alberi. Ci sono dei vincoli sulla definizione dei nomi delle gerarchie:
+- Il nome di una categoria radice è univoco tra tutte le altre categorie radice.
+- Il nome di una categoria all'interno di una gerarchia è univoco per quella gerarchia.
+Una categoria è pertanto univocamente determinata dal nome della sua categoria radice e della categoria stessa (in quella gerarchia).
+
+Ogni categoria è identificata, oltre che dal suo nome e da una descrizione testuale, anche da campi testuali, a compilazione obbligatoria o facoltativa, determinati dal configuratore o dall'applicazione. In particolare, l'applicazione associa di _default_ ad ogni categoria radice 2 campi nativi:
+- Stato di conservazione (obbligatorio)
+- Descrizione libera (facoltativo)
+Ogni categoria eredita i campi dei genitori e gli articoli possono essere aggiunti solo a categorie foglia, compilando tutti i campi di quella categoria foglia (sia propri che ereditati dagli ascendenti).
+
+Per aggiungere le categorie bisogna aver effettuato l'accesso con un account configuratore e poi andare nel menù di gestione delle categorie.
+Da lì sarà possibile creare categorie direttamente dall'applicazione inserendo i dati richiesti, oppure è anche possibile importare le categorie tramite un file .json in modalità _batch_. Dall'applicazione andrà inserito il percorso assoluto del file .json su disco, di cui forniamo un esempio a titolo esemplicativo del suo semplice formato:
 ```json
 [
   {
@@ -104,8 +131,8 @@ Da li sarà possibile creare categorie direttamente dall'applicazione inserendo 
 ]
 ```
 
-## Setup Luoghi/Orari di scambio
-Dopo aver effettuato l'accesso con un account configuratore andare nel menù di gestione della configurazione. Da li sarà possibile inserire Luoghi/Orari di scambio direttamente dall'applicazione inserendo i dati richiesti, o altrimenti, é possibile importarli tramite un file Json. Dall'applicazione andrà inserito il percorso assoluto del file su disco. Ecco un esempio di file Json per l'importazione dei Luoghi/Orari di scambio...
+## Setup configurazione
+Anche la configurazione può essere importata direttamente da disco, dal menu di gestione della configurazione. Da lì sarà possibile inserire tutti i dati di configurazione (credenziali di default escluse) direttamente dall'applicazione, interattivamente, oppure é possibile importarli tramite un file .json. Dall'applicazione andrà inserito il percorso assoluto del file su disco. Ecco un esempio di file .json (la scadenza `deadline` è in giorni, i giorni della settimana `days` sono inseriti come interi da 1 a 7 e gli intervalli temporali `timeIntervals` sono granulari rispetto alla mezz'ora):
 ```json
 {
   "square": "Brescia",
