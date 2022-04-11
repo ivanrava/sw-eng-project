@@ -4,8 +4,7 @@ Progetto realizzato nell'ambito del corso di Ingegneria del Software dell'Univer
 Applicazione che permette a degli utenti di creare un proprio profilo, aggiungere articoli da barattare in categorie predisposte dall'amministratore dell'applicazione e proporre baratti con altri utenti. Ogni utente può aggiungere articoli al proprio profilo, e può proporre e gestire proposte di scambio con altri utenti. Dopo aver confermato uno scambio, gli utenti potranno accordarsi, direttamente tramite l'applicazione, sul luogo e sulla data dell'appuntamento. In qualunque momento un utente può ritirare un proprio articolo (nel caso non lo voglia più scambiare), e questo non sarà più visibile agli altri utenti.
 
 # Tecnologie utilizzate
-Il progetto è stato realizzato con le seguenti tecnologie e librerie:
-- Java 18
+Il progetto è stato realizzato con **Java 18** utilizzando le seguenti librerie:
 - gson-2.9.0 (libreria di Google per la serializzazione / deserializzazione di classi Java su / da file .json)
 - UniBSFPLib (libreria di comodo per le interfacce CLI usata nel corso di Fondamenti di Programmazione)
 
