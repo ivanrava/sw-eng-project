@@ -1,4 +1,4 @@
-# Descrizione e librerie
+# Descrizione
 Progetto realizzato nell'ambito del corso di Ingegneria del Software dell'Università degli Studi di Brescia, utilizzando
 
 Applicazione che permette a degli utenti di creare un proprio profilo, aggiungere articoli da barattare in categorie predisposte dall'amministratore dell'applicazione e proporre baratti con altri utenti. Ogni utente può aggiungere articoli al proprio profilo, e può proporre e gestire proposte di scambio con altri utenti. Dopo aver confermato uno scambio, gli utenti potranno accordarsi, direttamente tramite l'applicazione, sul luogo e sulla data dell'appuntamento. In qualunque momento un utente può ritirare un proprio articolo (nel caso non lo voglia più scambiare), e questo non sarà più visibile agli altri utenti.
