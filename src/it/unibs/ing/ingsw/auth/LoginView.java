@@ -2,6 +2,8 @@ package it.unibs.ing.ingsw.auth;
 
 import it.unibs.ing.fp.mylib.InputDati;
 import it.unibs.ing.fp.mylib.MyMenu;
+import it.unibs.ing.ingsw.exceptions.NoUserException;
+import it.unibs.ing.ingsw.exceptions.WrongCredentialsException;
 import it.unibs.ing.ingsw.io.Saves;
 
 public class LoginView {
@@ -30,7 +32,7 @@ public class LoginView {
     /**
      * Esegue l'UI generale di login
      */
-    public User execute() {
+    public User execute() throws NoUserException, WrongCredentialsException {
         if (!userController.existsDefaultCredentials()) {
             startSettingDefaultCredentials();
         }
@@ -47,7 +49,7 @@ public class LoginView {
                 }
             }
         } while (scelta != 0);
-        throw new RuntimeException(ERROR_NO_LOGIN);
+        throw new NoUserException(ERROR_NO_LOGIN);
     }
 
     /**
@@ -66,7 +68,7 @@ public class LoginView {
     /**
      * Esegue l'UI di login
      */
-    private User startLogin() {
+    private User startLogin() throws WrongCredentialsException {
         String username, password;
         do {
             username = InputDati.leggiStringaNonVuota(INSERT_USERNAME);
@@ -74,7 +76,7 @@ public class LoginView {
             if (userController.checkDefaultCredentials(username, password)) {
                 startRegister(true);
             } else if (!userController.login(username, password)) {
-                throw new IllegalArgumentException(ERROR_CREDENTIALS);
+                throw new WrongCredentialsException(ERROR_CREDENTIALS);
             }
         } while (!userController.login(username, password));
         System.out.printf(LOGIN_BANNER, username);

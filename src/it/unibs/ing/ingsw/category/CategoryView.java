@@ -1,12 +1,12 @@
 package it.unibs.ing.ingsw.category;
 
-import com.google.gson.JsonParseException;
 import it.unibs.ing.fp.mylib.InputDati;
 import it.unibs.ing.fp.mylib.MyMenu;
 import it.unibs.ing.ingsw.article.ArticleController;
+import it.unibs.ing.ingsw.exceptions.CategoryImportException;
+import it.unibs.ing.ingsw.exceptions.ErrorDialog;
 import it.unibs.ing.ingsw.io.Saves;
 
-import java.io.FileNotFoundException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -72,8 +72,8 @@ public class CategoryView {
             } else {
                 System.out.println("Errore nell'importazione (articoli già presenti)");
             }
-        } catch (FileNotFoundException | JsonParseException e) {
-            System.out.println("Errore lettura file...");
+        } catch (CategoryImportException e) {
+            ErrorDialog.print(e);
         }
     }
 

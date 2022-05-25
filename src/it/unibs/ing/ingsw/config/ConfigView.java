@@ -1,11 +1,11 @@
 package it.unibs.ing.ingsw.config;
 
-import com.google.gson.JsonParseException;
 import it.unibs.ing.fp.mylib.InputDati;
 import it.unibs.ing.fp.mylib.MyMenu;
+import it.unibs.ing.ingsw.exceptions.ErrorDialog;
+import it.unibs.ing.ingsw.exceptions.ConfigImportException;
 import it.unibs.ing.ingsw.io.Saves;
 
-import java.io.FileNotFoundException;
 import java.time.DayOfWeek;
 import java.time.LocalTime;
 import java.time.format.TextStyle;
@@ -76,8 +76,8 @@ public class ConfigView {
             String filePath = InputDati.leggiStringaNonVuota("Inserisci il percorso assoluto del file: ");
             configController.loadConfigFromBatch(filePath);
             System.out.println("Configurazione importata con successo :-)");
-        } catch (FileNotFoundException | JsonParseException e) {
-            System.out.println("Errore lettura file...");
+        } catch (ConfigImportException e) {
+            ErrorDialog.print(e);
         }
     }
 

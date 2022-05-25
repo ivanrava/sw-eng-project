@@ -5,6 +5,8 @@ import it.unibs.ing.ingsw.article.Exchange;
 import it.unibs.ing.ingsw.auth.User;
 import it.unibs.ing.ingsw.category.Category;
 import it.unibs.ing.ingsw.config.Config;
+import it.unibs.ing.ingsw.exceptions.LoadSavesException;
+import it.unibs.ing.ingsw.exceptions.SaveException;
 
 import java.io.IOException;
 import java.util.List;
@@ -20,28 +22,41 @@ public class Saves {
     /**
      * costruttore in cui vengono caricati tutti i file
      */
-    public Saves() throws IOException, ClassNotFoundException {
-        saveConfig = SaveConfig.loadConfig();
-        saveUsers = SaveUsers.loadUsers();
-        saveHierarchies = SaveHierarchies.loadHierarchies();
-        saveArticles = SaveArticles.loadArticles();
-        saveExchanges = SaveExchanges.loadExchanges();
+    public Saves() throws LoadSavesException {
+        try {
+            saveConfig = SaveConfig.loadConfig();
+            saveUsers = SaveUsers.loadUsers();
+            saveHierarchies = SaveHierarchies.loadHierarchies();
+            saveArticles = SaveArticles.loadArticles();
+            saveExchanges = SaveExchanges.loadExchanges();
+        } catch (IOException | ClassNotFoundException e) {
+            throw new LoadSavesException(e.getMessage());
+        }
+
     }
 
     /**
      * Metodo per salvataggio di tutti i file
      */
-    public void save() throws IOException {
-        saveConfig.save();
-        saveUsers.saveUsers();
-        saveHierarchies.saveHierarchies();
-        saveArticles.saveArticles();
-        saveExchanges.saveExchanges();
+    public void save() throws SaveException {
+        try {
+            saveConfig.save();
+            saveUsers.saveUsers();
+            saveHierarchies.saveHierarchies();
+            saveArticles.saveArticles();
+            saveExchanges.saveExchanges();
+        } catch (IOException e) {
+            throw new SaveException(e.getMessage());
+        }
     }
 
-    public Config getConfig () { return saveConfig.getConfig(); }
+    public Config getConfig() {
+        return saveConfig.getConfig();
+    }
 
-    public void setConfig (Config config) { saveConfig.setConfig(config); }
+    public void setConfig(Config config) {
+        saveConfig.setConfig(config);
+    }
 
     public Map<String, Category> getSaveHierarchies() {
         return saveHierarchies.getHierarchies();
@@ -61,6 +76,7 @@ public class Saves {
 
     /**
      * Imposta le credenziali di default
+     *
      * @param username Username di default
      * @param password Password di default
      */

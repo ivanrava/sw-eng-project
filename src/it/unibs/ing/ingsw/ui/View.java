@@ -3,9 +3,10 @@ package it.unibs.ing.ingsw.ui;
 import it.unibs.ing.ingsw.article.ExchangeController;
 import it.unibs.ing.ingsw.auth.LoginView;
 import it.unibs.ing.ingsw.auth.User;
+import it.unibs.ing.ingsw.exceptions.ErrorDialog;
+import it.unibs.ing.ingsw.exceptions.NoUserException;
+import it.unibs.ing.ingsw.exceptions.WrongCredentialsException;
 import it.unibs.ing.ingsw.io.Saves;
-
-import java.io.IOException;
 
 public class View {
     private final LoginView loginView;
@@ -23,10 +24,10 @@ public class View {
     /**
      * Esegue l'UI generale dell'applicazione
      */
-    public void execute() throws IOException {
+    public void execute() {
         //controlla scambi scaduti
         exchangeController.deleteExpiredExchanges();
-        do {
+        while (true) {
             try {
                 User user = loginView.execute();
                 if (user.isAdmin()) {
@@ -34,12 +35,13 @@ public class View {
                 } else {
                     customerView.execute(user);
                 }
-            }catch (IllegalArgumentException e) {
-                System.out.println(e.getMessage());
-            }catch (RuntimeException e) {
+            }catch (WrongCredentialsException e) {
+                ErrorDialog.print(e);
+            }catch (NoUserException e) {
+                ErrorDialog.print(e);
                 System.out.println("Uscita dal sistema");
                 break;
             }
-        } while (true);
+        }
     }
 }
