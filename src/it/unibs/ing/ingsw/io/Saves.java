@@ -13,6 +13,8 @@ import java.util.List;
 import java.util.Map;
 
 public class Saves {
+    private static final String ERROR_LOAD = "Errore caricamento Saves";
+    private static final String ERROR_SAVE = "Errore salvataggio Saves";
     private final SaveConfig saveConfig;
     private final SaveUsers saveUsers;
     private final SaveHierarchies saveHierarchies;
@@ -29,8 +31,8 @@ public class Saves {
             saveHierarchies = SaveHierarchies.loadHierarchies();
             saveArticles = SaveArticles.loadArticles();
             saveExchanges = SaveExchanges.loadExchanges();
-        } catch (IOException | ClassNotFoundException e) {
-            throw new LoadSavesException(e.getMessage());
+        } catch (IOException | ClassNotFoundException e) { //FIXME: magari gestire exception in modo piu specifico nei vari Saves (forse troppo specifico ?!)
+            throw new LoadSavesException(ERROR_LOAD);
         }
 
     }
@@ -46,7 +48,7 @@ public class Saves {
             saveArticles.saveArticles();
             saveExchanges.saveExchanges();
         } catch (IOException e) {
-            throw new SaveException(e.getMessage());
+            throw new SaveException(ERROR_SAVE);
         }
     }
 

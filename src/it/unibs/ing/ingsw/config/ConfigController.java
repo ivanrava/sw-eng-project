@@ -11,6 +11,9 @@ import java.time.LocalTime;
 import java.util.Set;
 
 public class ConfigController {
+    private static final String ERROR_FOUND_BATCH = "file batch non trovato...";
+    private static final String ERROR_IMPORT_BATCH = "errore caricamento file batch...";
+    
     private final Saves saves;
 
     public ConfigController(Saves saves) {
@@ -31,8 +34,10 @@ public class ConfigController {
             JsonParser jsonParser = new JsonParser();
             Config configFromBatch = jsonParser.readConfigJson(filePath);
             saves.setConfig(configFromBatch);
-        } catch (FileNotFoundException | JsonParseException e) {
-            throw new ConfigImportException("Errore lettura file...");
+        } catch (FileNotFoundException e) {
+            throw new ConfigImportException(ERROR_FOUND_BATCH);
+        } catch (JsonParseException e){
+            throw new ConfigImportException(ERROR_IMPORT_BATCH);
         }
     }
 

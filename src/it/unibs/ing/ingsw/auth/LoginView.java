@@ -49,7 +49,7 @@ public class LoginView {
                 }
             }
         } while (scelta != 0);
-        throw new NoUserException(ERROR_NO_LOGIN);
+        throw new NoUserException(ERROR_NO_LOGIN); //FIXME: non ha molto senso visualizzarlo all'uscita del sistema?! (magari inserire qua mex "uscita dal sistema" e togliere sout in View
     }
 
     /**
