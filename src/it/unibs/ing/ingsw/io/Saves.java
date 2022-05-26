@@ -12,9 +12,8 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
-public class Saves {
+public class Saves implements Saveable {
     private static final String ERROR_LOAD = "Errore caricamento Saves";
-    private static final String ERROR_SAVE = "Errore salvataggio Saves";
     private final SaveConfig saveConfig;
     private final SaveUsers saveUsers;
     private final SaveHierarchies saveHierarchies;
@@ -26,11 +25,11 @@ public class Saves {
      */
     public Saves() throws LoadSavesException {
         try {
-            saveConfig = SaveConfig.loadConfig();
-            saveUsers = SaveUsers.loadUsers();
-            saveHierarchies = SaveHierarchies.loadHierarchies();
-            saveArticles = SaveArticles.loadArticles();
-            saveExchanges = SaveExchanges.loadExchanges();
+            saveConfig = new SaveConfig();
+            saveUsers = new SaveUsers();
+            saveHierarchies = new SaveHierarchies();
+            saveArticles = new SaveArticles();
+            saveExchanges = new SaveExchanges();
         } catch (IOException | ClassNotFoundException e) { //FIXME: magari gestire exception in modo piu specifico nei vari Saves (forse troppo specifico ?!)
             throw new LoadSavesException(ERROR_LOAD);
         }
@@ -41,15 +40,11 @@ public class Saves {
      * Metodo per salvataggio di tutti i file
      */
     public void save() throws SaveException {
-        try {
-            saveConfig.save();
-            saveUsers.saveUsers();
-            saveHierarchies.saveHierarchies();
-            saveArticles.saveArticles();
-            saveExchanges.saveExchanges();
-        } catch (IOException e) {
-            throw new SaveException(ERROR_SAVE);
-        }
+        saveConfig.save();
+        saveUsers.save();
+        saveHierarchies.save();
+        saveArticles.save();
+        saveExchanges.save();
     }
 
     public Config getConfig() {

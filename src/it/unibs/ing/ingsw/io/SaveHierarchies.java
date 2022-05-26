@@ -3,44 +3,25 @@ package it.unibs.ing.ingsw.io;
 import it.unibs.ing.ingsw.category.Category;
 
 import java.io.*;
-import java.util.HashMap;
+import java.util.Collections;
 import java.util.Map;
 
-public class SaveHierarchies implements Serializable {
+public class SaveHierarchies extends AbstractSave<Map<String, Category>> {
     public static final String SAVE_HIERARCHIES = "./hierarchiesRegister.dat";
-    private final Map<String, Category> hierarchies = new HashMap<>();
+
+    public SaveHierarchies() throws IOException, ClassNotFoundException {}
+
+    @Override
+    protected String getSaveFilename() {
+        return SAVE_HIERARCHIES;
+    }
 
     public Map<String, Category> getHierarchies() {
-        return hierarchies;
+        return getSaveObject();
     }
 
-    /**
-     * Carica gerarchie dal filesystem. Se non lo trova ne crea uno nuovo
-     * @return gerarchie caricate
-     * @throws IOException Errore di I/O durante l'apertura del file delle gerarchie (non per file inesistente)
-     * @throws ClassNotFoundException Errore durante la lettura dell'oggetto dal file
-     */
-    public static SaveHierarchies loadHierarchies() throws IOException, ClassNotFoundException {
-        File f = new File(SAVE_HIERARCHIES);
-        if (f.exists()) {
-            try (ObjectInputStream inputStream = new ObjectInputStream(
-                    new BufferedInputStream(new FileInputStream(f)))) {
-                return (SaveHierarchies) inputStream.readObject();
-            }
-        }
-        return new SaveHierarchies();
+    @Override
+    public Map<String, Category> defaultSaveObject() {
+        return Collections.emptyMap();
     }
-
-    /**
-     * Salva gli articoli sul filesystem
-     * @throws IOException Errore di I/O durante il salvataggio delle gerarchie
-     */
-    public void saveHierarchies() throws IOException {
-        File f = new File(SAVE_HIERARCHIES);
-        try (ObjectOutputStream outputStream = new ObjectOutputStream(
-                new BufferedOutputStream(new FileOutputStream(f)))) {
-            outputStream.writeObject(this);
-        }
-    }
-
 }
