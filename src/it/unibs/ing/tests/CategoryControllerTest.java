@@ -1,5 +1,6 @@
 package it.unibs.ing.tests;
 
+import it.unibs.ing.ingsw.category.Category;
 import it.unibs.ing.ingsw.category.CategoryController;
 import it.unibs.ing.ingsw.io.Saves;
 import org.junit.jupiter.api.AfterEach;
@@ -27,7 +28,7 @@ class CategoryControllerTest {
     }
 
     @AfterEach
-    void tearDown() throws Exception{
+    void tearDown() throws Exception {
         autoCloseable.close();
     }
 
@@ -98,5 +99,36 @@ class CategoryControllerTest {
         assertNotNull(categoryController.getRootCategoryCaseInsensitive(rootName.toUpperCase()));
         assertNotNull(categoryController.getRootCategoryCaseInsensitive(rootName.toUpperCase()));
     }
+
+    @Test
+    public void searchTreeFindRoot() {
+        String rootName = "name";
+        categoryController.makeRootCategory(
+                rootName,
+                "description",
+                Collections.emptyMap()
+        );
+        assertEquals(
+                rootName.toUpperCase(),
+                categoryController.searchTree("name", "name").getName()
+        );
+    }
+
+    @Test
+    public void searchTreeFindRootFailureWithWrongName() {
+        String rootName = "name";
+        categoryController.makeRootCategory(
+                rootName,
+                "description",
+                Collections.emptyMap()
+        );
+        assertNull(categoryController.searchTree("wrongname", "wrongname"));
+    }
+
+    @Test
+    public void searchTreeFindRootFailureEmptyCategories() {
+        assertNull(categoryController.searchTree("name", "name"));
+    }
+
 
 }
