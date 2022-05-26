@@ -101,6 +101,7 @@ public class CategoryController {
         //MI mandava in Stack Overflow un test su existRoot
         //assert existsRoot(rootName) : ASSERTION_ROOT_UNEXISTANT;
         Category root = getRootCategoryCaseInsensitive(rootName);
+        if (root == null) return null;
         if (rootName.equalsIgnoreCase(name)) {
             return root;
         }
@@ -129,7 +130,7 @@ public class CategoryController {
      * @return La Category cercata, se esiste. Altrimenti 'null'
      */
     private Category searchTree(Category category, String name) {
-        for (Map.Entry<String, Category> child : category.getChildren().entrySet()) {
+        for (Map.Entry<String, Category> child : category.getChildrens().entrySet()) {
             if (child.getValue().getName().equalsIgnoreCase(name)) {
                 return child.getValue();
             } else if (!child.getValue().isLeaf()) {
