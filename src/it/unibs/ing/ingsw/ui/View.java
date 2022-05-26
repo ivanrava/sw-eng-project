@@ -25,7 +25,7 @@ public class View {
      * Esegue l'UI generale dell'applicazione
      */
     public void execute() {
-        //controlla scambi scaduti
+        // Controlla scambi scaduti
         exchangeController.deleteExpiredExchanges();
         while (true) {
             try {
@@ -35,9 +35,9 @@ public class View {
                 } else {
                     customerView.execute(user);
                 }
-            }catch (WrongCredentialsException e) {
+            } catch (WrongCredentialsException e) {
                 ErrorDialog.print(e);
-            }catch (NoUserException e) {
+            } catch (NoUserException e) {
                 ErrorDialog.print(e);
                 System.out.println("Uscita dal sistema");
                 break;
