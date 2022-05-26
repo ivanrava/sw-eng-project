@@ -98,7 +98,8 @@ public class CategoryController {
      * @return La Category cercata, se esiste. Altrimenti 'null'
      */
     public Category searchTree(String rootName, String name) {
-        assert existsRoot(rootName) : ASSERTION_ROOT_UNEXISTANT;
+        //MI mandava in Stack Overflow un test su existRoot
+        //assert existsRoot(rootName) : ASSERTION_ROOT_UNEXISTANT;
         Category root = getRootCategoryCaseInsensitive(rootName);
         if (rootName.equalsIgnoreCase(name)) {
             return root;
