@@ -1,7 +1,6 @@
 package it.unibs.ing.ingsw.category;
 
 import java.io.Serializable;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -147,8 +146,6 @@ public class Category implements Serializable {
 
     public Category searchTree(String categoryName) {
         categoryName = categoryName.toUpperCase();
-        System.out.println(categoryName);
-        System.out.println(this.name.equals(categoryName));
         if (this.name.equals(categoryName)) return this;
         if (isLeaf()) return null;
         for (Category child : childrens.values()) {
