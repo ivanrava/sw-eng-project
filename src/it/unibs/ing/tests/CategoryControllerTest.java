@@ -49,7 +49,7 @@ class CategoryControllerTest {
     }
 
     @Test
-    public void testExistsFailure() {
+    public void testExistsFailureWIthNoCategories() {
         assertFalse(categoryController.exists("root", "name"));
     }
 
