@@ -64,11 +64,11 @@ public class Saves implements Saveable {
     }
 
     public String getDefaultUsername() {
-        return saveConfig.getUsername();
+        return saveConfig.getConfig().getUsername();
     }
 
     public String getDefaultPassword() {
-        return saveConfig.getPassword();
+        return saveConfig.getConfig().getPassword();
     }
 
     /**
@@ -78,7 +78,7 @@ public class Saves implements Saveable {
      * @param password Password di default
      */
     public void setDefaultCredentials(String username, String password) {
-        saveConfig.setImmutableValues(username, password);
+        saveConfig.getConfig().setDefaultCredentials(username, password);
     }
 
     /**
@@ -86,7 +86,7 @@ public class Saves implements Saveable {
      * 'false' altrimenti
      */
     public boolean existsConfiguration() {
-        return saveConfig.isConfiguredDefaultCredentials() && saveConfig.isConfiguredImmutableValues();
+        return saveConfig.getConfig().isConfiguredDefaultCredentials() && saveConfig.isConfiguredImmutableValues();
     }
 
     public Map<Integer, Article> getArticles() {
@@ -101,6 +101,6 @@ public class Saves implements Saveable {
      * @return 'true' se sono state configurate le credenziali, 'false' altrimenti
      */
     public boolean existsDefaultCredentials() {
-        return saveConfig.isConfiguredDefaultCredentials();
+        return saveConfig.getConfig().isConfiguredDefaultCredentials();
     }
 }

@@ -9,9 +9,7 @@ import java.util.TreeSet;
 
 public class SaveConfig extends AbstractSave<Config> {
     public static final String CONFIG_SAVE_FILENAME = "./config.dat";
-    private String username;
-    private String password;
-    private boolean isConfigured = false;
+    public static final String ASSERTION_CONFIG_WITH_DEFAULT_CREDENTIALS = "Non si può impostare una nuova configurazione con credenziali di default";
     private final Config config;
 
     public SaveConfig() throws IOException, ClassNotFoundException {
@@ -24,37 +22,15 @@ public class SaveConfig extends AbstractSave<Config> {
         return CONFIG_SAVE_FILENAME;
     }
 
-
-    /**
-     * Imposta i valori immutabili di configurazione
-     * @param username Username di default
-     * @param password Password di default
-     */
-    public void setImmutableValues(String username, String password) {
-        if (isConfigured) {
-            throw new IllegalArgumentException("I valori obbligatori della Config sono già stati impostati");
-        } else {
-            this.username = username;
-            this.password = password;
-            this.isConfigured = true;
-        }
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
     public Config getConfig() { return config; }
 
     /**
      * imposta la configurazione (con controllo sui valori immutabili)
-     * @param newConfig
+     * @param newConfig Nuova config da impostare, senza credenziali
      */
     public void setConfig(Config newConfig) {
+        assert !newConfig.isConfiguredDefaultCredentials() : ASSERTION_CONFIG_WITH_DEFAULT_CREDENTIALS;
+        newConfig.setDefaultCredentials(config.getUsername(), config.getPassword());
         if (!config.isConfiguredImmutableValues()) {
             config.setImmutableValues(newConfig.getSquare());
         }
@@ -76,13 +52,6 @@ public class SaveConfig extends AbstractSave<Config> {
     @Override
     public Config defaultSaveObject() {
         return new Config(new HashSet<>(), new TreeSet<>(), new TreeSet<>(), 1);
-    }
-
-    /**
-     * @return 'true' se sono configurate le credenziali di default, 'false' altrimenti
-     */
-    public boolean isConfiguredDefaultCredentials() {
-        return isConfigured;
     }
 
     /**
