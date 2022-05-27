@@ -2,8 +2,8 @@ package it.unibs.ing.ingsw.io;
 
 import it.unibs.ing.ingsw.auth.User;
 
-import java.io.*;
-import java.util.Collections;
+import java.io.IOException;
+import java.util.HashMap;
 import java.util.Map;
 
 public class SaveUsers extends AbstractSave<Map<String, User>> {
@@ -22,6 +22,6 @@ public class SaveUsers extends AbstractSave<Map<String, User>> {
 
     @Override
     public Map<String, User> defaultSaveObject() {
-        return Collections.emptyMap();
+        return new HashMap<>();
     }
 }

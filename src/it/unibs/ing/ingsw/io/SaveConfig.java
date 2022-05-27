@@ -2,7 +2,8 @@ package it.unibs.ing.ingsw.io;
 
 import it.unibs.ing.ingsw.config.Config;
 
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
 import java.util.HashSet;
 import java.util.TreeSet;
 
@@ -15,7 +16,7 @@ public class SaveConfig extends AbstractSave<Config> {
 
     public SaveConfig() throws IOException, ClassNotFoundException {
         super();
-        config = getConfig();
+        config = getSaveObject();
     }
 
     @Override
