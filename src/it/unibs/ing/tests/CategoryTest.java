@@ -53,7 +53,7 @@ class CategoryTest {
     @Test
     void searchTreeFailureWithChildsAndWrongChildName() {
         Category category = new Category(
-                "name",
+                "root",
                 "description",
                 Collections.emptyMap()
         );
@@ -71,5 +71,20 @@ class CategoryTest {
         Category childCategory = new Category("child", "descr", false, Collections.emptyMap());
         category.addChildCategory(childCategory);
         assertEquals(childCategory, category.searchTree("child"));
+    }
+
+    @Test
+    void searchTreeSuccessWithTwoLevelsOfChild() {
+        Category category = new Category(
+                "name",
+                "description",
+                Collections.emptyMap()
+        );
+        Category childWIthChild = new Category("secondLevel", "descr", false, Collections.emptyMap());
+        Category thirdLevelChild = new Category("thirdLevel", "descr", false, Collections.emptyMap());
+        childWIthChild.addChildCategory(thirdLevelChild);
+        category.addChildCategory(childWIthChild);
+        assertEquals(childWIthChild, category.searchTree("secondLevel"));
+        assertEquals(thirdLevelChild, category.searchTree("thirdLevel"));
     }
 }

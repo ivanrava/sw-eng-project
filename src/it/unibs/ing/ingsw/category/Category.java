@@ -10,7 +10,7 @@ public class Category implements Serializable {
     private final String name;
     private final String description;
     private final Map<String, Field> fields;
-    private final Map<String, Category> childrens;
+    private final Map<String, Category> children;
     private Category parent;
 
     /**
@@ -31,7 +31,7 @@ public class Category implements Serializable {
         }
         fields.putAll(newFields);
 
-        childrens = new HashMap<>();
+        children = new HashMap<>();
         parent = null;
     }
 
@@ -52,7 +52,7 @@ public class Category implements Serializable {
      * @param childCategory La categoria figlia da aggiungere
      */
     public void addChildCategory(Category childCategory) {
-        this.childrens.put(childCategory.name.toUpperCase(), childCategory);
+        this.children.put(childCategory.name.toUpperCase(), childCategory);
         childCategory.setParent(this);
 
     }
@@ -103,7 +103,7 @@ public class Category implements Serializable {
 
     @Override
     public String toString() {
-        return String.format("[name = %s | description = %s | {fields = %s} | {children = %s} ]\n", name, description, fields, childrens);
+        return String.format("[name = %s | description = %s | {fields = %s} | {children = %s} ]\n", name, description, fields, children);
     }
 
     /**
@@ -121,14 +121,14 @@ public class Category implements Serializable {
     private String onlyNameToString(int initialPrefixNumber) {
         StringBuilder sb = new StringBuilder();
         sb.append(String.format("%s%s %s%n", " --> ".repeat(initialPrefixNumber), name, fields.values()));
-        for (Category child : childrens.values()) {
+        for (Category child : children.values()) {
             sb.append(child.onlyNameToString(initialPrefixNumber + 1));
         }
         return sb.toString();
     }
 
-    public Map<String, Category> getChildrens() {
-        return childrens;
+    public Map<String, Category> getChildren() {
+        return children;
     }
 
     /**
@@ -137,7 +137,7 @@ public class Category implements Serializable {
      * @return 'true' se è così, 'false' altrimenti
      */
     public boolean isLeaf() {
-        return childrens.size() == 0;
+        return children.size() == 0;
     }
 
     public String getName() {
@@ -148,7 +148,7 @@ public class Category implements Serializable {
         categoryName = categoryName.toUpperCase();
         if (this.name.equals(categoryName)) return this;
         if (isLeaf()) return null;
-        for (Category child : childrens.values()) {
+        for (Category child : children.values()) {
             return child.searchTree(categoryName);
         }
         return null;

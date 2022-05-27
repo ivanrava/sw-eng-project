@@ -12,7 +12,6 @@ import java.util.Map;
 
 public class CategoryController {
     public static final String ASSERTION_ROOT_OVERWRITE = "Stai sovrascrivendo una radice";
-    public static final String ASSERTION_ROOT_UNEXISTANT = "La categoria radice fornita non esiste!";
     public static final String ASSERTION_PARENT_UNEXISTANT = "La categoria genitore fornita non esiste!";
     private final Map<String, Category> hierarchies;
 
@@ -100,12 +99,15 @@ public class CategoryController {
     public Category searchTree(String rootName, String name) {
         //MI mandava in Stack Overflow un test su existRoot
         //assert existsRoot(rootName) : ASSERTION_ROOT_UNEXISTANT;
-        Category root = getRootCategoryCaseInsensitive(rootName);
+        Category root = getRootCategory(rootName);
         if (root == null) return null;
+        return root.searchTree(name);
+        /*
         if (rootName.equalsIgnoreCase(name)) {
             return root;
         }
         return searchTree(root, name);
+        */
     }
 
     /**
@@ -114,9 +116,10 @@ public class CategoryController {
      * @param rootName Nome della categoria radice
      * @return Categoria radice dal nome dato
      */
-    public Category getRootCategoryCaseInsensitive(String rootName) {
+    public Category getRootCategory(String rootName) {
+        rootName = rootName.toUpperCase();
         for (Map.Entry<String, Category> entry : hierarchies.entrySet()) {
-            if (entry.getKey().equalsIgnoreCase(rootName))
+            if (entry.getKey().equals(rootName))
                 return entry.getValue();
         }
         return null;
@@ -129,8 +132,9 @@ public class CategoryController {
      * @param name     Nome della categoria da cercare
      * @return La Category cercata, se esiste. Altrimenti 'null'
      */
+    /*
     private Category searchTree(Category category, String name) {
-        for (Map.Entry<String, Category> child : category.getChildrens().entrySet()) {
+        for (Map.Entry<String, Category> child : category.getChildren().entrySet()) {
             if (child.getValue().getName().equalsIgnoreCase(name)) {
                 return child.getValue();
             } else if (!child.getValue().isLeaf()) {
@@ -141,6 +145,7 @@ public class CategoryController {
         }
         return null;
     }
+     */
 
     /**
      * controlla dato il nome di una categoria radice e un'altra categoria,

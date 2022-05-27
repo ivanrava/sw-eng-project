@@ -1,6 +1,5 @@
 package it.unibs.ing.tests;
 
-import it.unibs.ing.ingsw.category.Category;
 import it.unibs.ing.ingsw.category.CategoryController;
 import it.unibs.ing.ingsw.io.Saves;
 import org.junit.jupiter.api.AfterEach;
@@ -85,7 +84,7 @@ class CategoryControllerTest {
 
     @Test
     public void testGetRootCategoryCaseInsensitiveFailure() {
-        assertNull(categoryController.getRootCategoryCaseInsensitive("test"));
+        assertNull(categoryController.getRootCategory("test"));
     }
 
     @Test
@@ -96,8 +95,8 @@ class CategoryControllerTest {
                 "description",
                 Collections.emptyMap()
         );
-        assertNotNull(categoryController.getRootCategoryCaseInsensitive(rootName.toUpperCase()));
-        assertNotNull(categoryController.getRootCategoryCaseInsensitive(rootName.toUpperCase()));
+        assertNotNull(categoryController.getRootCategory(rootName.toUpperCase()));
+        assertNotNull(categoryController.getRootCategory(rootName.toUpperCase()));
     }
 
     @Test
