@@ -7,12 +7,15 @@ import com.google.gson.stream.JsonReader;
 import it.unibs.ing.ingsw.category.Category;
 import it.unibs.ing.ingsw.config.Config;
 import it.unibs.ing.ingsw.config.TimeInterval;
+import it.unibs.ing.ingsw.exceptions.EmptyConfigException;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.time.DayOfWeek;
 
 public class JsonParser {
+    public static final String ERROR_MESSAGE_FILE_VUOTO = "file vuoto";
+    public static final String ERROR_MESSAGE_FORMATO_FILE_NON_SUPPORTATO = "formato file non supportato, assicurati di formattare il file come da documentazione";
     private final Gson gson;
 
     public JsonParser() {
@@ -30,8 +33,19 @@ public class JsonParser {
      * @throws FileNotFoundException Se il file non esiste
      * @throws JsonParseException Se il file non è correttamente scritto
      */
-    public Config readConfigJson(String filePath) throws FileNotFoundException, JsonParseException {
-        return gson.fromJson(new JsonReader(new FileReader(filePath)), Config.class);
+    public Config readConfigJson(String filePath) throws FileNotFoundException, JsonParseException, EmptyConfigException {
+        Config config = gson.fromJson(new JsonReader(new FileReader(filePath)), Config.class);
+        if (config == null) throw new EmptyConfigException(ERROR_MESSAGE_FILE_VUOTO);
+        if (
+                config.getSquare() == null ||
+                config.getPlaces() == null || config.getPlaces().isEmpty() ||
+                config.getDays() == null || config.getDays().isEmpty() ||
+                config.getTimeIntervals() == null || config.getTimeIntervals().isEmpty() ||
+                config.getDeadline() <= 0
+        ) {
+            throw new EmptyConfigException(ERROR_MESSAGE_FORMATO_FILE_NON_SUPPORTATO);
+        }
+        return config;
     }
 
     /**
