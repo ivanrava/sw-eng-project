@@ -6,6 +6,8 @@ import java.time.LocalTime;
 import java.util.Set;
 
 public class Config implements Serializable {
+    private String username;
+    private String password;
     private String square;
     private Set<String> places;
     private Set<DayOfWeek> days;
@@ -156,5 +158,34 @@ public class Config implements Serializable {
      */
     public boolean isMaxTime(int startHour, int startMinutes) {
         return TimeInterval.MAX_STOP.equals(LocalTime.of(startHour, startMinutes));
+    }
+
+    /**
+     * Imposta i valori immutabili di configurazione
+     * @param username Username di default
+     * @param password Password di default
+     */
+    public void setDefaultCredentials(String username, String password) {
+        if (isConfiguredDefaultCredentials()) {
+            throw new IllegalArgumentException("I valori obbligatori della Config sono già stati impostati");
+        } else {
+            this.username = username;
+            this.password = password;
+        }
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    /**
+     * @return 'true' se sono configurate le credenziali di default, 'false' altrimenti
+     */
+    public boolean isConfiguredDefaultCredentials() {
+        return username != null && password != null;
     }
 }
