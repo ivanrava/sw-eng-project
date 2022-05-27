@@ -39,8 +39,20 @@ class JsonParserTest {
     }
 
     @Test
-    void readConfigJsonWithEmptyIntervals() throws IOException{
+    void readConfigJsonWithEmptyIntervals() throws IOException {
         printConfigWithTimeIntervalsEmptyConfigToTempFile();
+        assertThrows(EmptyConfigException.class, () -> jsonParser.readConfigJson(tempFile.getAbsolutePath()));
+    }
+
+    @Test
+    void readConfigJsonWithEmptyDays() throws IOException {
+        printConfigWithEmptyDaysToTempFile();
+        assertThrows(EmptyConfigException.class, () -> jsonParser.readConfigJson(tempFile.getAbsolutePath()));
+    }
+
+    @Test
+    void readConfigJsonWithEmptyPlaces() throws IOException {
+        printConfigWithEmptyPlacesToTempFile();
         assertThrows(EmptyConfigException.class, () -> jsonParser.readConfigJson(tempFile.getAbsolutePath()));
     }
 
@@ -86,6 +98,58 @@ class JsonParserTest {
                           "deadline": 10,
                           "days": [6,7],
                           "timeIntervals": []
+                        }"""
+        );
+    }
+
+    void printConfigWithEmptyDaysToTempFile() throws IOException {
+        printToTempFile(
+                """
+                        {
+                          "square": "Brescia",
+                          "places": ["Portici", "UniBS - via Branze 38", "Fermata metro Vittoria"],
+                          "deadline": 10,
+                          "days": [],
+                          "timeIntervals": [
+                            {
+                              "start": "08:00",
+                              "stop": "11:30"
+                            },
+                            {
+                              "start": "14:00",
+                              "stop": "18:30"
+                            },
+                            {
+                              "start": "20:00",
+                              "stop": "22:00"
+                            }
+                          ]
+                        }"""
+        );
+    }
+
+    void printConfigWithEmptyPlacesToTempFile() throws IOException {
+        printToTempFile(
+                """
+                        {
+                          "square": "Brescia",
+                          "places": [],
+                          "deadline": 10,
+                          "days": [6,7],
+                          "timeIntervals": [
+                            {
+                              "start": "08:00",
+                              "stop": "11:30"
+                            },
+                            {
+                              "start": "14:00",
+                              "stop": "18:30"
+                            },
+                            {
+                              "start": "20:00",
+                              "stop": "22:00"
+                            }
+                          ]
                         }"""
         );
     }
