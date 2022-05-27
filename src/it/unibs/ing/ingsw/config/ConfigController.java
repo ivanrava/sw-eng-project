@@ -2,6 +2,7 @@ package it.unibs.ing.ingsw.config;
 
 import com.google.gson.JsonParseException;
 import it.unibs.ing.ingsw.exceptions.ConfigImportException;
+import it.unibs.ing.ingsw.exceptions.EmptyConfigException;
 import it.unibs.ing.ingsw.io.Saves;
 import it.unibs.ing.ingsw.io.batch.JsonParser;
 
@@ -34,10 +35,8 @@ public class ConfigController {
             JsonParser jsonParser = new JsonParser();
             Config configFromBatch = jsonParser.readConfigJson(filePath);
             saves.setConfig(configFromBatch);
-        } catch (FileNotFoundException e) {
-            throw new ConfigImportException(ERROR_FOUND_BATCH);
-        } catch (JsonParseException e){
-            throw new ConfigImportException(ERROR_IMPORT_BATCH);
+        } catch (FileNotFoundException | JsonParseException | EmptyConfigException e) {
+            throw new ConfigImportException(e.getMessage());
         }
     }
 
