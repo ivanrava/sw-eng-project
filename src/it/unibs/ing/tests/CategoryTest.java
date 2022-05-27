@@ -5,7 +5,10 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Collections;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class CategoryTest {
 
@@ -86,5 +89,20 @@ class CategoryTest {
         category.addChildCategory(childWIthChild);
         assertEquals(childWIthChild, category.searchTree("secondLevel"));
         assertEquals(thirdLevelChild, category.searchTree("thirdLevel"));
+    }
+
+    @Test
+    void searchTreeTestCaseInsensitive() {
+        Category category = new Category(
+                "name",
+                "description",
+                Collections.emptyMap()
+        );
+        Category child = new Category("secondLevel", "descr", false, Collections.emptyMap());
+        category.addChildCategory(child);
+        assertEquals(child, category.searchTree("secondLevel"));
+        assertEquals(child, category.searchTree("SECONDLEVEL"));
+        assertEquals(child, category.searchTree("SECONDlevel"));
+        assertEquals(child, category.searchTree("secondLEVEL"));
     }
 }
