@@ -110,11 +110,7 @@ public class CategoryController {
      */
     public Category getRootCategory(String rootName) {
         rootName = rootName.toUpperCase();
-        for (Map.Entry<String, Category> entry : hierarchies.entrySet()) {
-            if (entry.getKey().equals(rootName))
-                return entry.getValue();
-        }
-        return null;
+        return hierarchies.get(rootName);
     }
 
     /**
