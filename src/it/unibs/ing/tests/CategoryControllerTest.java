@@ -133,5 +133,30 @@ class CategoryControllerTest {
         assertNull(categoryController.searchTree("name", "name"));
     }
 
+    @Test
+    public void searchTreeFindSonFailureWithCorrectRoot(){
+        String rootName = "name";
+        categoryController.makeRootCategory(
+                rootName,
+                "description",
+                Collections.emptyMap()
+        );
+        assertNull(categoryController.searchTree(rootName, "child"));
+    }
+
+    @Test
+    public void searchTreeFindSonCorrectWithCorrectRoot(){
+        String rootName = "root";
+        String childName = "child";
+        categoryController.makeRootCategory(
+                rootName,
+                "description",
+                Collections.emptyMap()
+        );
+        categoryController.makeChildCategory(rootName, rootName, childName, "description", Collections.emptyMap());
+        assertEquals(childName.toUpperCase(),(categoryController.searchTree(rootName,childName).getName()));
+    }
+
+
 
 }
