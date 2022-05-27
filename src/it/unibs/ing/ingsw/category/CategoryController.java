@@ -90,24 +90,16 @@ public class CategoryController {
     }
 
     /**
-     * Precondizione: la categoria radice fornita deve esistere
+     * metodo per la ricerca di una categoria nella gerarchia
      *
      * @param rootName Nome della categoria radice in cui cercare
      * @param name     Nome della categoria da cercare
      * @return La Category cercata, se esiste. Altrimenti 'null'
      */
     public Category searchTree(String rootName, String name) {
-        //MI mandava in Stack Overflow un test su existRoot
-        //assert existsRoot(rootName) : ASSERTION_ROOT_UNEXISTANT;
         Category root = getRootCategory(rootName);
         if (root == null) return null;
         return root.searchTree(name);
-        /*
-        if (rootName.equalsIgnoreCase(name)) {
-            return root;
-        }
-        return searchTree(root, name);
-        */
     }
 
     /**
@@ -124,28 +116,6 @@ public class CategoryController {
         }
         return null;
     }
-
-    /**
-     * Metodo ricorsivo per la ricerca nell'albero
-     *
-     * @param category Category da cui parte la ricerca
-     * @param name     Nome della categoria da cercare
-     * @return La Category cercata, se esiste. Altrimenti 'null'
-     */
-    /*
-    private Category searchTree(Category category, String name) {
-        for (Map.Entry<String, Category> child : category.getChildren().entrySet()) {
-            if (child.getValue().getName().equalsIgnoreCase(name)) {
-                return child.getValue();
-            } else if (!child.getValue().isLeaf()) {
-                if (searchTree(child.getValue(), name) != null) {
-                    return searchTree(child.getValue(), name);
-                }
-            }
-        }
-        return null;
-    }
-     */
 
     /**
      * controlla dato il nome di una categoria radice e un'altra categoria,
