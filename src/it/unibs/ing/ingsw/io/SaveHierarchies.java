@@ -2,8 +2,8 @@ package it.unibs.ing.ingsw.io;
 
 import it.unibs.ing.ingsw.category.Category;
 
-import java.io.*;
-import java.util.Collections;
+import java.io.IOException;
+import java.util.HashMap;
 import java.util.Map;
 
 public class SaveHierarchies extends AbstractSave<Map<String, Category>> {
@@ -22,6 +22,6 @@ public class SaveHierarchies extends AbstractSave<Map<String, Category>> {
 
     @Override
     public Map<String, Category> defaultSaveObject() {
-        return Collections.emptyMap();
+        return new HashMap<>();
     }
 }
