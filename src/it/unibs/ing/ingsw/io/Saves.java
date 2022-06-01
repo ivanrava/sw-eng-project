@@ -14,6 +14,11 @@ import java.util.Map;
 
 public class Saves implements Saveable {
     private static final String ERROR_LOAD = "Errore caricamento Saves";
+    public static final String SAVES_CONFIG = "saves.config";
+    public static final String SAVES_USERS = "saves.users";
+    public static final String SAVES_CATEGORIES = "saves.categories";
+    public static final String SAVES_ARTICLES = "saves.articles";
+    public static final String SAVES_EXCHANGES = "saves.exchanges";
     private final SaveConfig saveConfig;
     private final SaveUsers saveUsers;
     private final SaveCategories saveCategories;
@@ -25,11 +30,11 @@ public class Saves implements Saveable {
      */
     public Saves() throws LoadSavesException {
         try {
-            saveConfig = new SaveConfig(System.getProperty("saves.config"));
-            saveUsers = new SaveUsers(System.getProperty("saves.users"));
-            saveCategories = new SaveCategories(System.getProperty("saves.categories"));
-            saveArticles = new SaveArticles(System.getProperty("saves.articles"));
-            saveExchanges = new SaveExchanges(System.getProperty("saves.exchanges"));
+            saveConfig = new SaveConfig(System.getProperty(SAVES_CONFIG));
+            saveUsers = new SaveUsers(System.getProperty(SAVES_USERS));
+            saveCategories = new SaveCategories(System.getProperty(SAVES_CATEGORIES));
+            saveArticles = new SaveArticles(System.getProperty(SAVES_ARTICLES));
+            saveExchanges = new SaveExchanges(System.getProperty(SAVES_EXCHANGES));
         } catch (IOException |
                  ClassNotFoundException e) { //FIXME: magari gestire exception in modo piu specifico nei vari Saves (forse troppo specifico ?!)
             throw new LoadSavesException(ERROR_LOAD);
