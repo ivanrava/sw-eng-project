@@ -61,7 +61,7 @@ public class Saves implements Saveable {
         saveConfig.setConfig(config);
     }
 
-    public Map<String, Category> getSaveHierarchies() {
+    public Map<String, Category> getHierarchies() {
         return saveCategories.getHierarchies();
     }
 

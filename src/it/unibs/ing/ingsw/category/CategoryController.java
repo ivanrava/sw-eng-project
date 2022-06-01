@@ -17,7 +17,7 @@ public class CategoryController {
     private final Map<String, Category> hierarchies;
 
     public CategoryController(Saves saves) {
-        hierarchies = saves.getSaveHierarchies();
+        hierarchies = saves.getHierarchies();
     }
 
     public void importFromBatch(String filePath) throws CategoryImportException {
