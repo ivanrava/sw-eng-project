@@ -1,15 +1,15 @@
 package it.unibs.ing.tests;
 
-import it.unibs.ing.ingsw.article.Article;
 import it.unibs.ing.ingsw.config.Config;
+import it.unibs.ing.ingsw.config.TimeInterval;
 import it.unibs.ing.ingsw.exceptions.LoadSavesException;
-import it.unibs.ing.ingsw.io.SaveArticles;
 import it.unibs.ing.ingsw.io.Saves;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.HashMap;
+import java.time.DayOfWeek;
+import java.time.LocalTime;
 import java.util.HashSet;
 import java.util.TreeSet;
 
@@ -45,12 +45,14 @@ class SavesTest {
         assertTrue(actualConfig.getTimeIntervals().isEmpty());
         assertNull(actualConfig.getSquare());
         assertEquals(1, actualConfig.getDeadline());
+        assertFalse(saves.existsConfiguration());
     }
 
     @Test
     void testDefaultCredentials() {
         assertNull(saves.getDefaultUsername());
         assertNull(saves.getDefaultPassword());
+        assertFalse(saves.existsDefaultCredentials());
     }
 
     @Test
@@ -60,6 +62,33 @@ class SavesTest {
         saves.setDefaultCredentials(username, password);
         assertEquals(username, saves.getDefaultUsername());
         assertEquals(password, saves.getDefaultPassword());
+        assertTrue(saves.existsDefaultCredentials());
+        assertFalse(saves.existsConfiguration());
+    }
+
+    @Test
+    void testSetConfig() {
+        String square = "square";
+        HashSet<String> places = new HashSet<>();
+        places.add("place1");
+        places.add("place2");
+        TreeSet<DayOfWeek> days = new TreeSet<>();
+        days.add(DayOfWeek.MONDAY);
+        days.add(DayOfWeek.FRIDAY);
+        TreeSet<TimeInterval> timeIntervals = new TreeSet<>();
+        timeIntervals.add(new TimeInterval(LocalTime.NOON, LocalTime.MIDNIGHT));
+        int deadline = 10;
+        Config config = new Config(square, places, days, timeIntervals, deadline);
+        saves.setConfig(config);
+        Config actualConfig = saves.getConfig();
+        assertEquals(square, actualConfig.getSquare());
+        assertTrue(actualConfig.getPlaces().containsAll(places));
+        assertTrue(actualConfig.getDays().containsAll(days));
+        assertTrue(actualConfig.getTimeIntervals().containsAll(timeIntervals));
+        assertEquals(10, actualConfig.getDeadline());
+
+        saves.setDefaultCredentials("username", "password");
+        assertTrue(saves.existsConfiguration());
     }
 
     @AfterEach
