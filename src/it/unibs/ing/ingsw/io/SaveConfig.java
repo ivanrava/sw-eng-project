@@ -8,18 +8,12 @@ import java.util.HashSet;
 import java.util.TreeSet;
 
 public class SaveConfig extends AbstractSave<Config> {
-    public static final String CONFIG_SAVE_FILENAME = "./config.dat";
     public static final String ASSERTION_CONFIG_WITH_DEFAULT_CREDENTIALS = "Non si può impostare una nuova configurazione con credenziali di default";
     private final Config config;
 
-    public SaveConfig() throws IOException, ClassNotFoundException {
-        super();
+    public SaveConfig(String filename) throws IOException, ClassNotFoundException {
+        super(filename);
         config = getSaveObject();
-    }
-
-    @Override
-    protected String getSaveFilename() {
-        return CONFIG_SAVE_FILENAME;
     }
 
     public Config getConfig() { return config; }
@@ -38,15 +32,6 @@ public class SaveConfig extends AbstractSave<Config> {
         config.setDays(newConfig.getDays());
         config.setTimeIntervals(newConfig.getTimeIntervals());
         config.setDeadline(newConfig.getDeadline());
-    }
-
-    /**
-     * Controlla se esiste il file di configurazione globale
-     * @return 'true' se esiste, 'false' altrimenti
-     */
-    public static boolean exists() {
-        File f = new File(CONFIG_SAVE_FILENAME);
-        return f.exists();
     }
 
     @Override

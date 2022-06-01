@@ -6,14 +6,10 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-public class SaveHierarchies extends AbstractSave<Map<String, Category>> {
-    public static final String SAVE_HIERARCHIES = "./hierarchiesRegister.dat";
+public class SaveCategories extends AbstractSave<Map<String, Category>> {
 
-    public SaveHierarchies() throws IOException, ClassNotFoundException {}
-
-    @Override
-    protected String getSaveFilename() {
-        return SAVE_HIERARCHIES;
+    public SaveCategories(String filename) throws IOException, ClassNotFoundException {
+        super(filename);
     }
 
     public Map<String, Category> getHierarchies() {

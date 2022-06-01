@@ -6,17 +6,18 @@ import java.io.*;
 
 public abstract class AbstractSave<T> implements Saveable {
     private final T toSave;
+    private final String filename;
 
-    public AbstractSave() throws IOException, ClassNotFoundException {
-        File f = new File(getSaveFilename());
+    public AbstractSave(String filename) throws IOException, ClassNotFoundException {
+        this.filename = filename;
+        File f = new File(filename);
+        f.getParentFile().mkdirs();
         if (f.exists()) {
             toSave = load();
         } else {
             toSave = defaultSaveObject();
         }
     }
-
-    protected abstract String getSaveFilename();
 
     protected final T getSaveObject() {
         return toSave;
@@ -26,13 +27,13 @@ public abstract class AbstractSave<T> implements Saveable {
 
     protected T load() throws IOException, ClassNotFoundException {
         try (ObjectInputStream inputStream = new ObjectInputStream(
-                new BufferedInputStream(new FileInputStream(getSaveFilename())))) {
+                new BufferedInputStream(new FileInputStream(filename)))) {
             return (T) inputStream.readObject();
         }
     }
 
     public void save() throws SaveException {
-        File f = new File(getSaveFilename());
+        File f = new File(filename);
         try (ObjectOutputStream outputStream = new ObjectOutputStream(
                 new BufferedOutputStream(new FileOutputStream(f)))) {
             outputStream.writeObject(toSave);
