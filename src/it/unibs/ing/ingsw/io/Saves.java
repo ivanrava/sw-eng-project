@@ -16,7 +16,7 @@ public class Saves implements Saveable {
     private static final String ERROR_LOAD = "Errore caricamento Saves";
     private final SaveConfig saveConfig;
     private final SaveUsers saveUsers;
-    private final SaveHierarchies saveHierarchies;
+    private final SaveCategories saveCategories;
     private final SaveArticles saveArticles;
     private final SaveExchanges saveExchanges;
 
@@ -25,16 +25,17 @@ public class Saves implements Saveable {
      */
     public Saves() throws LoadSavesException {
         try {
-            saveConfig = new SaveConfig();
-            saveUsers = new SaveUsers();
-            saveHierarchies = new SaveHierarchies();
-            saveArticles = new SaveArticles();
-            saveExchanges = new SaveExchanges();
-        } catch (IOException | ClassNotFoundException e) { //FIXME: magari gestire exception in modo piu specifico nei vari Saves (forse troppo specifico ?!)
+            saveConfig = new SaveConfig(System.getProperty("saves.config"));
+            saveUsers = new SaveUsers(System.getProperty("saves.users"));
+            saveCategories = new SaveCategories(System.getProperty("saves.categories"));
+            saveArticles = new SaveArticles(System.getProperty("saves.articles"));
+            saveExchanges = new SaveExchanges(System.getProperty("saves.exchanges"));
+        } catch (IOException |
+                 ClassNotFoundException e) { //FIXME: magari gestire exception in modo piu specifico nei vari Saves (forse troppo specifico ?!)
             throw new LoadSavesException(ERROR_LOAD);
         }
-
     }
+
 
     /**
      * Metodo per salvataggio di tutti i file
@@ -42,7 +43,7 @@ public class Saves implements Saveable {
     public void save() throws SaveException {
         saveConfig.save();
         saveUsers.save();
-        saveHierarchies.save();
+        saveCategories.save();
         saveArticles.save();
         saveExchanges.save();
     }
@@ -56,7 +57,7 @@ public class Saves implements Saveable {
     }
 
     public Map<String, Category> getSaveHierarchies() {
-        return saveHierarchies.getHierarchies();
+        return saveCategories.getHierarchies();
     }
 
     public Map<String, User> getUsers() {

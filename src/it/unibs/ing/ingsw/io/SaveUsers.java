@@ -7,14 +7,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class SaveUsers extends AbstractSave<Map<String, User>> {
-    public static final String CONFIG_SAVE_FILEUSER = "./usersRegister.dat";
-
-    public SaveUsers() throws IOException, ClassNotFoundException {}
-
-    @Override
-    protected String getSaveFilename() {
-        return CONFIG_SAVE_FILEUSER;
+    public SaveUsers(String filename) throws IOException, ClassNotFoundException {
+        super(filename);
     }
+
 
     public Map<String, User> getUsers() {
         return getSaveObject();

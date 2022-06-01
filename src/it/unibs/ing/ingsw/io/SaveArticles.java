@@ -7,13 +7,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class SaveArticles extends AbstractSave<Map<Integer, Article>> {
-    public static final String SAVE_ARTICLES = "./articles.dat";
 
-    public SaveArticles() throws IOException, ClassNotFoundException {}
-
-    @Override
-    protected String getSaveFilename() {
-        return SAVE_ARTICLES;
+    public SaveArticles(String filename) throws IOException, ClassNotFoundException {
+        super(filename);
     }
 
     public Map<Integer, Article> getArticles() {
