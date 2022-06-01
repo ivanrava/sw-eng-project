@@ -69,6 +69,14 @@ public class Saves implements Saveable {
         return saveUsers.getUsers();
     }
 
+    public Map<Integer, Article> getArticles() {
+        return saveArticles.getArticles();
+    }
+
+    public List<Exchange> getExchanges() {
+        return saveExchanges.getExchanges();
+    }
+
     public String getDefaultUsername() {
         return saveConfig.getConfig().getUsername();
     }
@@ -95,13 +103,6 @@ public class Saves implements Saveable {
         return saveConfig.getConfig().isConfiguredDefaultCredentials() && saveConfig.isConfiguredImmutableValues();
     }
 
-    public Map<Integer, Article> getArticles() {
-        return saveArticles.getArticles();
-    }
-
-    public List<Exchange> getExchanges() {
-        return saveExchanges.getExchanges();
-    }
 
     /**
      * @return 'true' se sono state configurate le credenziali, 'false' altrimenti
