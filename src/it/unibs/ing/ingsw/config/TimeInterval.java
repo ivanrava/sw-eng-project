@@ -2,10 +2,7 @@ package it.unibs.ing.ingsw.config;
 
 import java.io.Serializable;
 import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public class TimeInterval implements Comparable<TimeInterval>, Serializable {
     public static final String ASSERTION_MINUTES = "I minuti non sono 0 o 30";
@@ -85,5 +82,13 @@ public class TimeInterval implements Comparable<TimeInterval>, Serializable {
         minsAllowed.add(0);
         minsAllowed.add(30);
         return minsAllowed;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        TimeInterval that = (TimeInterval) o;
+        return Objects.equals(start, that.start) && Objects.equals(stop, that.stop);
     }
 }

@@ -6,6 +6,7 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.TemporalUnit;
+import java.util.Objects;
 
 public class Exchange implements Serializable {
     private final Article articleProposed;
@@ -143,5 +144,13 @@ public class Exchange implements Serializable {
      */
     public boolean awaitsAnswerFrom(User user) {
         return to.getUsername().equals(user.getUsername());
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Exchange exchange = (Exchange) o;
+        return Objects.equals(articleProposed, exchange.articleProposed) && Objects.equals(articleWanted, exchange.articleWanted) && Objects.equals(whenLastEvent, exchange.whenLastEvent) && Objects.equals(proposedWhere, exchange.proposedWhere) && Objects.equals(proposedWhen, exchange.proposedWhen) && Objects.equals(to, exchange.to);
     }
 }

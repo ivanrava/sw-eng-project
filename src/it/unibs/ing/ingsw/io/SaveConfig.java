@@ -2,13 +2,12 @@ package it.unibs.ing.ingsw.io;
 
 import it.unibs.ing.ingsw.config.Config;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.TreeSet;
 
 public class SaveConfig extends AbstractSave<Config> {
-    public static final String ASSERTION_CONFIG_WITH_DEFAULT_CREDENTIALS = "Non si può impostare una nuova configurazione con credenziali di default";
+    public static final String ASSERTION_CONFIG_WITHOUT_DEFAULT_CREDENTIALS = "Non si può impostare una nuova configurazione con credenziali di default";
     private final Config config;
 
     public SaveConfig(String filename) throws IOException, ClassNotFoundException {
@@ -23,7 +22,7 @@ public class SaveConfig extends AbstractSave<Config> {
      * @param newConfig Nuova config da impostare, senza credenziali
      */
     public void setConfig(Config newConfig) {
-        assert !newConfig.isConfiguredDefaultCredentials() : ASSERTION_CONFIG_WITH_DEFAULT_CREDENTIALS;
+        assert !newConfig.isConfiguredDefaultCredentials() : ASSERTION_CONFIG_WITHOUT_DEFAULT_CREDENTIALS;
         newConfig.setDefaultCredentials(config.getUsername(), config.getPassword());
         if (!config.isConfiguredImmutableValues()) {
             config.setImmutableValues(newConfig.getSquare());
