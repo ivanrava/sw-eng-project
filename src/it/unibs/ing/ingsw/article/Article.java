@@ -5,6 +5,7 @@ import it.unibs.ing.ingsw.category.Category;
 
 import java.io.Serializable;
 import java.util.Map;
+import java.util.Objects;
 
 public class Article implements Serializable {
     private final Category category;
@@ -71,5 +72,13 @@ public class Article implements Serializable {
 
     public int getId() {
         return id;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Article article = (Article) o;
+        return id == article.id && Objects.equals(category, article.category) && Objects.equals(fields, article.fields) && state == article.state && Objects.equals(owner, article.owner);
     }
 }

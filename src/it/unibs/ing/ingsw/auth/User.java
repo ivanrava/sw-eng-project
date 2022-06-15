@@ -1,6 +1,7 @@
 package it.unibs.ing.ingsw.auth;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 public abstract class User implements Serializable {
     private final String username;
@@ -35,7 +36,11 @@ public abstract class User implements Serializable {
         return u.equals(username) && pw.equals(password);
     }
 
-    public boolean equals(User user) {
-        return user.getUsername().equals(username);
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return Objects.equals(username, user.username);
     }
 }

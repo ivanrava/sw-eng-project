@@ -1,17 +1,24 @@
 package it.unibs.ing.tests;
 
+import it.unibs.ing.ingsw.article.Article;
+import it.unibs.ing.ingsw.article.ArticleState;
+import it.unibs.ing.ingsw.article.Exchange;
+import it.unibs.ing.ingsw.auth.Customer;
+import it.unibs.ing.ingsw.auth.User;
+import it.unibs.ing.ingsw.category.Category;
 import it.unibs.ing.ingsw.config.Config;
 import it.unibs.ing.ingsw.config.TimeInterval;
 import it.unibs.ing.ingsw.exceptions.LoadSavesException;
+import it.unibs.ing.ingsw.exceptions.SaveException;
 import it.unibs.ing.ingsw.io.Saves;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.io.File;
 import java.time.DayOfWeek;
 import java.time.LocalTime;
-import java.util.HashSet;
-import java.util.TreeSet;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -91,7 +98,46 @@ class SavesTest {
         assertTrue(saves.existsConfiguration());
     }
 
+    @Test
+    void testSaveMethod() throws SaveException, LoadSavesException {
+        Config config = new Config(
+                "square",
+                Set.of("place1", "place2"),
+                Set.of(DayOfWeek.MONDAY, DayOfWeek.TUESDAY),
+                Set.of(new TimeInterval(LocalTime.of(0, 0), LocalTime.of(1, 0))),
+                5
+        );
+        saves.setConfig(config);
+
+        User user = new Customer("username", "password");
+        saves.getUsers().put(user.getUsername(), user);
+
+        Category category = new Category("name", "descr", true, new HashMap<>());
+        saves.getHierarchies().put(category.getName(), category);
+
+        Article article = new Article(0, user, category, ArticleState.OFFERTA_APERTA, new HashMap<>());
+        saves.getArticles().put(0, article);
+
+        Article articleProposed = new Article(1, user, category, ArticleState.OFFERTA_APERTA, new HashMap<>());
+        Exchange exchange = new Exchange(article, articleProposed);
+        saves.getExchanges().add(exchange);
+
+        saves.save();
+        saves = new Saves();
+        assertTrue(saves.getUsers().containsValue(user));
+        assertTrue(saves.getHierarchies().containsValue(category));
+        assertTrue(saves.getArticles().containsValue(article));
+        assertTrue(saves.getExchanges().contains(exchange));
+        assertEquals(config, saves.getConfig());
+    }
+
     @AfterEach
     void tearDown() {
+        new File("./tempConfig.dat").delete();
+        new File("./tempArticles.dat").delete();
+        new File("./tempCategories.dat").delete();
+        new File("./tempUsers.dat").delete();
+        new File("./tempExchanges.dat").delete();
+
     }
 }

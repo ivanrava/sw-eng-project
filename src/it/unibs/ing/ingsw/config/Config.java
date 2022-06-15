@@ -3,6 +3,7 @@ package it.unibs.ing.ingsw.config;
 import java.io.Serializable;
 import java.time.DayOfWeek;
 import java.time.LocalTime;
+import java.util.Objects;
 import java.util.Set;
 
 public class Config implements Serializable {
@@ -187,5 +188,13 @@ public class Config implements Serializable {
      */
     public boolean isConfiguredDefaultCredentials() {
         return username != null && password != null;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Config config = (Config) o;
+        return deadline == config.deadline && Objects.equals(username, config.username) && Objects.equals(password, config.password) && Objects.equals(square, config.square) && Objects.equals(places, config.places) && Objects.equals(days, config.days) && Objects.equals(timeIntervals, config.timeIntervals);
     }
 }
