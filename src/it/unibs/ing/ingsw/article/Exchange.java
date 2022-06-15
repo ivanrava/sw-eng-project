@@ -30,7 +30,7 @@ public class Exchange implements Serializable {
         this.to = articleWanted.getOwner();
     }
 
-    private LocalDate getWhenLastEvent() {
+    public LocalDate getWhenLastEvent() {
         return whenLastEvent;
     }
 
@@ -109,6 +109,22 @@ public class Exchange implements Serializable {
      */
     public boolean areExchanging() {
         return articleWanted.getState().equals(ArticleState.OFFERTA_SCAMBIO) && articleProposed.getState().equals(ArticleState.OFFERTA_SCAMBIO);
+    }
+
+    public Article getArticleProposed() {
+        return articleProposed;
+    }
+
+    public Article getArticleWanted() {
+        return articleWanted;
+    }
+
+    public String getProposedWhere() {
+        return proposedWhere;
+    }
+
+    public LocalDateTime getProposedWhen() {
+        return proposedWhen;
     }
 
     @Override
