@@ -101,11 +101,6 @@ public class Category implements Serializable {
         return name.equals(category.name);
     }
 
-    @Override
-    public String toString() {
-        return String.format("[name = %s | description = %s | {fields = %s} | {children = %s} ]\n", name, description, fields, children);
-    }
-
     /**
      * Metodo che visualizza indentato il nome della categoria e tutte le sotto categorie
      */

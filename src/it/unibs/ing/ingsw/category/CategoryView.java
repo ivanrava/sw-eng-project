@@ -6,11 +6,12 @@ import it.unibs.ing.ingsw.article.ArticleController;
 import it.unibs.ing.ingsw.exceptions.CategoryImportException;
 import it.unibs.ing.ingsw.exceptions.ErrorDialog;
 import it.unibs.ing.ingsw.io.Saves;
+import it.unibs.ing.ingsw.ui.AbstractView;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class CategoryView {
+public class CategoryView extends AbstractView {
     public static final String MENU_TITLE = "Gestisci le categorie";
     public static final String[] VOCI = {
             "Aggiungi nuova categoria radice",
@@ -81,20 +82,12 @@ public class CategoryView {
      * Stampa tutte le gerarchie del sistema
      */
     public void printHierarchies() {
-        //versione solo nomi
-        System.out.println(allHierarchiesToString());
-    }
-
-    /**
-     * Metodo che visualizza tutta la gerarchia (solo nome per ogni categoria)
-     */
-    private String allHierarchiesToString() {
         StringBuilder sb = new StringBuilder();
         for (Category cat : categoryController.getRootCategories()) {
             sb.append("\n");
-            sb.append(cat.onlyNameToString());
+            sb.append(renderCategory(cat));
         }
-        return sb.toString();
+        System.out.println(sb);
     }
 
     /**

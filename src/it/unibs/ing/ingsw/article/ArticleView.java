@@ -7,12 +7,13 @@ import it.unibs.ing.ingsw.category.CategoryController;
 import it.unibs.ing.ingsw.category.CategoryView;
 import it.unibs.ing.ingsw.category.Field;
 import it.unibs.ing.ingsw.io.Saves;
+import it.unibs.ing.ingsw.ui.AbstractView;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class ArticleView {
+public class ArticleView extends AbstractView {
     public static final String ASSERTION_CONFIGURATOR_ADD_ARTICLE = "Un configuratore non dovrebbe poter aggiungere articoli!";
     public static final String ASK_FIELD_OBBLIGATORIO = "%s (obbligatorio): ";
     public static final String ASK_FIELD_FACOLTATIVO = "%s (facoltativo): ";
@@ -65,7 +66,7 @@ public class ArticleView {
      * @param articles Lista di articoli
      */
     private void printArticlesList(List<Article> articles) {
-        articles.forEach(System.out::println);
+        articles.forEach(this::renderArticle);
     }
 
     /**
@@ -124,7 +125,7 @@ public class ArticleView {
             }
         } while (!articleController.isEditableArticle(id));
         Article selectedArticle = articleController.getArticle(id);
-        System.out.println(selectedArticle);
+        System.out.println(renderArticle(selectedArticle));
         articleController.updateState(id, askArticleState(selectedArticle.isAvailable()));
     }
 

@@ -135,13 +135,13 @@ public class ExchangeView {
      * @param <T> Tipo della collezione
      * @return Opzione scelta della collezione
      */
-    private <T> T selectOptionFromCollection(Collection<T> collection) {
+    private <T> T selectOptionFromCollection(Collection<T> collection) { //interfaccia un po' specifica per articles, category, exchanges
         assert !collection.isEmpty() : ASSERT_EMPTY_COLLECTION_MENU;
         Map<Integer, T> map = new HashMap<>();
         for (T element : collection){
             map.put(map.size()+1, element);
         }
-        map.forEach((id, option) -> System.out.printf("%d -> %s\n", id, option));
+        map.forEach((id, option) -> System.out.printf("%d -> %s\n", id, option)); //FIXME chain of responsibility?
         int id = InputDati.leggiIntero(INPUT_MENU_GENERIC_PROMPT, 1, map.size());
         return map.get(id);
     }

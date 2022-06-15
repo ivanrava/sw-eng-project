@@ -74,6 +74,10 @@ public class Article implements Serializable {
         return id;
     }
 
+    public Map<String, String> getFields() {
+        return fields;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
