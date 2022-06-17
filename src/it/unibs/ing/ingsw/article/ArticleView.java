@@ -6,6 +6,7 @@ import it.unibs.ing.ingsw.auth.User;
 import it.unibs.ing.ingsw.category.CategoryController;
 import it.unibs.ing.ingsw.category.CategoryView;
 import it.unibs.ing.ingsw.category.Field;
+import it.unibs.ing.ingsw.io.DataContainer;
 import it.unibs.ing.ingsw.io.Saves;
 import it.unibs.ing.ingsw.ui.AbstractView;
 
@@ -36,7 +37,7 @@ public class ArticleView extends AbstractView {
      * Costruttore principale
      * @param saves Istanza dei salvataggi dell'applicazione
      */
-    public ArticleView(Saves saves) {
+    public ArticleView(DataContainer saves) {
         articleController = new ArticleController(saves);
         categoryController = new CategoryController(saves);
         categoryView = new CategoryView(saves);

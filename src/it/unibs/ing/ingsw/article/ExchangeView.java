@@ -4,6 +4,7 @@ import it.unibs.ing.fp.mylib.InputDati;
 import it.unibs.ing.fp.mylib.MyMenu;
 import it.unibs.ing.ingsw.auth.User;
 import it.unibs.ing.ingsw.config.ConfigController;
+import it.unibs.ing.ingsw.io.DataContainer;
 import it.unibs.ing.ingsw.io.Saves;
 import it.unibs.ing.ingsw.ui.AbstractView;
 
@@ -42,7 +43,7 @@ public class ExchangeView extends AbstractView {
             "Accetta/modifica luogo/tempo dei baratti"
     };
 
-    public ExchangeView(Saves saves) {
+    public ExchangeView(DataContainer saves) {
         exchangeController = new ExchangeController(saves);
         configController = new ConfigController(saves);
         articleController = new ArticleController(saves);

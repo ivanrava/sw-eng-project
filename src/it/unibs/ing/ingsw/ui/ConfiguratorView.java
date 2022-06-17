@@ -5,6 +5,7 @@ import it.unibs.ing.ingsw.article.ArticleView;
 import it.unibs.ing.ingsw.auth.User;
 import it.unibs.ing.ingsw.category.CategoryView;
 import it.unibs.ing.ingsw.config.ConfigView;
+import it.unibs.ing.ingsw.io.DataContainer;
 import it.unibs.ing.ingsw.io.Saves;
 
 public class ConfiguratorView {
@@ -16,7 +17,7 @@ public class ConfiguratorView {
     private final ConfigView configView;
     private final ArticleView articleView;
 
-    public ConfiguratorView(Saves saves) {
+    public ConfiguratorView(DataContainer saves) {
         categoryView = new CategoryView(saves);
         configView = new ConfigView(saves);
         articleView = new ArticleView(saves);

@@ -3,6 +3,7 @@ package it.unibs.ing.ingsw;
 import it.unibs.ing.ingsw.exceptions.ErrorDialog;
 import it.unibs.ing.ingsw.exceptions.LoadSavesException;
 import it.unibs.ing.ingsw.exceptions.SaveException;
+import it.unibs.ing.ingsw.io.DataContainer;
 import it.unibs.ing.ingsw.io.Saves;
 import it.unibs.ing.ingsw.ui.View;
 
@@ -19,7 +20,7 @@ public class Main {
     public static void main(String[] args) {
         try {
             System.getProperties().load(new FileInputStream("./system.properties"));
-            Saves saves = new Saves();
+            DataContainer saves = new Saves();
             View view = new View(saves);
             view.execute();
             saves.save();

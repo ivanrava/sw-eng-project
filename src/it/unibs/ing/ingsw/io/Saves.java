@@ -12,7 +12,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
-public class Saves implements Saveable {
+public class Saves implements DataContainer {
     private static final String ERROR_LOAD = "Errore caricamento Saves";
     public static final String SAVES_CONFIG = "saves.config";
     public static final String SAVES_USERS = "saves.users";
@@ -53,34 +53,42 @@ public class Saves implements Saveable {
         saveExchanges.save();
     }
 
+    @Override
     public Config getConfig() {
         return saveConfig.getConfig();
     }
 
+    @Override
     public void setConfig(Config config) {
         saveConfig.setConfig(config);
     }
 
+    @Override
     public Map<String, Category> getHierarchies() {
         return saveCategories.getHierarchies();
     }
 
+    @Override
     public Map<String, User> getUsers() {
         return saveUsers.getUsers();
     }
 
+    @Override
     public Map<Integer, Article> getArticles() {
         return saveArticles.getArticles();
     }
 
+    @Override
     public List<Exchange> getExchanges() {
         return saveExchanges.getExchanges();
     }
 
+    @Override
     public String getDefaultUsername() {
         return saveConfig.getConfig().getUsername();
     }
 
+    @Override
     public String getDefaultPassword() {
         return saveConfig.getConfig().getPassword();
     }
@@ -91,6 +99,7 @@ public class Saves implements Saveable {
      * @param username Username di default
      * @param password Password di default
      */
+    @Override
     public void setDefaultCredentials(String username, String password) {
         saveConfig.getConfig().setDefaultCredentials(username, password);
     }
@@ -99,6 +108,7 @@ public class Saves implements Saveable {
      * @return 'true' se i valori di default sono stati impostati (credenziali e valori immutabili della configurazione),
      * 'false' altrimenti
      */
+    @Override
     public boolean existsConfiguration() {
         return saveConfig.getConfig().isConfiguredDefaultCredentials() && saveConfig.isConfiguredImmutableValues();
     }
@@ -107,6 +117,7 @@ public class Saves implements Saveable {
     /**
      * @return 'true' se sono state configurate le credenziali, 'false' altrimenti
      */
+    @Override
     public boolean existsDefaultCredentials() {
         return saveConfig.getConfig().isConfiguredDefaultCredentials();
     }

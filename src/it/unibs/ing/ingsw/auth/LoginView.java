@@ -4,6 +4,7 @@ import it.unibs.ing.fp.mylib.InputDati;
 import it.unibs.ing.fp.mylib.MyMenu;
 import it.unibs.ing.ingsw.exceptions.NoUserException;
 import it.unibs.ing.ingsw.exceptions.WrongCredentialsException;
+import it.unibs.ing.ingsw.io.DataContainer;
 import it.unibs.ing.ingsw.io.Saves;
 
 public class LoginView {
@@ -25,7 +26,7 @@ public class LoginView {
     public static final String ERROR_NO_LOGIN = "Non é stato effettuato l'accesso";
     private final UserController userController;
 
-    public LoginView(Saves saves) {
+    public LoginView(DataContainer saves) {
         userController = new UserController(saves);
     }
 

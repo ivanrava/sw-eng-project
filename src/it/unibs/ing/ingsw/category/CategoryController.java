@@ -2,6 +2,7 @@ package it.unibs.ing.ingsw.category;
 
 import com.google.gson.JsonParseException;
 import it.unibs.ing.ingsw.exceptions.CategoryImportException;
+import it.unibs.ing.ingsw.io.DataContainer;
 import it.unibs.ing.ingsw.io.Saves;
 import it.unibs.ing.ingsw.io.batch.JsonParser;
 
@@ -15,7 +16,7 @@ public class CategoryController {
     public static final String ASSERTION_PARENT_UNEXISTANT = "La categoria genitore fornita non esiste!";
     private final Map<String, Category> hierarchies;
 
-    public CategoryController(Saves saves) {
+    public CategoryController(DataContainer saves) {
         hierarchies = saves.getHierarchies();
     }
 

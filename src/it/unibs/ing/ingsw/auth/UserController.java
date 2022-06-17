@@ -1,5 +1,6 @@
 package it.unibs.ing.ingsw.auth;
 
+import it.unibs.ing.ingsw.io.DataContainer;
 import it.unibs.ing.ingsw.io.Saves;
 
 import java.util.Map;
@@ -9,9 +10,9 @@ public class UserController {
     public static final String ASSERTION_USERNAME_DUPLICATED = "Lo username non è univoco!";
     public static final String ASSERTION_USER_NONEXISTANT = "L'utente non esiste";
     private final Map<String, User> users;
-    private final Saves saves;
+    private final DataContainer saves;
 
-    public UserController(Saves saves) {
+    public UserController(DataContainer saves) {
         this.saves = saves;
         users = saves.getUsers();
     }

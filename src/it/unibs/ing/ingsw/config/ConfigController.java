@@ -3,6 +3,7 @@ package it.unibs.ing.ingsw.config;
 import com.google.gson.JsonParseException;
 import it.unibs.ing.ingsw.exceptions.ConfigImportException;
 import it.unibs.ing.ingsw.exceptions.EmptyConfigException;
+import it.unibs.ing.ingsw.io.DataContainer;
 import it.unibs.ing.ingsw.io.Saves;
 import it.unibs.ing.ingsw.io.batch.JsonParser;
 
@@ -15,9 +16,9 @@ public class ConfigController {
     private static final String ERROR_FOUND_BATCH = "file batch non trovato...";
     private static final String ERROR_IMPORT_BATCH = "errore caricamento file batch...";
     
-    private final Saves saves;
+    private final DataContainer saves;
 
-    public ConfigController(Saves saves) {
+    public ConfigController(DataContainer saves) {
         this.saves = saves;
     }
 
