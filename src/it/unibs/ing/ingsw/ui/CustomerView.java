@@ -6,6 +6,7 @@ import it.unibs.ing.ingsw.article.ExchangeView;
 import it.unibs.ing.ingsw.auth.User;
 import it.unibs.ing.ingsw.category.CategoryView;
 import it.unibs.ing.ingsw.config.ConfigView;
+import it.unibs.ing.ingsw.io.DataContainer;
 import it.unibs.ing.ingsw.io.Saves;
 
 public class CustomerView {
@@ -19,7 +20,7 @@ public class CustomerView {
     private final ArticleView articleView;
     private final ExchangeView exchangeView;
 
-    public CustomerView(Saves saves) {
+    public CustomerView(DataContainer saves) {
         categoryView = new CategoryView(saves);
         configView = new ConfigView(saves);
         articleView = new ArticleView(saves);

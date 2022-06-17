@@ -5,6 +5,7 @@ import it.unibs.ing.fp.mylib.MyMenu;
 import it.unibs.ing.ingsw.article.ArticleController;
 import it.unibs.ing.ingsw.exceptions.CategoryImportException;
 import it.unibs.ing.ingsw.exceptions.ErrorDialog;
+import it.unibs.ing.ingsw.io.DataContainer;
 import it.unibs.ing.ingsw.io.Saves;
 import it.unibs.ing.ingsw.ui.AbstractView;
 
@@ -38,7 +39,7 @@ public class CategoryView extends AbstractView {
     private final CategoryController categoryController;
     private final ArticleController articleController;
 
-    public CategoryView(Saves saves) {
+    public CategoryView(DataContainer saves) {
         categoryController = new CategoryController(saves);
         articleController = new ArticleController(saves);
     }

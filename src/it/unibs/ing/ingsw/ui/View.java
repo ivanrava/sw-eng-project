@@ -6,6 +6,7 @@ import it.unibs.ing.ingsw.auth.User;
 import it.unibs.ing.ingsw.exceptions.ErrorDialog;
 import it.unibs.ing.ingsw.exceptions.NoUserException;
 import it.unibs.ing.ingsw.exceptions.WrongCredentialsException;
+import it.unibs.ing.ingsw.io.DataContainer;
 import it.unibs.ing.ingsw.io.Saves;
 
 public class View {
@@ -14,7 +15,7 @@ public class View {
     private final ConfiguratorView configuratorView;
     private final ExchangeController exchangeController;
 
-    public View(Saves saves) {
+    public View(DataContainer saves) {
         loginView = new LoginView(saves);
         customerView = new CustomerView(saves);
         configuratorView = new ConfiguratorView(saves);

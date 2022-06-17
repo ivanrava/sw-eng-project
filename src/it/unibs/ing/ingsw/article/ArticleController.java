@@ -4,6 +4,7 @@ import it.unibs.ing.ingsw.auth.User;
 import it.unibs.ing.ingsw.auth.UserController;
 import it.unibs.ing.ingsw.category.Category;
 import it.unibs.ing.ingsw.category.CategoryController;
+import it.unibs.ing.ingsw.io.DataContainer;
 import it.unibs.ing.ingsw.io.Saves;
 
 import java.util.List;
@@ -22,7 +23,7 @@ public class ArticleController {
      * Costruttore parametrizzato
      * @param saves Salvataggi dell'applicazione
      */
-    public ArticleController(Saves saves) {
+    public ArticleController(DataContainer saves) {
         articles = saves.getArticles();
         userController = new UserController(saves);
         categoryController = new CategoryController(saves);

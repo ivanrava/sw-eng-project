@@ -4,6 +4,7 @@ import it.unibs.ing.fp.mylib.InputDati;
 import it.unibs.ing.fp.mylib.MyMenu;
 import it.unibs.ing.ingsw.exceptions.ErrorDialog;
 import it.unibs.ing.ingsw.exceptions.ConfigImportException;
+import it.unibs.ing.ingsw.io.DataContainer;
 import it.unibs.ing.ingsw.io.Saves;
 import it.unibs.ing.ingsw.ui.AbstractView;
 
@@ -45,7 +46,7 @@ public class ConfigView extends AbstractView {
     public static final String MESSAGE_INSERT_DAY_LESS_THAN = ">>> Inserisci un orario <= di %s";
     ConfigController configController;
 
-    public ConfigView(Saves saves){
+    public ConfigView(DataContainer saves){
         configController = new ConfigController(saves);
     }
 
