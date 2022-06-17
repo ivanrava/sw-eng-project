@@ -127,15 +127,6 @@ public class Exchange implements Serializable {
         return proposedWhen;
     }
 
-    @Override
-    public String toString() {
-        String whereAndWhen = areExchanging() ? String.format(" (a %s in data %s)", proposedWhere, proposedWhen) : "";
-        return String.format("Il %s qualcuno ha proposto lo scambio" + whereAndWhen + ":\n\t%s\n\t%s\n",
-                whenLastEvent,
-                articleWanted.toString(),
-                articleProposed.toString());
-    }
-
     /**
      * Dice se l'utente passato è coinvolto nello scambio
      * @param user L'utente da controllare

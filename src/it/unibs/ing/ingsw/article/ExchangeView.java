@@ -5,12 +5,13 @@ import it.unibs.ing.fp.mylib.MyMenu;
 import it.unibs.ing.ingsw.auth.User;
 import it.unibs.ing.ingsw.config.ConfigController;
 import it.unibs.ing.ingsw.io.Saves;
+import it.unibs.ing.ingsw.ui.AbstractView;
 
 import java.time.*;
 import java.time.format.TextStyle;
 import java.util.*;
 
-public class ExchangeView {
+public class ExchangeView extends AbstractView {
     private static final String ASSERT_EMPTY_COLLECTION_MENU = "Stai creando un menu per una collezione vuota";
     private static final String ASK_ACCEPT_BARTER = "Accetti il baratto proposto?";
     private static final String ASK_ACCEPT_APPOINTMENT = "Vuoi accettare il luogo/tempo del baratto? ";
@@ -107,7 +108,7 @@ public class ExchangeView {
             return;
         }
         Exchange selectedExchange = selectOptionFromCollection(proposalsForUser);
-        System.out.println(selectedExchange);
+        System.out.println(render(selectedExchange));
         if(InputDati.yesOrNo(ASK_ACCEPT_BARTER)) {
             exchangeController.acceptProposal(selectedExchange);
             System.out.println(INPUT_WHERE_WHEN);
@@ -126,7 +127,7 @@ public class ExchangeView {
         if (exchangingExchanges.isEmpty()){
             System.out.println(ERROR_NO_ARTICLES_EXCHANGE);
         }
-        exchangingExchanges.forEach(System.out::println);
+        exchangingExchanges.stream().map(this::render).forEach(System.out::println);
     }
 
     /**
@@ -135,13 +136,13 @@ public class ExchangeView {
      * @param <T> Tipo della collezione
      * @return Opzione scelta della collezione
      */
-    private <T> T selectOptionFromCollection(Collection<T> collection) { //interfaccia un po' specifica per articles, category, exchanges
+    private <T> T selectOptionFromCollection(Collection<T> collection) {
         assert !collection.isEmpty() : ASSERT_EMPTY_COLLECTION_MENU;
         Map<Integer, T> map = new HashMap<>();
         for (T element : collection){
             map.put(map.size()+1, element);
         }
-        map.forEach((id, option) -> System.out.printf("%d -> %s\n", id, option)); //FIXME chain of responsibility?
+        map.forEach((id, option) -> System.out.printf("%d -> %s\n", id, render(option)));
         int id = InputDati.leggiIntero(INPUT_MENU_GENERIC_PROMPT, 1, map.size());
         return map.get(id);
     }
@@ -165,7 +166,7 @@ public class ExchangeView {
      * @param exchange Scambio per cui chiedere la conferma / modifica dell'appuntamento
      */
     private void askAppointmentConfirmation(Exchange exchange) {
-        System.out.println(exchange);
+        System.out.println(render(exchange));
         if (InputDati.yesOrNo(ASK_ACCEPT_APPOINTMENT)) {
             exchangeController.acceptExchange(exchange);
         } else {

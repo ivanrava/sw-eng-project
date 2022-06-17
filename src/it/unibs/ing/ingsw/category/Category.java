@@ -76,6 +76,10 @@ public class Category implements Serializable {
         return defaultFields;
     }
 
+    public Category getParent() {
+        return parent;
+    }
+
     /**
      * @return I campi della categoria, uniti con quelli del padre ricorsivamente
      */
@@ -99,27 +103,6 @@ public class Category implements Serializable {
         if (o == null || getClass() != o.getClass()) return false;
         Category category = (Category) o;
         return name.equals(category.name);
-    }
-
-    /**
-     * Metodo che visualizza indentato il nome della categoria e tutte le sotto categorie
-     */
-    public String onlyNameToString() {
-        return onlyNameToString(0);
-    }
-
-    /**
-     * Metodo che visualizza indentato il nome della categoria e tutte le sotto categorie
-     *
-     * @param initialPrefixNumber Numero di ripetizioni della stringa prefissa inizialmente
-     */
-    private String onlyNameToString(int initialPrefixNumber) {
-        StringBuilder sb = new StringBuilder();
-        sb.append(String.format("%s%s %s%n", " --> ".repeat(initialPrefixNumber), name, fields.values()));
-        for (Category child : children.values()) {
-            sb.append(child.onlyNameToString(initialPrefixNumber + 1));
-        }
-        return sb.toString();
     }
 
     public Map<String, Category> getChildren() {

@@ -66,7 +66,7 @@ public class ArticleView extends AbstractView {
      * @param articles Lista di articoli
      */
     private void printArticlesList(List<Article> articles) {
-        articles.forEach(this::renderArticle);
+        articles.stream().map(this::render).forEach(System.out::println);
     }
 
     /**
@@ -125,7 +125,7 @@ public class ArticleView extends AbstractView {
             }
         } while (!articleController.isEditableArticle(id));
         Article selectedArticle = articleController.getArticle(id);
-        System.out.println(renderArticle(selectedArticle));
+        System.out.println(render(selectedArticle));
         articleController.updateState(id, askArticleState(selectedArticle.isAvailable()));
     }
 

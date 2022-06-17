@@ -85,7 +85,7 @@ public class CategoryView extends AbstractView {
         StringBuilder sb = new StringBuilder();
         for (Category cat : categoryController.getRootCategories()) {
             sb.append("\n");
-            sb.append(renderCategory(cat));
+            sb.append(render(cat));
         }
         System.out.println(sb);
     }
