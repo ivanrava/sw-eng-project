@@ -40,12 +40,8 @@ public class ConfigController {
         }
     }
 
-    /**
-     * Ritorna la configurazione come stringa human-readable
-     * @return Configurazione come stringa
-     */
-    public String getConfigAsString() {
-        return saves.getConfig().toString();
+    public Config getConfig() {
+        return saves.getConfig();
     }
 
     /**

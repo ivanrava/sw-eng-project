@@ -63,17 +63,6 @@ public class Config implements Serializable {
         this.timeIntervals = timeIntervals;
     }
 
-    @Override
-    public String toString() {
-        return "Config{" +
-                "piazza='" + square + '\'' +
-                ", luoghi=" + places +
-                ", giorni=" + days +
-                ", intervalli orari=" + timeIntervals +
-                ", scadenza=" + deadline +
-                '}';
-    }
-
     /**
      * Informa se la config è già stata configurata
      * @return 'true' se già configurata, 'false' altrimenti

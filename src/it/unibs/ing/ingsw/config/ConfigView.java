@@ -5,13 +5,14 @@ import it.unibs.ing.fp.mylib.MyMenu;
 import it.unibs.ing.ingsw.exceptions.ErrorDialog;
 import it.unibs.ing.ingsw.exceptions.ConfigImportException;
 import it.unibs.ing.ingsw.io.Saves;
+import it.unibs.ing.ingsw.ui.AbstractView;
 
 import java.time.DayOfWeek;
 import java.time.LocalTime;
 import java.time.format.TextStyle;
 import java.util.Locale;
 
-public class ConfigView {
+public class ConfigView extends AbstractView {
     public static final int MAX_HOUR = 23;
     public static final int MIN_HOUR = 0;
     public static final int MAX_DAYS = 7;
@@ -85,7 +86,7 @@ public class ConfigView {
      * Stampa la configurazione
      */
     public void printConfig(){
-        System.out.println(configController.getConfigAsString());
+        System.out.println(render(configController.getConfig()));
     }
 
     /**

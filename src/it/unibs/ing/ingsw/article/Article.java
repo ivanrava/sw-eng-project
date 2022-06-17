@@ -38,16 +38,6 @@ public class Article implements Serializable {
         return owner;
     }
 
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(String.format("ID articolo: %d\n\t%s:%s\n", id, category.getName(), state));
-        for (Map.Entry<String, String> field: fields.entrySet()) {
-            sb.append(String.format("\t%s=%s\n", field.getKey(), field.getValue()));
-        }
-        return sb.toString();
-    }
-
     public void setState(ArticleState state) {
         this.state = state;
     }
