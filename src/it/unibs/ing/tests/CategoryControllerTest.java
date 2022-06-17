@@ -1,6 +1,13 @@
 package it.unibs.ing.tests;
 
+import it.unibs.ing.ingsw.article.Article;
+import it.unibs.ing.ingsw.article.Exchange;
+import it.unibs.ing.ingsw.auth.User;
+import it.unibs.ing.ingsw.category.Category;
 import it.unibs.ing.ingsw.category.CategoryController;
+import it.unibs.ing.ingsw.config.Config;
+import it.unibs.ing.ingsw.exceptions.SaveException;
+import it.unibs.ing.ingsw.io.DataContainer;
 import it.unibs.ing.ingsw.io.Saves;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -9,6 +16,9 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -18,21 +28,71 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class CategoryControllerTest {
 
-    @Mock
-    private Saves saves;
     private CategoryController categoryController;
-
-    private AutoCloseable autoCloseable;
 
     @BeforeEach
     void setUp() {
-        autoCloseable = MockitoAnnotations.openMocks(this);
-        categoryController = new CategoryController(saves);
-    }
+        categoryController = new CategoryController(new DataContainer() {
+            @Override
+            public Config getConfig() {
+                return null;
+            }
 
-    @AfterEach
-    void tearDown() throws Exception {
-        autoCloseable.close();
+            @Override
+            public void setConfig(Config config) {
+
+            }
+
+            @Override
+            public Map<String, Category> getHierarchies() {
+                return new HashMap<>();
+            }
+
+            @Override
+            public Map<String, User> getUsers() {
+                return null;
+            }
+
+            @Override
+            public Map<Integer, Article> getArticles() {
+                return null;
+            }
+
+            @Override
+            public List<Exchange> getExchanges() {
+                return null;
+            }
+
+            @Override
+            public String getDefaultUsername() {
+                return null;
+            }
+
+            @Override
+            public String getDefaultPassword() {
+                return null;
+            }
+
+            @Override
+            public void setDefaultCredentials(String username, String password) {
+
+            }
+
+            @Override
+            public boolean existsConfiguration() {
+                return false;
+            }
+
+            @Override
+            public boolean existsDefaultCredentials() {
+                return false;
+            }
+
+            @Override
+            public void save() {
+
+            }
+        });
     }
 
     @Test
