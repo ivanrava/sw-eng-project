@@ -92,7 +92,7 @@ public class ArticleView extends AbstractView {
         Map<String, String> fieldValues = new HashMap<>();
         String value;
         for (Map.Entry<String, Field> entry: categoryFields.entrySet()) {
-            if (entry.getValue().isRequired()) {
+            if (entry.getValue().required()) {
                 value = InputDati.leggiStringaNonVuota(String.format(ASK_FIELD_OBBLIGATORIO, entry.getKey()));
             } else {
                 value = InputDati.leggiStringa(String.format(ASK_FIELD_FACOLTATIVO, entry.getKey()));

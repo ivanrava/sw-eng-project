@@ -4,18 +4,13 @@ import it.unibs.ing.ingsw.article.Article;
 import it.unibs.ing.ingsw.article.Exchange;
 import it.unibs.ing.ingsw.auth.User;
 import it.unibs.ing.ingsw.category.Category;
-import it.unibs.ing.ingsw.category.CategoryController;
 import it.unibs.ing.ingsw.config.Config;
 import it.unibs.ing.ingsw.config.ConfigView;
 import it.unibs.ing.ingsw.config.TimeInterval;
 import it.unibs.ing.ingsw.exceptions.SaveException;
 import it.unibs.ing.ingsw.io.DataContainer;
-import it.unibs.ing.ingsw.io.Saves;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
@@ -29,7 +24,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class ConfigViewTest {
 
-    private DataContainer saves;
     private ConfigView configView;
 
     @BeforeEach
@@ -97,7 +91,7 @@ class ConfigViewTest {
             }
 
             @Override
-            public void save() throws SaveException {
+            public void save() {
 
             }
         });

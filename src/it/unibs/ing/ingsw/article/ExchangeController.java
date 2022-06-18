@@ -3,7 +3,6 @@ package it.unibs.ing.ingsw.article;
 import it.unibs.ing.ingsw.auth.User;
 import it.unibs.ing.ingsw.config.ConfigController;
 import it.unibs.ing.ingsw.io.DataContainer;
-import it.unibs.ing.ingsw.io.Saves;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;

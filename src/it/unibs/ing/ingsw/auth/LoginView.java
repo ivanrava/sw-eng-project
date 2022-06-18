@@ -2,10 +2,7 @@ package it.unibs.ing.ingsw.auth;
 
 import it.unibs.ing.fp.mylib.InputDati;
 import it.unibs.ing.fp.mylib.MyMenu;
-import it.unibs.ing.ingsw.exceptions.NoUserException;
-import it.unibs.ing.ingsw.exceptions.WrongCredentialsException;
 import it.unibs.ing.ingsw.io.DataContainer;
-import it.unibs.ing.ingsw.io.Saves;
 
 public class LoginView {
     public static final String MENU_TITLE = "Accesso";
@@ -23,8 +20,10 @@ public class LoginView {
     public static final String ERROR_USERNAME_DUPLICATED = "Lo username esiste già :(";
     public static final String INSERT_NEW_PASSWORD = "Inserisci la tua nuova password: ";
     public static final String LOGIN_BANNER = "Sei dentro, %s%n";
-    public static final String ERROR_NO_LOGIN = "Non é stato effettuato l'accesso";
     private final UserController userController;
+
+    private User selectedUser;
+    private boolean wantsToExit = false;
 
     public LoginView(DataContainer saves) {
         userController = new UserController(saves);
@@ -33,7 +32,7 @@ public class LoginView {
     /**
      * Esegue l'UI generale di login
      */
-    public User execute() throws NoUserException, WrongCredentialsException {
+    public void execute() {
         if (!userController.existsDefaultCredentials()) {
             startSettingDefaultCredentials();
         }
@@ -41,16 +40,12 @@ public class LoginView {
         MyMenu loginRegisterMenu = new MyMenu(MENU_TITLE, VOCI);
 
         int scelta;
-        do {
-            scelta = loginRegisterMenu.scegli();
-            switch (scelta) {
-                case 1 -> startRegister(false);
-                case 2 -> {
-                    return startLogin();
-                }
-            }
-        } while (scelta != 0);
-        throw new NoUserException(ERROR_NO_LOGIN); //FIXME: non ha molto senso visualizzarlo all'uscita del sistema?! (magari inserire qua mex "uscita dal sistema" e togliere sout in View
+        scelta = loginRegisterMenu.scegli();
+        switch (scelta) {
+            case 1 -> startRegister(false);
+            case 2 -> startLogin();
+            case 0 -> wantsToExit = true;
+        }
     }
 
     /**
@@ -69,20 +64,21 @@ public class LoginView {
     /**
      * Esegue l'UI di login
      */
-    private User startLogin() throws WrongCredentialsException {
-        String username, password;
-        do {
-            username = InputDati.leggiStringaNonVuota(INSERT_USERNAME);
-            password = InputDati.leggiStringaNonVuota(INSERT_PASSWORD);
-            if (userController.checkDefaultCredentials(username, password)) {
-                startRegister(true);
-            } else if (!userController.login(username, password)) {
-                throw new WrongCredentialsException(ERROR_CREDENTIALS);
-            }
-        } while (!userController.login(username, password));
-        System.out.printf(LOGIN_BANNER, username);
+    private void startLogin() {
+        String username = InputDati.leggiStringaNonVuota(INSERT_USERNAME);
+        String password = InputDati.leggiStringaNonVuota(INSERT_PASSWORD);
+        if (userController.checkDefaultCredentials(username, password)) {
+            startRegister(true);
+        } else if (!userController.login(username, password)) {
+            System.out.println(ERROR_CREDENTIALS);
+        } else {
+            selectedUser = userController.getUserByUsername(username);
+            System.out.printf(LOGIN_BANNER, username);
+        }
+    }
 
-        return userController.getUserByUsername(username);
+    public void logout() {
+        selectedUser = null;
     }
 
     /**
@@ -101,5 +97,17 @@ public class LoginView {
             password = InputDati.leggiStringaNonVuota(INSERT_NEW_PASSWORD);
         } while (userController.checkDefaultCredentials(username, password));
         userController.register(username, password, isAdmin);
+    }
+
+    public boolean isLoggedIn() {
+        return selectedUser != null;
+    }
+
+    public User getLoggedUser() {
+        return selectedUser;
+    }
+
+    public boolean wantsToExit() {
+        return wantsToExit;
     }
 }

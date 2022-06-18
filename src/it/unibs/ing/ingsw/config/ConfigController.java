@@ -4,7 +4,6 @@ import com.google.gson.JsonParseException;
 import it.unibs.ing.ingsw.exceptions.ConfigImportException;
 import it.unibs.ing.ingsw.exceptions.EmptyConfigException;
 import it.unibs.ing.ingsw.io.DataContainer;
-import it.unibs.ing.ingsw.io.Saves;
 import it.unibs.ing.ingsw.io.batch.JsonParser;
 
 import java.io.FileNotFoundException;
@@ -13,9 +12,7 @@ import java.time.LocalTime;
 import java.util.Set;
 
 public class ConfigController {
-    private static final String ERROR_FOUND_BATCH = "file batch non trovato...";
-    private static final String ERROR_IMPORT_BATCH = "errore caricamento file batch...";
-    
+
     private final DataContainer saves;
 
     public ConfigController(DataContainer saves) {

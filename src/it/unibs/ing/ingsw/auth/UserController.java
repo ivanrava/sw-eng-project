@@ -1,7 +1,6 @@
 package it.unibs.ing.ingsw.auth;
 
 import it.unibs.ing.ingsw.io.DataContainer;
-import it.unibs.ing.ingsw.io.Saves;
 
 import java.util.Map;
 
