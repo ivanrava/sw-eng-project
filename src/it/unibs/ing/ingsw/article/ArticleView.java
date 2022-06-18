@@ -63,7 +63,7 @@ public class ArticleView extends AbstractView {
     /**
      * Stampa lista di articoli di una certa categoria (leaf)
      */
-    private void printCategoryArticles(User user) {
+    public void printCategoryArticles(User user) {
         categoryView.printHierarchies();
         String rootCategoryName = categoryView.askAndCheckRootName();
         String leafCategoryName = categoryView.askAndCheckLeafName(rootCategoryName);
