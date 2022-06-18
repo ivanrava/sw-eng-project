@@ -7,11 +7,9 @@ import it.unibs.ing.ingsw.category.CategoryController;
 import it.unibs.ing.ingsw.category.CategoryView;
 import it.unibs.ing.ingsw.category.Field;
 import it.unibs.ing.ingsw.io.DataContainer;
-import it.unibs.ing.ingsw.io.Saves;
 import it.unibs.ing.ingsw.ui.AbstractView;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class ArticleView extends AbstractView {
@@ -54,7 +52,7 @@ public class ArticleView extends AbstractView {
         do {
             scelta = mainMenu.scegli();
             switch (scelta) {
-                case 1 -> printArticlesList(articleController.getArticlesForUser(user.getUsername()));
+                case 1 -> System.out.println(renderAll(articleController.getArticlesForUser(user.getUsername())));
                 case 2 -> printCategoryArticles(user);
                 case 3 -> addArticle(user);
                 case 4 -> editArticleState(user);
@@ -63,21 +61,13 @@ public class ArticleView extends AbstractView {
     }
 
     /**
-     * Stampa lista degli articoli
-     * @param articles Lista di articoli
-     */
-    private void printArticlesList(List<Article> articles) {
-        articles.stream().map(this::render).forEach(System.out::println);
-    }
-
-    /**
      * Stampa lista di articoli di una certa categoria (leaf)
      */
-    public void printCategoryArticles(User user) {
+    private void printCategoryArticles(User user) {
         categoryView.printHierarchies();
         String rootCategoryName = categoryView.askAndCheckRootName();
         String leafCategoryName = categoryView.askAndCheckLeafName(rootCategoryName);
-        printArticlesList(articleController.getArticlesForCategory(rootCategoryName, leafCategoryName, user.isAdmin()));
+        System.out.println(renderAll(articleController.getArticlesForCategory(rootCategoryName, leafCategoryName, user.isAdmin())));
     }
 
     /**
@@ -117,7 +107,7 @@ public class ArticleView extends AbstractView {
      * @param user Utente che possiede l'articolo a cui va modificato lo stato
      */
     private void editArticleState(User user) {
-        printArticlesList(articleController.getArticlesEditableForUser(user.getUsername()));
+        System.out.println(renderAll(articleController.getArticlesEditableForUser(user.getUsername())));
         int id;
         do {
             id = InputDati.leggiInteroConMinimo(INSERT_ID, 0);

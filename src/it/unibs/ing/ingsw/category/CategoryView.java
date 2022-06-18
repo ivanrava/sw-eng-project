@@ -83,12 +83,7 @@ public class CategoryView extends AbstractView {
      * Stampa tutte le gerarchie del sistema
      */
     public void printHierarchies() {
-        StringBuilder sb = new StringBuilder();
-        for (Category cat : categoryController.getRootCategories()) {
-            sb.append("\n");
-            sb.append(render(cat));
-        }
-        System.out.println(sb);
+        System.out.println(renderAll(categoryController.getRootCategories()));
     }
 
     /**

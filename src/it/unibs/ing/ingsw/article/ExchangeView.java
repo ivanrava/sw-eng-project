@@ -128,7 +128,7 @@ public class ExchangeView extends AbstractView {
         if (exchangingExchanges.isEmpty()){
             System.out.println(ERROR_NO_ARTICLES_EXCHANGE);
         }
-        exchangingExchanges.stream().map(this::render).forEach(System.out::println);
+        System.out.println(renderAll(exchangingExchanges));
     }
 
     /**

@@ -7,6 +7,9 @@ import it.unibs.ing.ingsw.ui.renderchain.ConfigRenderer;
 import it.unibs.ing.ingsw.ui.renderchain.DefaultRenderer;
 import it.unibs.ing.ingsw.ui.renderchain.ExchangeRenderer;
 
+import java.util.Collection;
+import java.util.stream.Collectors;
+
 public abstract class AbstractView {
 
     private final AbstractRenderer chain =
@@ -24,4 +27,7 @@ public abstract class AbstractView {
         return chain.render(o);
     }
 
+    protected <T> String renderAll(Collection<T> collection) {
+        return collection.stream().map(this::render).collect(Collectors.joining("\n"));
+    }
 }
