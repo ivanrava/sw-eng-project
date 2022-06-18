@@ -6,7 +6,6 @@ import it.unibs.ing.ingsw.article.ArticleController;
 import it.unibs.ing.ingsw.exceptions.CategoryImportException;
 import it.unibs.ing.ingsw.exceptions.ErrorDialog;
 import it.unibs.ing.ingsw.io.DataContainer;
-import it.unibs.ing.ingsw.io.Saves;
 import it.unibs.ing.ingsw.ui.AbstractView;
 
 import java.util.HashMap;
@@ -215,7 +214,7 @@ public class CategoryView extends AbstractView {
             if (scelta){
                 newMap.putAll(newFieldsMap);
                 Field newField = createField(newMap);
-                newFieldsMap.put(newField.getName(), newField);
+                newFieldsMap.put(newField.name(), newField);
             }
         }while (scelta);
         return newFieldsMap;

@@ -5,7 +5,6 @@ import it.unibs.ing.ingsw.auth.UserController;
 import it.unibs.ing.ingsw.category.Category;
 import it.unibs.ing.ingsw.category.CategoryController;
 import it.unibs.ing.ingsw.io.DataContainer;
-import it.unibs.ing.ingsw.io.Saves;
 
 import java.util.List;
 import java.util.Map;

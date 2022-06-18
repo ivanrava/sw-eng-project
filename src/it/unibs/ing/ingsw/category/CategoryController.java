@@ -3,7 +3,6 @@ package it.unibs.ing.ingsw.category;
 import com.google.gson.JsonParseException;
 import it.unibs.ing.ingsw.exceptions.CategoryImportException;
 import it.unibs.ing.ingsw.io.DataContainer;
-import it.unibs.ing.ingsw.io.Saves;
 import it.unibs.ing.ingsw.io.batch.JsonParser;
 
 import java.io.FileNotFoundException;

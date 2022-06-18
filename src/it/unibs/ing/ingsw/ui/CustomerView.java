@@ -7,7 +7,6 @@ import it.unibs.ing.ingsw.auth.User;
 import it.unibs.ing.ingsw.category.CategoryView;
 import it.unibs.ing.ingsw.config.ConfigView;
 import it.unibs.ing.ingsw.io.DataContainer;
-import it.unibs.ing.ingsw.io.Saves;
 
 public class CustomerView {
     private static final String MENU_TITLE = "Benvenuto Utente";

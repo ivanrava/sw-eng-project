@@ -4,7 +4,6 @@ import it.unibs.ing.ingsw.article.Exchange;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public class SaveExchanges extends AbstractSave<List<Exchange>> {
