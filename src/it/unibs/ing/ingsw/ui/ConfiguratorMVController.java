@@ -1,6 +1,6 @@
 package it.unibs.ing.ingsw.ui;
 
-import it.unibs.ing.ingsw.article.ArticleView;
+import it.unibs.ing.ingsw.article.ArticleMVController;
 import it.unibs.ing.ingsw.auth.User;
 import it.unibs.ing.ingsw.category.CategoryMVController;
 import it.unibs.ing.ingsw.config.ConfigView;
@@ -14,12 +14,12 @@ public class ConfiguratorMVController extends AbstractMVController {
     private static final String SEE_LEAF_OFFERS = "Mostra le offerte per una categoria foglia";
     private final CategoryMVController categoryMVController;
     private final ConfigView configView;
-    private final ArticleView articleView;
+    private final ArticleMVController articleMVController;
 
     public ConfiguratorMVController(DataContainer saves) {
         categoryMVController = new CategoryMVController(saves);
         configView = new ConfigView(saves);
-        articleView = new ArticleView(saves);
+        articleMVController = new ArticleMVController(saves);
     }
 
     @Override
@@ -30,7 +30,7 @@ public class ConfiguratorMVController extends AbstractMVController {
         return Map.of(
                 MANAGE_CATEGORIES, () -> categoryMVController.execute(user),
                 MANAGE_CONFIG, configView::execute,
-                SEE_LEAF_OFFERS, () -> articleView.printCategoryArticles(user)
+                SEE_LEAF_OFFERS, () -> articleMVController.printCategoryArticles(user)
         );
     }
 
