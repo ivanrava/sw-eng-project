@@ -122,12 +122,18 @@ public class Category implements Serializable {
         return name;
     }
 
+    /**
+     * Ricerca una categoria tra questa e i suoi figli
+     *
+     * @param categoryName Nome della categoria da cercare
+     * @return La Category cercata, se esiste. Altrimenti 'null'
+     */
     public Category searchTree(String categoryName) {
-        categoryName = categoryName.toUpperCase();
-        if (this.name.equals(categoryName)) return this;
+        if (this.name.equalsIgnoreCase(categoryName)) return this;
         if (isLeaf()) return null;
         for (Category child : children.values()) {
-            return child.searchTree(categoryName);
+            Category lookup = child.searchTree(categoryName);
+            if (lookup != null) return lookup;
         }
         return null;
     }
