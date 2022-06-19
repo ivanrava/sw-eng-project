@@ -4,7 +4,7 @@ import it.unibs.ing.fp.mylib.InputDati;
 import it.unibs.ing.fp.mylib.MyMenu;
 import it.unibs.ing.ingsw.auth.User;
 import it.unibs.ing.ingsw.category.CategoryController;
-import it.unibs.ing.ingsw.category.CategoryView;
+import it.unibs.ing.ingsw.category.CategoryMVController;
 import it.unibs.ing.ingsw.category.Field;
 import it.unibs.ing.ingsw.io.DataContainer;
 import it.unibs.ing.ingsw.ui.AbstractView;
@@ -22,7 +22,7 @@ public class ArticleView extends AbstractView {
     public static final String ASK_AVAILABLE_ARTICLE = "Vuoi rendere disponibile l'articolo?";
     private final ArticleController articleController;
     private final CategoryController categoryController;
-    private final CategoryView categoryView;
+    private final CategoryMVController categoryMVController;
     public static final String MENU_TITLE = "Gestione articoli";
     public static final String[] VOCI = {
             "Visualizza articoli/offerte dell'utente",
@@ -38,7 +38,7 @@ public class ArticleView extends AbstractView {
     public ArticleView(DataContainer saves) {
         articleController = new ArticleController(saves);
         categoryController = new CategoryController(saves);
-        categoryView = new CategoryView(saves);
+        categoryMVController = new CategoryMVController(saves);
     }
 
     /**
@@ -64,9 +64,9 @@ public class ArticleView extends AbstractView {
      * Stampa lista di articoli di una certa categoria (leaf)
      */
     public void printCategoryArticles(User user) {
-        categoryView.printHierarchies();
-        String rootCategoryName = categoryView.askAndCheckRootName();
-        String leafCategoryName = categoryView.askAndCheckLeafName(rootCategoryName);
+        categoryMVController.printHierarchies();
+        String rootCategoryName = categoryMVController.askAndCheckRootName();
+        String leafCategoryName = categoryMVController.askAndCheckLeafName(rootCategoryName);
         System.out.println(renderAll(articleController.getArticlesForCategory(rootCategoryName, leafCategoryName, user.isAdmin())));
     }
 
@@ -76,9 +76,9 @@ public class ArticleView extends AbstractView {
      */
     private void addArticle(User user) {
         assert !user.isAdmin() : ASSERTION_CONFIGURATOR_ADD_ARTICLE;
-        categoryView.printHierarchies();
-        String rootCategoryName = categoryView.askAndCheckRootName();
-        String leafCategoryName = categoryView.askAndCheckLeafName(rootCategoryName);
+        categoryMVController.printHierarchies();
+        String rootCategoryName = categoryMVController.askAndCheckRootName();
+        String leafCategoryName = categoryMVController.askAndCheckLeafName(rootCategoryName);
         Map<String, String> fieldValues = askFieldValues(categoryController.getFieldsForCategory(rootCategoryName, leafCategoryName));
         articleController.addArticle(user.getUsername(), rootCategoryName, leafCategoryName, ArticleState.OFFERTA_APERTA, fieldValues);
     }

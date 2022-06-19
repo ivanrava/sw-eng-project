@@ -46,4 +46,8 @@ public abstract class AbstractView {
         } while (scelta != 0);
         return null;
     }
+
+    public void message(String message) {
+        System.out.println(message);
+    }
 }
