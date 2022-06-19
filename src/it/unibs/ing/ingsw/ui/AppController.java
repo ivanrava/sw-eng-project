@@ -7,13 +7,13 @@ import it.unibs.ing.ingsw.io.DataContainer;
 
 public class AppController {
     private final LoginView loginView;
-    private final CustomerView customerView;
+    private final CustomerMVController customerMVController;
     private final ConfiguratorMVController configuratorMVController;
     private final ExchangeController exchangeController;
 
     public AppController(DataContainer saves) {
         loginView = new LoginView(saves);
-        customerView = new CustomerView(saves);
+        customerMVController = new CustomerMVController(saves);
         configuratorMVController = new ConfiguratorMVController(saves);
         exchangeController = new ExchangeController(saves);
     }
@@ -32,7 +32,7 @@ public class AppController {
                 if (loggedUser.isAdmin())
                     configuratorMVController.execute(loggedUser);
                 else
-                    customerView.execute(loggedUser);
+                    customerMVController.execute(loggedUser);
                 loginView.logout();
             } else if (loginView.wantsToExit())
                 System.out.println("Uscita dal sistema");
