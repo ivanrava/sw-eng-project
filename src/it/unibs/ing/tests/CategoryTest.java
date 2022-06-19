@@ -5,10 +5,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Collections;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 class CategoryTest {
 
@@ -104,5 +101,15 @@ class CategoryTest {
         assertEquals(child, category.searchTree("SECONDLEVEL"));
         assertEquals(child, category.searchTree("SECONDlevel"));
         assertEquals(child, category.searchTree("secondLEVEL"));
+    }
+
+    @Test
+    void searchTreeNotFirstTree() {
+        Category root1 = new Category("Libro", "", true, Collections.emptyMap());
+        root1.addChildCategory(new Category("Romanzo", "", false, Collections.emptyMap()));
+        root1.addChildCategory(new Category("Saggio", "", false, Collections.emptyMap()));
+        root1.getChildren().forEach((s, category) -> System.out.println(category.getName()));
+        assertNotNull(root1.searchTree("Saggio"));
+        assertNotNull(root1.searchTree("Romanzo"));
     }
 }
