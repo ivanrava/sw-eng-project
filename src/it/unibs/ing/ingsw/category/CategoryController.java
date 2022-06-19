@@ -9,6 +9,7 @@ import java.io.FileNotFoundException;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Map;
+import java.util.Set;
 
 public class CategoryController {
     public static final String ASSERTION_ROOT_OVERWRITE = "Stai sovrascrivendo una radice";
@@ -22,12 +23,10 @@ public class CategoryController {
     public void importFromBatch(String filePath) throws CategoryImportException {
         try {
             JsonParser jsonParser = new JsonParser();
-            Arrays.stream(jsonParser.readCategoriesJson(filePath)).
-                    forEach(category -> hierarchies.put(category.getName(), category));
+            Arrays.stream(jsonParser.readCategoriesJson(filePath)).forEach(category -> hierarchies.put(category.getName(), category));
         } catch (FileNotFoundException e) {
             throw new CategoryImportException("File non esistente...");
-        }
-        catch (JsonParseException e) {
+        } catch (JsonParseException e) {
             throw new CategoryImportException("Errore lettura file...");
         }
     }
@@ -111,6 +110,10 @@ public class CategoryController {
     public Category getRootCategory(String rootName) {
         rootName = rootName.toUpperCase();
         return hierarchies.get(rootName);
+    }
+
+    public Set<String> getRootCategoryNames() {
+        return hierarchies.keySet();
     }
 
     /**
