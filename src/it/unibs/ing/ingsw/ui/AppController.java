@@ -8,13 +8,13 @@ import it.unibs.ing.ingsw.io.DataContainer;
 public class AppController {
     private final LoginView loginView;
     private final CustomerView customerView;
-    private final ConfiguratorView configuratorView;
+    private final ConfiguratorMVController configuratorMVController;
     private final ExchangeController exchangeController;
 
     public AppController(DataContainer saves) {
         loginView = new LoginView(saves);
         customerView = new CustomerView(saves);
-        configuratorView = new ConfiguratorView(saves);
+        configuratorMVController = new ConfiguratorMVController(saves);
         exchangeController = new ExchangeController(saves);
     }
 
@@ -30,7 +30,7 @@ public class AppController {
             if (loginView.isLoggedIn()) {
                 User loggedUser = loginView.getLoggedUser();
                 if (loggedUser.isAdmin())
-                    configuratorView.execute(loggedUser);
+                    configuratorMVController.execute(loggedUser);
                 else
                     customerView.execute(loggedUser);
                 loginView.logout();
