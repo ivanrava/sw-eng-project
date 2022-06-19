@@ -1,6 +1,5 @@
 package it.unibs.ing.ingsw.category;
 
-import it.unibs.ing.fp.mylib.InputDati;
 import it.unibs.ing.ingsw.article.ArticleController;
 import it.unibs.ing.ingsw.auth.User;
 import it.unibs.ing.ingsw.exceptions.CategoryImportException;
@@ -16,9 +15,6 @@ public class CategoryMVController extends AbstractMVController {
     public static final String ADD_CHILD_CATEGORY = "Aggiungi nuova categoria figlia";
     public static final String PRINT_HIERARCHIES = "Visualizza gerarchie";
     public static final String IMPORT_FROM_FILE = "Importa da file";
-    public static final String ERROR_CATEGORY_UNEXISTANT = "La categoria non esiste :(";
-    public static final String ERROR_NOT_LEAF = "Non è una categoria foglia :(";
-    public static final String INSERT_LEAF_CATEGORY_NAME = "Inserisci il nome della categoria foglia: ";
     public static final String SUCCESS_IMPORT = "Importazione avvenuta con successo :-)";
     private final CategoryController categoryController;
     private final ArticleController articleController;
@@ -93,27 +89,23 @@ public class CategoryMVController extends AbstractMVController {
     }
 
 
-    /**
-     * Chiedi il nome di una categoria foglia
-     *
-     * @param rootName Nome della categoria radice
-     * @return Nome della categoria foglia
-     */
-    public String askAndCheckLeafName(String rootName) {
-        String leafCategoryName;
-        do {
-            leafCategoryName = InputDati.leggiStringaNonVuota(INSERT_LEAF_CATEGORY_NAME);
-            if (!categoryController.exists(rootName, leafCategoryName)) {
-                System.out.println(ERROR_CATEGORY_UNEXISTANT);
-            } else if (!categoryController.isLeaf(rootName, leafCategoryName)) {
-                System.out.println(ERROR_NOT_LEAF);
-            }
-        } while (!categoryController.exists(rootName, leafCategoryName) || !categoryController.isLeaf(rootName, leafCategoryName));
-        return leafCategoryName;
+    public String askRootName() {
+        return categoryView.askRootName(categoryController.getRootCategoryNames());
     }
 
+    public String askLeafName(String rootName) {
+        return categoryView.askLeafName(rootName, this);
+    }
+
+    public Map<String, String> askFieldValues(String rootCategoryName, String leafCategoryName) {
+        return categoryView.askFieldValues(categoryController.getFieldsForCategory(rootCategoryName, leafCategoryName));
+    }
 
     public boolean exists(String rootName, String parentName) {
         return categoryController.exists(rootName, parentName);
+    }
+
+    public boolean isLeaf(String rootName, String leafCategoryName) {
+        return categoryController.isLeaf(rootName, leafCategoryName);
     }
 }

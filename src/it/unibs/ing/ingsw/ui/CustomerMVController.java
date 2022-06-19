@@ -1,6 +1,6 @@
 package it.unibs.ing.ingsw.ui;
 
-import it.unibs.ing.ingsw.article.ArticleView;
+import it.unibs.ing.ingsw.article.ArticleMVController;
 import it.unibs.ing.ingsw.article.ExchangeView;
 import it.unibs.ing.ingsw.auth.User;
 import it.unibs.ing.ingsw.category.CategoryMVController;
@@ -16,13 +16,13 @@ public class CustomerMVController extends AbstractMVController {
     public static final String MANAGE_EXCHANGES = "Gestisci i baratti";
     private final CategoryMVController categoryMVController;
     private final ConfigView configView;
-    private final ArticleView articleView;
+    private final ArticleMVController articleMVController;
     private final ExchangeView exchangeView;
 
     public CustomerMVController(DataContainer saves) {
         categoryMVController = new CategoryMVController(saves);
         configView = new ConfigView(saves);
-        articleView = new ArticleView(saves);
+        articleMVController = new ArticleMVController(saves);
         exchangeView = new ExchangeView(saves);
     }
 
@@ -34,7 +34,7 @@ public class CustomerMVController extends AbstractMVController {
         return Map.of(
                 SEE_CATEGORIES, categoryMVController::printHierarchies,
                 SEE_CONFIG, configView::printConfig,
-                MANAGE_ARTICLES, () -> articleView.execute(user),
+                MANAGE_ARTICLES, () -> articleMVController.execute(user),
                 MANAGE_EXCHANGES, () -> exchangeView.execute(user)
         );
     }

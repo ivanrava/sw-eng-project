@@ -9,6 +9,9 @@ import java.util.Map;
 import java.util.Set;
 
 public class CategoryView extends AbstractView {
+    private static final String INSERT_LEAF_CATEGORY_NAME = "Inserisci il nome della categoria foglia: ";
+    private static final String ERROR_NOT_LEAF = "Non è una categoria foglia :(";
+    private static final String ERROR_CATEGORY_UNEXISTANT = "La categoria non esiste :(";
     private static final String INSERT_CATEGORY_NAME = "Inserisci il nome della categoria: ";
     private static final String ERROR_PARENT_UNEXISTANT = "Il genitore non esiste :(";
     private static final String INSERT_PARENT_CATEGORY_NAME = "Inserisci la categoria padre: ";
@@ -20,6 +23,8 @@ public class CategoryView extends AbstractView {
     private static final String ERROR_NAME_DUPLICATE = "Nome non univoco :(";
     private static final String INSERT_NEW_ROOT_NAME = "Inserisci il nome della nuova categoria radice: ";
     public static final String INSERT_FILEPATH = "Inserisci il percorso assoluto del file: ";
+    private static final String ASK_FIELD_FACOLTATIVO = "%s (facoltativo): ";
+    private static final String ASK_FIELD_OBBLIGATORIO = "%s (obbligatorio): ";
 
     protected String MENU_TITLE = "Gestione categorie";
 
@@ -140,5 +145,44 @@ public class CategoryView extends AbstractView {
 
     public String askFilePath() {
         return InputDati.leggiStringaNonVuota(INSERT_FILEPATH);
+    }
+
+    /**
+     * Chiedi il nome di una categoria foglia
+     *
+     * @param rootName Nome della categoria radice
+     * @return Nome della categoria foglia
+     */
+    public String askLeafName(String rootName, CategoryMVController controller) {
+        String leafCategoryName;
+        do {
+            leafCategoryName = InputDati.leggiStringaNonVuota(INSERT_LEAF_CATEGORY_NAME);
+            if (!controller.exists(rootName, leafCategoryName)) {
+                System.out.println(ERROR_CATEGORY_UNEXISTANT);
+            } else if (!controller.isLeaf(rootName, leafCategoryName)) {
+                System.out.println(ERROR_NOT_LEAF);
+            }
+        } while (!controller.exists(rootName, leafCategoryName) || !controller.isLeaf(rootName, leafCategoryName));
+        return leafCategoryName;
+    }
+
+    /**
+     * Chiede l'inserimento dei valori dei campi di una categoria
+     *
+     * @param categoryFields Campi richiesti da una categoria
+     * @return Map che ha come chiave il nome del campo, e come valore il valore del campo
+     */
+    public Map<String, String> askFieldValues(Map<String, Field> categoryFields) {
+        Map<String, String> fieldValues = new HashMap<>();
+        String value;
+        for (Map.Entry<String, Field> entry : categoryFields.entrySet()) {
+            if (entry.getValue().required()) {
+                value = InputDati.leggiStringaNonVuota(String.format(ASK_FIELD_OBBLIGATORIO, entry.getKey()));
+            } else {
+                value = InputDati.leggiStringa(String.format(ASK_FIELD_FACOLTATIVO, entry.getKey()));
+            }
+            fieldValues.put(entry.getKey(), value);
+        }
+        return fieldValues;
     }
 }

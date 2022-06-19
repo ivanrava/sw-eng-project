@@ -12,11 +12,9 @@ import java.time.format.TextStyle;
 import java.util.*;
 
 public class ExchangeView extends AbstractView {
-    private static final String ASSERT_EMPTY_COLLECTION_MENU = "Stai creando un menu per una collezione vuota";
     private static final String ASK_ACCEPT_BARTER = "Accetti il baratto proposto?";
     private static final String ASK_ACCEPT_APPOINTMENT = "Vuoi accettare il luogo/tempo del baratto? ";
     private static final String INPUT_WHERE_WHEN = "Ok, ora proponi un luogo / ora per lo scambio...";
-    private static final String INPUT_MENU_GENERIC_PROMPT = "Seleziona l'opzione desiderata: ";
     private static final String INPUT_YEAR = "Inserisci l'anno: ";
     private static final String INPUT_MONTH = "Inserisci il mese [1-12]: ";
     private static final String INPUT_DAY = "Inserisci un giorno tra quelli validi: ";
@@ -35,12 +33,7 @@ public class ExchangeView extends AbstractView {
     private final ConfigController configController;
     private final ArticleController articleController;
     public static final String MENU_TITLE = "Gestione scambi";
-    public static final String[] VOCI = {
-            "Proponi un baratto",
-            "Gestisci i baratti che ti sono stati proposti",
-            "Mostra i tuoi articoli in scambio (e ultime risposte)",
-            "Accetta/modifica luogo/tempo dei baratti"
-    };
+    public static final String[] VOCI = {"Proponi un baratto", "Gestisci i baratti che ti sono stati proposti", "Mostra i tuoi articoli in scambio (e ultime risposte)", "Accetta/modifica luogo/tempo dei baratti"};
 
     public ExchangeView(DataContainer saves) {
         exchangeController = new ExchangeController(saves);
@@ -50,10 +43,11 @@ public class ExchangeView extends AbstractView {
 
     /**
      * Esegue la vista
+     *
      * @param user Utente che la esegue
      */
     public void execute(User user) {
-        if (!configController.existsDefaultValues()){
+        if (!configController.existsDefaultValues()) {
             System.out.println(ERROR_UNEXISTANT_CONFIGURATION);
             return;
         }
@@ -70,11 +64,12 @@ public class ExchangeView extends AbstractView {
                 case 3 -> printExchangingArticles(user);
                 case 4 -> manageAppointments(user);
             }
-        }while (scelta != 0);
+        } while (scelta != 0);
     }
 
     /**
      * Propone uno scambio, selezionando articolo proprio e altrui di ugual categoria
+     *
      * @param user Utente che propone lo scambio
      */
     private void proposeExchange(User user) {
@@ -99,17 +94,18 @@ public class ExchangeView extends AbstractView {
 
     /**
      * Chiede all'utente di gestire i baratti che gli sono stati proposti
+     *
      * @param user Utente di cui chiedere la proposta
      */
     private void manageProposals(User user) {
         List<Exchange> proposalsForUser = exchangeController.getProposalsForUser(user);
-        if (proposalsForUser.isEmpty()){
+        if (proposalsForUser.isEmpty()) {
             System.out.println(ERROR_NO_PROPOSALS);
             return;
         }
         Exchange selectedExchange = selectOptionFromCollection(proposalsForUser);
         System.out.println(render(selectedExchange));
-        if(InputDati.yesOrNo(ASK_ACCEPT_BARTER)) {
+        if (InputDati.yesOrNo(ASK_ACCEPT_BARTER)) {
             exchangeController.acceptProposal(selectedExchange);
             System.out.println(INPUT_WHERE_WHEN);
             editAppointment(selectedExchange);
@@ -120,35 +116,21 @@ public class ExchangeView extends AbstractView {
 
     /**
      * Stampa gli articoli in scambio (e quindi i baratti concordati sugli articoli)
+     *
      * @param user L'utente di cui visualizzare gli articoli in scambio / baratti concordati sugli articoli
      */
     private void printExchangingArticles(User user) {
         List<Exchange> exchangingExchanges = exchangeController.getExchangingExchanges(user);
-        if (exchangingExchanges.isEmpty()){
+        if (exchangingExchanges.isEmpty()) {
             System.out.println(ERROR_NO_ARTICLES_EXCHANGE);
         }
         System.out.println(renderAll(exchangingExchanges));
     }
 
-    /**
-     * Stampa un menu di selezione per le opzioni di una collezione
-     * @param collection Collezione da cui selezionare un oggetto
-     * @param <T> Tipo della collezione
-     * @return Opzione scelta della collezione
-     */
-    private <T> T selectOptionFromCollection(Collection<T> collection) {
-        assert !collection.isEmpty() : ASSERT_EMPTY_COLLECTION_MENU;
-        Map<Integer, T> map = new HashMap<>();
-        for (T element : collection){
-            map.put(map.size()+1, element);
-        }
-        map.forEach((id, option) -> System.out.printf("%d -> %s\n", id, render(option)));
-        int id = InputDati.leggiIntero(INPUT_MENU_GENERIC_PROMPT, 1, map.size());
-        return map.get(id);
-    }
 
     /**
      * Gestisce gli appuntamenti (dei baratti) di un utente
+     *
      * @param user Utente di cui gestire gli appuntamenti
      */
     private void manageAppointments(User user) {
@@ -163,6 +145,7 @@ public class ExchangeView extends AbstractView {
 
     /**
      * Chiede conferma dell'appuntamento, e in caso contrario lo modifica
+     *
      * @param exchange Scambio per cui chiedere la conferma / modifica dell'appuntamento
      */
     private void askAppointmentConfirmation(Exchange exchange) {
@@ -176,6 +159,7 @@ public class ExchangeView extends AbstractView {
 
     /**
      * Modifica la proposta fatta
+     *
      * @param exchange Scambio di cui modificare la proposta
      */
     private void editAppointment(Exchange exchange) {
@@ -186,6 +170,7 @@ public class ExchangeView extends AbstractView {
 
     /**
      * Seleziona un luogo valido
+     *
      * @return Luogo valido
      */
     private String selectWhere() {
@@ -194,6 +179,7 @@ public class ExchangeView extends AbstractView {
 
     /**
      * Chiedi l'orario per una proposta
+     *
      * @return Orario proposto
      */
     private LocalDateTime askProposedWhen() {
@@ -204,25 +190,27 @@ public class ExchangeView extends AbstractView {
 
     /**
      * Chiede una data, validata
+     *
      * @return Data validata
      */
-    private LocalDate askDate(){
+    private LocalDate askDate() {
         LocalDate proposedDate;
         do {
-            int year = InputDati.leggiIntero(INPUT_YEAR, LocalDate.now().getYear(), LocalDate.now().getYear()+1);
+            int year = InputDati.leggiIntero(INPUT_YEAR, LocalDate.now().getYear(), LocalDate.now().getYear() + 1);
             int month = InputDati.leggiIntero(INPUT_MONTH, 1, 12);
             int day = askDay(year, month);
             proposedDate = LocalDate.of(year, month, day);
             if (!proposedDate.isAfter(LocalDate.now())) {
                 System.out.println(ERROR_PAST_DATE);
             }
-        } while(!proposedDate.isAfter(LocalDate.now()));
+        } while (!proposedDate.isAfter(LocalDate.now()));
         return proposedDate;
     }
 
     /**
      * Chiede un giorno del mese, ammesso dall'applicazione, dato l'anno e il mese
-     * @param year Anno
+     *
+     * @param year  Anno
      * @param month Mese
      * @return Giorno del mese, che ricade in un giorno della settimana ammesso dall'applicazione
      */
@@ -238,25 +226,26 @@ public class ExchangeView extends AbstractView {
         }
 
         // Chiedi un giorno valido
-        validDays.forEach((day, dayOfWeek) -> System.out.println("\t"+dayOfWeek+' '+day));
+        validDays.forEach((day, dayOfWeek) -> System.out.println("\t" + dayOfWeek + ' ' + day));
         return InputDati.leggiInteroDaSet(INPUT_DAY, validDays.keySet());
     }
 
     /**
      * Chiedi un orario per il baratto
+     *
      * @return Orario per il baratto, validato
      */
-    private LocalTime askTime(){
+    private LocalTime askTime() {
         LocalTime proposedTime;
         do {
             int hour = InputDati.leggiIntero(INPUT_HOUR, 0, 23);
             int minute = InputDati.leggiInteroDaSet(INPUT_MINUTE, configController.allowedMinutes());
             proposedTime = LocalTime.of(hour, minute);
-            if(!configController.isValidTime(proposedTime)){
+            if (!configController.isValidTime(proposedTime)) {
                 System.out.println(ERROR_INVALID_TIME);
                 configController.getTimeIntervals().forEach(timeInterval -> System.out.println(timeInterval.allowedTimes()));
             }
-        } while(!configController.isValidTime(proposedTime));
+        } while (!configController.isValidTime(proposedTime));
         return proposedTime;
     }
 }
