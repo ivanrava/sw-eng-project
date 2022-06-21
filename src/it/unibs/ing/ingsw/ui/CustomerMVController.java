@@ -1,7 +1,7 @@
 package it.unibs.ing.ingsw.ui;
 
 import it.unibs.ing.ingsw.article.ArticleMVController;
-import it.unibs.ing.ingsw.article.ExchangeView;
+import it.unibs.ing.ingsw.article.ExchangeMVController;
 import it.unibs.ing.ingsw.auth.User;
 import it.unibs.ing.ingsw.category.CategoryMVController;
 import it.unibs.ing.ingsw.config.ConfigView;
@@ -17,13 +17,13 @@ public class CustomerMVController extends AbstractMVController {
     private final CategoryMVController categoryMVController;
     private final ConfigView configView;
     private final ArticleMVController articleMVController;
-    private final ExchangeView exchangeView;
+    private final ExchangeMVController exchangeMVController;
 
     public CustomerMVController(DataContainer saves) {
         categoryMVController = new CategoryMVController(saves);
         configView = new ConfigView(saves);
         articleMVController = new ArticleMVController(saves);
-        exchangeView = new ExchangeView(saves);
+        exchangeMVController = new ExchangeMVController(saves);
     }
 
     @Override
@@ -35,7 +35,7 @@ public class CustomerMVController extends AbstractMVController {
                 SEE_CATEGORIES, categoryMVController::printHierarchies,
                 SEE_CONFIG, configView::printConfig,
                 MANAGE_ARTICLES, () -> articleMVController.execute(user),
-                MANAGE_EXCHANGES, () -> exchangeView.execute(user)
+                MANAGE_EXCHANGES, () -> exchangeMVController.execute(user)
         );
     }
 

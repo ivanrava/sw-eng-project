@@ -1,10 +1,7 @@
 package it.unibs.ing.ingsw.article;
 
 import it.unibs.ing.fp.mylib.InputDati;
-import it.unibs.ing.fp.mylib.MyMenu;
-import it.unibs.ing.ingsw.auth.User;
-import it.unibs.ing.ingsw.config.ConfigController;
-import it.unibs.ing.ingsw.io.DataContainer;
+import it.unibs.ing.ingsw.config.TimeInterval;
 import it.unibs.ing.ingsw.ui.AbstractView;
 
 import java.time.*;
@@ -13,159 +10,41 @@ import java.util.*;
 
 public class ExchangeView extends AbstractView {
     private static final String ASK_ACCEPT_BARTER = "Accetti il baratto proposto?";
-    private static final String ASK_ACCEPT_APPOINTMENT = "Vuoi accettare il luogo/tempo del baratto? ";
-    private static final String INPUT_WHERE_WHEN = "Ok, ora proponi un luogo / ora per lo scambio...";
     private static final String INPUT_YEAR = "Inserisci l'anno: ";
     private static final String INPUT_MONTH = "Inserisci il mese [1-12]: ";
     private static final String INPUT_DAY = "Inserisci un giorno tra quelli validi: ";
     private static final String INPUT_HOUR = "Inserisci ora: ";
     private static final String INPUT_MINUTE = "Inserisci minuto: ";
-    private static final String ERROR_UNEXISTANT_CONFIGURATION = "Configurazione inesistente :-(";
-    private static final String ERROR_NO_OPEN_ARTICLES = "Non hai articoli da scambiare :(";
-    private static final String ERROR_ADD_ARTICLE_BEFORE_PROPOSAL = "Aggiungi un articolo prima di proporre uno scambio";
-    private static final String ERROR_NO_MATCHING_ARTICLES = "Non ci sono articoli con cui fare lo scambio :(";
-    private static final String ERROR_NO_PROPOSALS = "Non hai proposte da gestire :-(";
-    private static final String ERROR_NO_ARTICLES_EXCHANGE = "Non hai articoli in scambio :-(";
-    private static final String ERROR_NO_DISCUSSIONS = "Non hai nessuna proposta da vagliare :(";
     private static final String ERROR_PAST_DATE = "La data è già passata :(";
     private static final String ERROR_INVALID_TIME = "Orario non ammesso dall'applicazione :(";
-    private final ExchangeController exchangeController;
-    private final ConfigController configController;
-    private final ArticleController articleController;
-    public static final String MENU_TITLE = "Gestione scambi";
-    public static final String[] VOCI = {"Proponi un baratto", "Gestisci i baratti che ti sono stati proposti", "Mostra i tuoi articoli in scambio (e ultime risposte)", "Accetta/modifica luogo/tempo dei baratti"};
+    private static final String ERROR_NO_ARTICLES_EXCHANGE = "Non hai articoli in scambio :-(";
+    private static final String ASK_ACCEPT_APPOINTMENT = "Vuoi accettare il luogo/tempo del baratto? ";
 
-    public ExchangeView(DataContainer saves) {
-        exchangeController = new ExchangeController(saves);
-        configController = new ConfigController(saves);
-        articleController = new ArticleController(saves);
+
+    protected String MENU_TITLE = "Gestione scambi";
+
+    public void printExchange(Exchange exchange) {
+        message(render(exchange));
     }
 
-    /**
-     * Esegue la vista
-     *
-     * @param user Utente che la esegue
-     */
-    public void execute(User user) {
-        if (!configController.existsDefaultValues()) {
-            System.out.println(ERROR_UNEXISTANT_CONFIGURATION);
-            return;
-        }
-        //controllo sugli scambi in scadenza
-        exchangeController.deleteExpiredExchanges();
-        MyMenu mainMenu = new MyMenu(MENU_TITLE, VOCI);
-
-        int scelta;
-        do {
-            scelta = mainMenu.scegli();
-            switch (scelta) {
-                case 1 -> proposeExchange(user);
-                case 2 -> manageProposals(user);
-                case 3 -> printExchangingArticles(user);
-                case 4 -> manageAppointments(user);
-            }
-        } while (scelta != 0);
-    }
-
-    /**
-     * Propone uno scambio, selezionando articolo proprio e altrui di ugual categoria
-     *
-     * @param user Utente che propone lo scambio
-     */
-    private void proposeExchange(User user) {
-        // Seleziona la proposta
-        List<Article> articlesAvailable = articleController.getArticlesAvailableForUser(user.getUsername());
-        if (articlesAvailable.isEmpty()) {
-            System.out.println(ERROR_NO_OPEN_ARTICLES);
-            System.out.println(ERROR_ADD_ARTICLE_BEFORE_PROPOSAL);
-            return;
-        }
-        Article articleProposed = selectOptionFromCollection(articlesAvailable);
-        // Seleziona l'articolo desiderato
-        List<Article> availableArticlesForExchange = articleController.getAvailableArticlesForExchange(user, articleProposed.getCategory());
-        if (availableArticlesForExchange.isEmpty()) {
-            System.out.println(ERROR_NO_MATCHING_ARTICLES);
-            return;
-        }
-        Article articleWanted = selectOptionFromCollection(availableArticlesForExchange);
-
-        exchangeController.startExchange(articleProposed.getId(), articleWanted.getId());
-    }
-
-    /**
-     * Chiede all'utente di gestire i baratti che gli sono stati proposti
-     *
-     * @param user Utente di cui chiedere la proposta
-     */
-    private void manageProposals(User user) {
-        List<Exchange> proposalsForUser = exchangeController.getProposalsForUser(user);
-        if (proposalsForUser.isEmpty()) {
-            System.out.println(ERROR_NO_PROPOSALS);
-            return;
-        }
-        Exchange selectedExchange = selectOptionFromCollection(proposalsForUser);
-        System.out.println(render(selectedExchange));
-        if (InputDati.yesOrNo(ASK_ACCEPT_BARTER)) {
-            exchangeController.acceptProposal(selectedExchange);
-            System.out.println(INPUT_WHERE_WHEN);
-            editAppointment(selectedExchange);
-        } else {
-            exchangeController.rejectProposal(selectedExchange);
-        }
+    public void printExchanges(Collection<Exchange> exchanges) {
+        message(renderAll(exchanges));
     }
 
     /**
      * Stampa gli articoli in scambio (e quindi i baratti concordati sugli articoli)
      *
-     * @param user L'utente di cui visualizzare gli articoli in scambio / baratti concordati sugli articoli
+     * @param exchangingArticles articoli in scambio
      */
-    private void printExchangingArticles(User user) {
-        List<Exchange> exchangingExchanges = exchangeController.getExchangingExchanges(user);
-        if (exchangingExchanges.isEmpty()) {
-            System.out.println(ERROR_NO_ARTICLES_EXCHANGE);
+    public void printExchangingArticles(List<Exchange> exchangingArticles) {
+        if (exchangingArticles.isEmpty()) {
+            message(ERROR_NO_ARTICLES_EXCHANGE);
         }
-        System.out.println(renderAll(exchangingExchanges));
+        printExchanges(exchangingArticles);
     }
 
-
-    /**
-     * Gestisce gli appuntamenti (dei baratti) di un utente
-     *
-     * @param user Utente di cui gestire gli appuntamenti
-     */
-    private void manageAppointments(User user) {
-        List<Exchange> exchangeList = exchangeController.getExchangesAwaitingForAnswer(user);
-        if (exchangeList.isEmpty()) {
-            System.out.println(ERROR_NO_DISCUSSIONS);
-            return;
-        }
-        Exchange exchange = selectOptionFromCollection(exchangeList);
-        askAppointmentConfirmation(exchange);
-    }
-
-    /**
-     * Chiede conferma dell'appuntamento, e in caso contrario lo modifica
-     *
-     * @param exchange Scambio per cui chiedere la conferma / modifica dell'appuntamento
-     */
-    private void askAppointmentConfirmation(Exchange exchange) {
-        System.out.println(render(exchange));
-        if (InputDati.yesOrNo(ASK_ACCEPT_APPOINTMENT)) {
-            exchangeController.acceptExchange(exchange);
-        } else {
-            editAppointment(exchange);
-        }
-    }
-
-    /**
-     * Modifica la proposta fatta
-     *
-     * @param exchange Scambio di cui modificare la proposta
-     */
-    private void editAppointment(Exchange exchange) {
-        String proposedWhere = selectWhere();
-        LocalDateTime proposedWhen = askProposedWhen();
-        exchangeController.updateAppointment(proposedWhere, proposedWhen, exchange);
+    public boolean askAcceptExchange() {
+        return InputDati.yesOrNo(ASK_ACCEPT_BARTER);
     }
 
     /**
@@ -173,8 +52,8 @@ public class ExchangeView extends AbstractView {
      *
      * @return Luogo valido
      */
-    private String selectWhere() {
-        return selectOptionFromCollection(configController.getLuoghi());
+    public String askWhere(Set<String> luoghi) {
+        return selectOptionFromCollection(luoghi);
     }
 
     /**
@@ -182,10 +61,17 @@ public class ExchangeView extends AbstractView {
      *
      * @return Orario proposto
      */
-    private LocalDateTime askProposedWhen() {
-        LocalTime proposedTime = askTime();
-        LocalDate proposedDate = askDate();
+    public LocalDateTime askProposedWhen(Set<DayOfWeek> validDaysOfWeek, Set<TimeInterval> validTimeIntervals) {
+        LocalTime proposedTime = askTime(validTimeIntervals);
+        LocalDate proposedDate = askDate(validDaysOfWeek);
         return LocalDateTime.of(proposedDate, proposedTime);
+    }
+
+    /**
+     * Chiede conferma dell'appuntamento
+     */
+    public boolean askAppointmentConfirmation() {
+        return InputDati.yesOrNo(ASK_ACCEPT_APPOINTMENT);
     }
 
     /**
@@ -193,12 +79,12 @@ public class ExchangeView extends AbstractView {
      *
      * @return Data validata
      */
-    private LocalDate askDate() {
+    public LocalDate askDate(Set<DayOfWeek> validDaysOfWeek) {
         LocalDate proposedDate;
         do {
             int year = InputDati.leggiIntero(INPUT_YEAR, LocalDate.now().getYear(), LocalDate.now().getYear() + 1);
             int month = InputDati.leggiIntero(INPUT_MONTH, 1, 12);
-            int day = askDay(year, month);
+            int day = askDay(year, month, validDaysOfWeek);
             proposedDate = LocalDate.of(year, month, day);
             if (!proposedDate.isAfter(LocalDate.now())) {
                 System.out.println(ERROR_PAST_DATE);
@@ -210,24 +96,35 @@ public class ExchangeView extends AbstractView {
     /**
      * Chiede un giorno del mese, ammesso dall'applicazione, dato l'anno e il mese
      *
-     * @param year  Anno
-     * @param month Mese
+     * @param year            Anno
+     * @param month           Mese
+     * @param validDaysOfWeek giorni validi della settimana per uno scambio
      * @return Giorno del mese, che ricade in un giorno della settimana ammesso dall'applicazione
      */
-    private int askDay(int year, int month) {
-        // Costruisce i giorni validi
-        Map<Integer, String> validDays = new TreeMap<>();
+    public int askDay(int year, int month, Set<DayOfWeek> validDaysOfWeek) {
+        Map<Integer, String> validDays = buildValidMonthDays(year, month, validDaysOfWeek);
+        validDays.forEach((day, dayOfWeek) -> message("\t" + dayOfWeek + ' ' + day));
+        return InputDati.leggiInteroDaSet(INPUT_DAY, validDays.keySet());
+    }
+
+    /**
+     * costruisce mappa dei giorni validi per uno scambio
+     *
+     * @param year anno selezionato dall'utente
+     * @param month mese selezionato dall'utente
+     * @param validWeekDays giorni della settimana validi per uno scambio
+     * @return giorni validi in quel mese di quell'anno
+     */
+    private Map<Integer, String> buildValidMonthDays(int year, int month, Set<DayOfWeek> validWeekDays) {
+        Map<Integer, String> validMonthDays = new TreeMap<>();
         YearMonth yearMonth = YearMonth.of(year, month);
         for (int day = 1; day < yearMonth.lengthOfMonth(); day++) {
             DayOfWeek dayOfWeek = yearMonth.atDay(day).getDayOfWeek();
-            if (configController.isValidDayOfWeek(dayOfWeek)) {
-                validDays.put(day, dayOfWeek.getDisplayName(TextStyle.FULL, Locale.ITALIAN));
+            if (validWeekDays.contains(dayOfWeek)) {
+                validMonthDays.put(day, dayOfWeek.getDisplayName(TextStyle.FULL, Locale.ITALIAN));
             }
         }
-
-        // Chiedi un giorno valido
-        validDays.forEach((day, dayOfWeek) -> System.out.println("\t" + dayOfWeek + ' ' + day));
-        return InputDati.leggiInteroDaSet(INPUT_DAY, validDays.keySet());
+        return validMonthDays;
     }
 
     /**
@@ -235,17 +132,29 @@ public class ExchangeView extends AbstractView {
      *
      * @return Orario per il baratto, validato
      */
-    private LocalTime askTime() {
+    public LocalTime askTime(Set<TimeInterval> timeIntervals) {
         LocalTime proposedTime;
         do {
             int hour = InputDati.leggiIntero(INPUT_HOUR, 0, 23);
-            int minute = InputDati.leggiInteroDaSet(INPUT_MINUTE, configController.allowedMinutes());
+            int minute = InputDati.leggiInteroDaSet(INPUT_MINUTE, TimeInterval.allowedMinutes());
             proposedTime = LocalTime.of(hour, minute);
-            if (!configController.isValidTime(proposedTime)) {
-                System.out.println(ERROR_INVALID_TIME);
-                configController.getTimeIntervals().forEach(timeInterval -> System.out.println(timeInterval.allowedTimes()));
+            if (!isValidTime(proposedTime, timeIntervals)) {
+                message(ERROR_INVALID_TIME);
+                timeIntervals.forEach(timeInterval -> System.out.println(timeInterval.allowedTimes()));
             }
-        } while (!configController.isValidTime(proposedTime));
+        } while (!isValidTime(proposedTime, timeIntervals));
         return proposedTime;
+    }
+
+    /**
+     * Controlla se l'orario passato è valido rispetto agli intervalli temporali dell'applicazione
+     * @param proposedTime Tempo da controllare
+     * @param timeIntervals intervalli temporali validi
+     * @return 'true' se è valido, 'false' altrimenti
+     */
+    public boolean isValidTime(LocalTime proposedTime, Set<TimeInterval> timeIntervals) {
+        return timeIntervals
+                .stream()
+                .anyMatch(timeInterval -> timeInterval.isAllowed(proposedTime));
     }
 }
