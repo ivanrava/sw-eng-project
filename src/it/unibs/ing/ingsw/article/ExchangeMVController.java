@@ -130,7 +130,7 @@ public class ExchangeMVController extends AbstractMVController {
      * @param exchange Scambio di cui modificare la proposta
      */
     private void editAppointment(Exchange exchange) {
-        String proposedWhere = exchangeView.askWhere(configController.getLuoghi());
+        String proposedWhere = exchangeView.askWhere(configController.getPlaces());
         LocalDateTime proposedWhen = exchangeView.askProposedWhen(configController.getValidDaysOfWeek(), configController.getTimeIntervals());
         exchangeController.updateAppointment(proposedWhere, proposedWhen, exchange);
     }

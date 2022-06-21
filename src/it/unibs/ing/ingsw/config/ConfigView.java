@@ -1,36 +1,16 @@
 package it.unibs.ing.ingsw.config;
 
 import it.unibs.ing.fp.mylib.InputDati;
-import it.unibs.ing.fp.mylib.MyMenu;
-import it.unibs.ing.ingsw.exceptions.ErrorDialog;
-import it.unibs.ing.ingsw.exceptions.ConfigImportException;
-import it.unibs.ing.ingsw.io.DataContainer;
 import it.unibs.ing.ingsw.ui.AbstractView;
 
 import java.time.DayOfWeek;
 import java.time.LocalTime;
-import java.time.format.TextStyle;
-import java.util.Locale;
+import java.util.HashSet;
+import java.util.Optional;
+import java.util.Set;
+import java.util.TreeSet;
 
 public class ConfigView extends AbstractView {
-    public static final int MAX_HOUR = 23;
-    public static final int MIN_HOUR = 0;
-    public static final int MAX_DAYS = 7;
-    public static final int MIN_DAYS = 1;
-    public static final String INSERT_DAY = String.format("Inserisci un giorno della settimana [%d-%d]: ", MIN_DAYS, MAX_DAYS);
-    public static final int MIN_DEADLINE = 1;
-    public static final String MENU_TITLE = "Configurazione";
-    public static final String[] VOCI = {
-            "Visualizza Configurazione",
-            "Modifica Configurazione",
-            "Importa Configurazione"
-    };
-    public static final String EDIT_PLACES = "Vuoi modificare i luoghi inseriti? ";
-    public static final String EDIT_DAYS = "Vuoi modificare i giorni già inseriti? ";
-    public static final String EDIT_TIMES = "Vuoi modificare gli intervalli orari già inseriti? ";
-    public static final String EDIT_DEADLINE = "Vuoi modificare la scadenza predefinita di baratto? ";
-    public static final String INSERT_PIAZZA = "Inserisci piazza di scambio definitiva: ";
-    public static final String INSERT_DEADLINE = "Inserisci la deadline: ";
     public static final String INSERT_PLACE = "Inserisci un luogo di scambio: ";
     public static final String INSERT_PLACE_ANOTHER = "Vuoi inserire un altro luogo? ";
     public static final String ERROR_PLACE_DUPLICATE = "Luogo già presente :(";
@@ -43,192 +23,168 @@ public class ConfigView extends AbstractView {
     public static final String INSERT_TIME_STOP_HOUR = "Inserisci l'ora finale: ";
     public static final String INSERT_TIME_STOP_MINUTES = "Inserisci il minuto finale: ";
     public static final String MESSAGE_INSERT_DAY_LESS_THAN = ">>> Inserisci un orario <= di %s";
-    ConfigController configController;
-
-    public ConfigView(DataContainer saves){
-        configController = new ConfigController(saves);
-    }
-
-    /**
-     * Esegui l'UI di gestione della configurazione
-     */
-    public void execute() {
-        MyMenu mainMenu = new MyMenu(MENU_TITLE, VOCI);
-
-        int scelta;
-        do {
-            scelta = mainMenu.scegli();
-            switch (scelta) {
-                case 1 -> printConfig();
-                case 2 -> editConfig();
-                case 3 -> importBatch();
-            }
-        }while (scelta != 0);
-    }
-
-    /**
-     * importa la configurazione da un file batch
-     */
-    private void importBatch() {
-        if (configController.existsDefaultValues()) {
-            System.out.println("Attenzione: La piazza non verrà modificata");
-        }
-        try {
-            String filePath = InputDati.leggiStringaNonVuota("Inserisci il percorso assoluto del file: ");
-            configController.loadConfigFromBatch(filePath);
-            System.out.println("Configurazione importata con successo :-)");
-        } catch (ConfigImportException e) {
-            ErrorDialog.print(e);
-        }
-    }
+    public static final int MAX_HOUR = 23;
+    public static final int MIN_HOUR = 0;
+    public static final int MAX_DAYS = 7;
+    public static final int MIN_DAYS = 1;
+    public static final String INSERT_DAY = String.format("Inserisci un giorno della settimana [%d-%d]: ", MIN_DAYS, MAX_DAYS);
+    public static final int MIN_DEADLINE = 1;
+    public static final String INSERT_PIAZZA = "Inserisci piazza di scambio definitiva: ";
+    public static final String INSERT_DEADLINE = "Inserisci la deadline: ";
+    public static final String INSERT_ABSOLUTE_PATH = "Inserisci il percorso assoluto del file: ";
+    protected String MENU_TITLE = "Configurazione";
 
     /**
      * Stampa la configurazione
      */
-    public void printConfig(){
-        System.out.println(render(configController.getConfig()));
+    public void printConfig(Config config) {
+        message(render(config));
     }
 
-    /**
-     * Modifica la configurazione
-     */
-    private void editConfig() {
-        if(!configController.existsDefaultValues()) {
-            addConfigFirst();
-        } else {
-            updateConfig();
-        }
-    }
-
-    /**
-     * Crea la prima configurazione
-     */
-    private void addConfigFirst() {
-        inserisciPiazza();
-        inserisciLuoghi();
-        inserisciGiorni();
-        inserisciIntervalliOrari();
-        inserisciDeadline();
-    }
-
-    /**
-     * Aggiorna la configurazione già esistente
-     */
-    private void updateConfig() {
-        if (InputDati.yesOrNo(EDIT_PLACES))
-            inserisciLuoghi();
-        if (InputDati.yesOrNo(EDIT_DAYS))
-            inserisciGiorni();
-        if (InputDati.yesOrNo(EDIT_TIMES))
-            inserisciIntervalliOrari();
-        if (InputDati.yesOrNo(EDIT_DEADLINE))
-            inserisciDeadline();
-    }
 
     /**
      * Inserisce la piazza
      */
-    private void inserisciPiazza() {
-        configController.setPiazza(InputDati.leggiStringaNonVuota(INSERT_PIAZZA));
+    public String askSquare() {
+        return InputDati.leggiStringaNonVuota(INSERT_PIAZZA);
     }
 
     /**
      * Inserisce la scadenza
      */
-    private void inserisciDeadline() {
-        configController.setDeadline(InputDati.leggiInteroConMinimo(INSERT_DEADLINE, MIN_DEADLINE));
+    public int askDeadline() {
+        return InputDati.leggiInteroConMinimo(INSERT_DEADLINE, MIN_DEADLINE);
     }
 
     /**
      * Inserisce dall'UI i luoghi della configurazione
      */
-    private void inserisciLuoghi() {
+    public Set<String> askPlaces() {
+        Set<String> places = new HashSet<>();
         boolean continua = true;
         do {
-            String luogo = InputDati.leggiStringaNonVuota(INSERT_PLACE);
-            if (!configController.exists(luogo)) {
-                configController.addLuogo(luogo);
+            String place = InputDati.leggiStringaNonVuota(INSERT_PLACE);
+            if (!places.contains(place)) {
+                places.add(place);
                 continua = InputDati.yesOrNo(INSERT_PLACE_ANOTHER);
             } else {
-                System.out.println(ERROR_PLACE_DUPLICATE);
+                message(ERROR_PLACE_DUPLICATE);
             }
-        } while(continua);
-    }
-
-    /**
-     * Stampa i giorni della configurazione
-     */
-    private void printDays() {
-        configController.getValidDaysOfWeek().forEach(
-                dayOfWeek -> System.out.printf("%s ", dayOfWeek.getDisplayName(TextStyle.FULL, Locale.ITALIAN))
-        );
+        } while (continua);
+        return places;
     }
 
     /**
      * Inserisce dall'UI i giorni della configurazione
      */
-    private void inserisciGiorni() {
-        printDays();
-
+    public Set<DayOfWeek> askDays() {
+        Set<DayOfWeek> days = new TreeSet<>();
         boolean continua = true;
         do {
             DayOfWeek day = DayOfWeek.of(InputDati.leggiIntero(INSERT_DAY, MIN_DAYS, MAX_DAYS));
-            if (!configController.exists(day)) {
-                configController.addDay(day);
+            if (!days.contains(day)) {
+                days.add(day);
                 continua = InputDati.yesOrNo(INSERT_DAY_ANOTHER);
             } else {
-                System.out.println(ERROR_DAY_DUPLICATE);
+                message(ERROR_DAY_DUPLICATE);
             }
-        } while(continua);
+        } while (continua);
+        return days;
     }
 
     /**
      * Chiede all'UI in loop gli intervalli orari
      */
-    private void inserisciIntervalliOrari() {
+    public Set<TimeInterval> askTimeIntervals() {
+        Set<TimeInterval> timeIntervals = new TreeSet<>();
         boolean continua;
         do {
-            LocalTime startTime = askStartTime();
-            LocalTime stopTime = askStopTime(startTime);
-            configController.addTimeInterval(startTime, stopTime);
+            LocalTime startTime = askStartTime(timeIntervals);
+            LocalTime stopTime = askStopTime(startTime, timeIntervals);
+            timeIntervals.add(new TimeInterval(startTime, stopTime));
             continua = InputDati.yesOrNo(INSERT_TIME_ANOTHER);
-        } while(continua);
+        } while (continua);
+        return timeIntervals;
     }
 
     /**
      * Chiedi l'orario iniziale di un intervallo temporale
+     *
      * @return L'orario iniziale di quell'intervallo
      */
-    private LocalTime askStartTime() {
+    public LocalTime askStartTime(Set<TimeInterval> alreadyInserted) {
         int oraIniziale, minutoIniziale;
         do {
             oraIniziale = InputDati.leggiIntero(INSERT_TIME_START_HOUR, MIN_HOUR, MAX_HOUR);
-            minutoIniziale = InputDati.leggiInteroDaSet(INSERT_TIME_START_MINUTES, configController.allowedMinutes());
-            if (!configController.isValidStart(oraIniziale, minutoIniziale)) {
-                System.out.println(ERROR_TIME_OVERLAP);
+            minutoIniziale = InputDati.leggiInteroDaSet(INSERT_TIME_START_MINUTES, TimeInterval.allowedMinutes());
+            if (isValidStart(oraIniziale, minutoIniziale, alreadyInserted)) {
+                message(ERROR_TIME_OVERLAP);
             }
-        } while (!configController.isValidStart(oraIniziale, minutoIniziale));
+        } while (isValidStart(oraIniziale, minutoIniziale, alreadyInserted));
 
         return LocalTime.of(oraIniziale, minutoIniziale);
     }
 
     /**
      * Chiedi l'orario finale di un intervallo temporale
+     *
      * @param startTime Il tempo iniziale di quell'intervallo
      * @return L'orario finale di quell'intervallo
      */
-    private LocalTime askStopTime(LocalTime startTime) {
-        LocalTime stopLimit = configController.getStopLimitFor(startTime);
+    public LocalTime askStopTime(LocalTime startTime, Set<TimeInterval> timeIntervals) {
+        LocalTime stopLimit = getStopLimitFor(startTime, timeIntervals);
         int oraFinale, minutoFinale;
         do {
             oraFinale = InputDati.leggiIntero(INSERT_TIME_STOP_HOUR, startTime.getHour(), MAX_HOUR);
-            minutoFinale = InputDati.leggiInteroDaSet(INSERT_TIME_STOP_MINUTES, configController.allowedMinutes());
+            minutoFinale = InputDati.leggiInteroDaSet(INSERT_TIME_STOP_MINUTES, TimeInterval.allowedMinutes());
             if (LocalTime.of(oraFinale, minutoFinale).isAfter(stopLimit)) {
-                System.out.println(ERROR_TIME_OVERLAP);
-                System.out.printf(MESSAGE_INSERT_DAY_LESS_THAN, stopLimit);
+                message(ERROR_TIME_OVERLAP);
+                message(String.format(MESSAGE_INSERT_DAY_LESS_THAN, stopLimit));
             }
         } while (LocalTime.of(oraFinale, minutoFinale).isAfter(stopLimit));
 
         return LocalTime.of(oraFinale, minutoFinale);
+    }
+
+    /**
+     * Ritorna il limite orario finale per l'ora iniziale passata.
+     * Da usare per la validazione degli intervalli orari
+     *
+     * @param startTime Orario iniziale per l'intervallo in considerazione
+     * @return Il massimo orario finale ammissibile
+     */
+    public LocalTime getStopLimitFor(LocalTime startTime, Set<TimeInterval> timeIntervals) {
+        Optional<TimeInterval> timeInterval = timeIntervals
+                .stream()
+                .filter(timeInt -> timeInt.getStart().isAfter(startTime))
+                .findFirst();
+        return timeInterval.isPresent()
+                ? timeInterval.get().getStart().minusMinutes(TimeInterval.DELTA_MINUTES)
+                : TimeInterval.MAX_STOP;
+    }
+
+    /**
+     * Controlla se l'orario passato è valido come inizio dell'intervallo
+     *
+     * @param startHour    Ora iniziale
+     * @param startMinutes Minuto iniziale
+     * @return 'true' se valido, 'false' se invalido
+     */
+    public boolean isValidStart(int startHour, int startMinutes, Set<TimeInterval> alreadyInserted) {
+        // Non dev'essere contenuto negli altri intervalli
+        // Non dev'essere uguale al massimo orario possibile
+        LocalTime localTime = LocalTime.of(startHour, startMinutes);
+        return alreadyInserted
+                .stream()
+                .anyMatch(timeInterval -> timeInterval.isAllowed(localTime))
+            && !TimeInterval.MAX_STOP.equals(localTime);
+    }
+
+    public String askPath() {
+        return InputDati.leggiStringaNonVuota(INSERT_ABSOLUTE_PATH);
+    }
+
+    public boolean askModify(String fieldDescription) {
+        return InputDati.yesOrNo("Vuoi modificare il campo \"" + fieldDescription + "\" ?");
     }
 }
