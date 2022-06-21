@@ -76,16 +76,12 @@ public class CategoryMVController extends AbstractMVController {
      */
     private void insertChildCategory() {
         this.printHierarchies();
-        // Chiediamo la radice
         String rootName = categoryView.askRootName(categoryController.getRootCategoryNames());
-        // Chiediamo il padre
         String parentName = categoryView.askAndCheckParentName(rootName, this);
-        // Chiediamo il nome
-        String name = categoryView.askAndCheckCategoryName(rootName, this);
-        // Chiediamo la descrizione
+        String categoryName = categoryView.askAndCheckCategoryName(rootName, this);
         String description = categoryView.askDescription();
         Map<String, Field> newFields = categoryView.askFieldsForCategory(categoryController.searchTree(rootName, parentName));
-        categoryController.makeChildCategory(rootName, parentName, name, description, newFields);
+        categoryController.makeChildCategory(rootName, parentName, categoryName, description, newFields);
     }
 
 
