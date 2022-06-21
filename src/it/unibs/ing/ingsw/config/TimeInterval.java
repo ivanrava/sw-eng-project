@@ -78,10 +78,7 @@ public class TimeInterval implements Comparable<TimeInterval>, Serializable {
      * @return I minuti ammessi per un orario
      */
     public static Set<Integer> allowedMinutes() {
-        Set<Integer> minsAllowed = new HashSet<>();
-        minsAllowed.add(0);
-        minsAllowed.add(30);
-        return minsAllowed;
+        return Set.of(0, 30);
     }
 
     @Override

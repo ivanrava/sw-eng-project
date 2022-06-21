@@ -6,6 +6,7 @@ import it.unibs.ing.ingsw.io.DataContainer;
 import it.unibs.ing.ingsw.ui.AbstractMVController;
 import it.unibs.ing.ingsw.ui.AbstractView;
 
+import java.util.List;
 import java.util.Map;
 
 public class ArticleMVController extends AbstractMVController {
@@ -79,4 +80,16 @@ public class ArticleMVController extends AbstractMVController {
         articleController.updateState(selectedArticle.getId(), articleView.askArticleState(selectedArticle.isAvailable()));
     }
 
+    public Article selectProposal(User user) {
+        List<Article> articlesAvailable = articleController.getArticlesAvailableForUser(user.getUsername());
+        if (articlesAvailable.isEmpty()) return null;
+        return articleView.selectOptionFromCollection(articlesAvailable);
+    }
+
+    public Article selectWanted(User user, Article articleProposed) {
+        List<Article> availableArticlesForExchange = articleController.getAvailableArticlesForExchange(user, articleProposed.getCategory());
+        if (availableArticlesForExchange.isEmpty()) return null;
+        return articleView.selectOptionFromCollection(availableArticlesForExchange);
+
+    }
 }

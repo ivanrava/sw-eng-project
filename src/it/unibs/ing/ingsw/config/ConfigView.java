@@ -159,7 +159,7 @@ public class ConfigView extends AbstractView {
      * Stampa i giorni della configurazione
      */
     private void printDays() {
-        configController.getDays().forEach(
+        configController.getValidDaysOfWeek().forEach(
                 dayOfWeek -> System.out.printf("%s ", dayOfWeek.getDisplayName(TextStyle.FULL, Locale.ITALIAN))
         );
     }

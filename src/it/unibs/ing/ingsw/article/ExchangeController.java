@@ -12,11 +12,9 @@ public class ExchangeController {
     private static final String ASSERTION_ARTICLE_PROPOSED_NOT_EXISTS = "L'articolo proposto non esiste!";
     private static final String ASSERTION_ARTICLE_WANTED_NOT_EXISTS = "L'articolo desiderato non esiste!";
     private final List<Exchange> exchangeList;
-    private final ArticleController articleController;
     private final ConfigController configController;
 
     public ExchangeController(DataContainer saves) {
-        articleController = new ArticleController(saves);
         configController = new ConfigController(saves);
         exchangeList = saves.getExchanges();
     }
@@ -55,15 +53,13 @@ public class ExchangeController {
 
     /**
      * Inizia uno scambio tra 2 articoli
-     * @param articleProposedId Id dell'articolo proposto
-     * @param articleWantedId Id dell'articolo desiderato
+     * @param articleProposed articolo proposto
+     * @param articleWanted articolo desiderato
      */
-    public void startExchange(int articleProposedId, int articleWantedId) {
-        Article proposed = articleController.getArticle(articleProposedId);
-        Article wanted = articleController.getArticle(articleWantedId);
-        assert proposed != null : ASSERTION_ARTICLE_PROPOSED_NOT_EXISTS;
-        assert wanted != null : ASSERTION_ARTICLE_WANTED_NOT_EXISTS;
-        exchangeList.add(new Exchange(proposed, wanted));
+    public void startExchange(Article articleProposed, Article articleWanted) {
+        assert articleProposed != null : ASSERTION_ARTICLE_PROPOSED_NOT_EXISTS;
+        assert articleWanted != null : ASSERTION_ARTICLE_WANTED_NOT_EXISTS;
+        exchangeList.add(new Exchange(articleProposed, articleWanted));
     }
 
     public void updateAppointment(String proposedWhere, LocalDateTime proposedWhen, Exchange exchange){
