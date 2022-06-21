@@ -32,6 +32,7 @@ public class ConfigView extends AbstractView {
     public static final String INSERT_PIAZZA = "Inserisci piazza di scambio definitiva: ";
     public static final String INSERT_DEADLINE = "Inserisci la deadline: ";
     public static final String INSERT_ABSOLUTE_PATH = "Inserisci il percorso assoluto del file: ";
+    public static final String INSERT_TIME_INTERVALS = "Inserimento intervalli temporali";
     protected String MENU_TITLE = "Configurazione";
 
     /**
@@ -97,6 +98,7 @@ public class ConfigView extends AbstractView {
      */
     public Set<TimeInterval> askTimeIntervals() {
         Set<TimeInterval> timeIntervals = new TreeSet<>();
+        message(INSERT_TIME_INTERVALS);
         boolean continua;
         do {
             LocalTime startTime = askStartTime(timeIntervals);
@@ -185,6 +187,6 @@ public class ConfigView extends AbstractView {
     }
 
     public boolean askModify(String fieldDescription) {
-        return InputDati.yesOrNo("Vuoi modificare il campo \"" + fieldDescription + "\" ?");
+        return InputDati.yesOrNo("Vuoi modificare il campo \"" + fieldDescription + "\"? ");
     }
 }
