@@ -54,11 +54,11 @@ public class ConfigMVController extends AbstractMVController {
         if (!existsDefaultValues) {
             configController.setPiazza(configView.askSquare());
         }
-        if (hasToModify("Scadenza", existsDefaultValues)) configController.setDeadline(configView.askDeadline());
+        if (hasToModify("Luoghi", existsDefaultValues)) configController.setPlaces(configView.askPlaces());
+        if (hasToModify("Giorni della settimana", existsDefaultValues)) configController.setDays(configView.askDays());
         if (hasToModify("Intervalli temporali", existsDefaultValues))
             configController.setTimeIntervals(configView.askTimeIntervals());
-        if (hasToModify("Giorni della settimana", existsDefaultValues)) configController.setDays(configView.askDays());
-        if (hasToModify("Luoghi", existsDefaultValues)) configController.setPlaces(configView.askPlaces());
+        if (hasToModify("Scadenza", existsDefaultValues)) configController.setDeadline(configView.askDeadline());
 
 
     }
