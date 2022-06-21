@@ -5,9 +5,8 @@ import it.unibs.ing.ingsw.article.Exchange;
 import it.unibs.ing.ingsw.auth.User;
 import it.unibs.ing.ingsw.category.Category;
 import it.unibs.ing.ingsw.config.Config;
-import it.unibs.ing.ingsw.config.ConfigView;
+import it.unibs.ing.ingsw.config.ConfigMVController;
 import it.unibs.ing.ingsw.config.TimeInterval;
-import it.unibs.ing.ingsw.exceptions.SaveException;
 import it.unibs.ing.ingsw.io.DataContainer;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -22,13 +21,13 @@ import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class ConfigViewTest {
+class ConfigMVControllerTest {
 
-    private ConfigView configView;
+    private ConfigMVController configMVController;
 
     @BeforeEach
     void setUp() {
-        configView = new ConfigView(new DataContainer() {
+        configMVController = new ConfigMVController(new DataContainer() {
             @Override
             public Config getConfig() {
                 return new Config(
@@ -101,7 +100,7 @@ class ConfigViewTest {
     void printConfig() {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         System.setOut(new PrintStream(out));
-        configView.printConfig();
+        configMVController.printConfig();
         assertTrue(out.toString().contains("piazza='square'"));
         assertTrue(out.toString().contains("place1"));
         assertTrue(out.toString().contains("place2"));

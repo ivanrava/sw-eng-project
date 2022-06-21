@@ -4,7 +4,7 @@ import it.unibs.ing.ingsw.article.ArticleMVController;
 import it.unibs.ing.ingsw.article.ExchangeMVController;
 import it.unibs.ing.ingsw.auth.User;
 import it.unibs.ing.ingsw.category.CategoryMVController;
-import it.unibs.ing.ingsw.config.ConfigView;
+import it.unibs.ing.ingsw.config.ConfigMVController;
 import it.unibs.ing.ingsw.io.DataContainer;
 
 import java.util.Map;
@@ -15,13 +15,13 @@ public class CustomerMVController extends AbstractMVController {
     public static final String MANAGE_ARTICLES = "Gestisci gli articoli";
     public static final String MANAGE_EXCHANGES = "Gestisci i baratti";
     private final CategoryMVController categoryMVController;
-    private final ConfigView configView;
+    private final ConfigMVController configMVController;
     private final ArticleMVController articleMVController;
     private final ExchangeMVController exchangeMVController;
 
     public CustomerMVController(DataContainer saves) {
         categoryMVController = new CategoryMVController(saves);
-        configView = new ConfigView(saves);
+        configMVController = new ConfigMVController(saves);
         articleMVController = new ArticleMVController(saves);
         exchangeMVController = new ExchangeMVController(saves);
     }
@@ -33,7 +33,7 @@ public class CustomerMVController extends AbstractMVController {
     protected Map<String, Runnable> getMenuOptions(User user) {
         return Map.of(
                 SEE_CATEGORIES, categoryMVController::printHierarchies,
-                SEE_CONFIG, configView::printConfig,
+                SEE_CONFIG, configMVController::printConfig,
                 MANAGE_ARTICLES, () -> articleMVController.execute(user),
                 MANAGE_EXCHANGES, () -> exchangeMVController.execute(user)
         );

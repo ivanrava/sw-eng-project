@@ -8,7 +8,6 @@ import it.unibs.ing.ingsw.io.batch.JsonParser;
 
 import java.io.FileNotFoundException;
 import java.time.DayOfWeek;
-import java.time.LocalTime;
 import java.util.Set;
 
 public class ConfigController {
@@ -19,14 +18,15 @@ public class ConfigController {
         this.saves = saves;
     }
 
-    public boolean existsDefaultValues(){
+    public boolean existsDefaultValues() {
         return saves.existsConfiguration();
     }
 
     /**
      * importa la configurazione da un file batch
-     * @throws ConfigImportException la config non esiste
+     *
      * @param filePath percorso assoluto del file
+     * @throws ConfigImportException la config non esiste
      */
     public void loadConfigFromBatch(String filePath) throws ConfigImportException {
         try {
@@ -44,6 +44,7 @@ public class ConfigController {
 
     /**
      * Imposta la piazza in cui avvengono gli scambi
+     *
      * @param piazza Piazza da impostare
      */
     public void setPiazza(String piazza) {
@@ -51,32 +52,8 @@ public class ConfigController {
     }
 
     /**
-     * Aggiunge un giorno in cui possono avvenire gli scambi
-     * @param day Giorno da aggiungere
-     */
-    public void addDay(DayOfWeek day) {
-        saves.getConfig().addDay(day);
-    }
-
-    /**
-     * Aggiunge un luogo in cui possono avvenire gli scambi
-     * @param luogo Luogo da aggiungere
-     */
-    public void addLuogo(String luogo) {
-        saves.getConfig().addLuogo(luogo);
-    }
-
-    /**
-     * Aggiunge un intervallo temporale in cui possono avvenire gli scambi
-     * @param start Orario iniziale dell'intervallo
-     * @param stop Orario finale dell'intervallo
-     */
-    public void addTimeInterval(LocalTime start, LocalTime stop) {
-        saves.getConfig().addTimeInterval(start, stop);
-    }
-
-    /**
      * Imposta la scadenza di una proposta di baratto
+     *
      * @param deadLine Scadenza, espressa in numero di giorni
      */
     public void setDeadline(int deadLine) {
@@ -91,52 +68,23 @@ public class ConfigController {
         return saves.getConfig().getDays();
     }
 
-    public boolean exists(String luogo) {
-        return saves.getConfig().getPlaces().contains(luogo);
-    }
-
-    public Set<String> getLuoghi(){
+    public Set<String> getPlaces() {
         return saves.getConfig().getPlaces();
     }
 
-    public Set<TimeInterval> getTimeIntervals(){
+    public Set<TimeInterval> getTimeIntervals() {
         return saves.getConfig().getTimeIntervals();
     }
 
-    public boolean exists(DayOfWeek day) {
-        return saves.getConfig().getDays().contains(day);
+    public void setTimeIntervals(Set<TimeInterval> timeIntervals) {
+        saves.getConfig().setTimeIntervals(timeIntervals);
     }
 
-    /**
-     * Controlla se l'orario passato è valido come inizio dell'intervallo
-     * @param startHour Ora iniziale
-     * @param startMinutes Minuto iniziale
-     * @return 'true' se valido, 'false' se invalido
-     */
-    public boolean isValidStart(int startHour, int startMinutes) {
-        // Non dev'essere contenuto negli altri intervalli
-        // Non dev'essere uguale al massimo orario possibile
-        return !saves.getConfig().timeIntervalsContain(startHour, startMinutes) || saves.getConfig().isMaxTime(startHour, startMinutes);
+    public void setDays(Set<DayOfWeek> daysOfWeek) {
+        saves.getConfig().setDays(daysOfWeek);
     }
 
-    /**
-     * Ritorna il limite orario finale per l'ora iniziale passata.
-     * Da usare per la validazione degli intervalli orari
-     * @param startTime Orario iniziale per l'intervallo in considerazione
-     * @return Il massimo orario finale ammissibile
-     */
-    public LocalTime getStopLimitFor(LocalTime startTime) {
-        return saves.getConfig().getMaximumStopAfter(startTime);
+    public void setPlaces(Set<String> places) {
+        saves.getConfig().setPlaces(places);
     }
-
-    /**
-     * Ritorna i minuti ammessi dall'applicazione
-     * @return Insieme dei minuti ammessi per un orario
-     */
-    public Set<Integer> allowedMinutes() {
-        return TimeInterval.allowedMinutes();
-    }
-
-
-
 }
