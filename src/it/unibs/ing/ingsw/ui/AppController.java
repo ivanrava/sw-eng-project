@@ -1,18 +1,18 @@
 package it.unibs.ing.ingsw.ui;
 
 import it.unibs.ing.ingsw.article.ExchangeController;
-import it.unibs.ing.ingsw.auth.LoginView;
+import it.unibs.ing.ingsw.auth.LoginMVController;
 import it.unibs.ing.ingsw.auth.User;
 import it.unibs.ing.ingsw.io.DataContainer;
 
 public class AppController {
-    private final LoginView loginView;
+    private final LoginMVController loginView;
     private final CustomerMVController customerMVController;
     private final ConfiguratorMVController configuratorMVController;
     private final ExchangeController exchangeController;
 
     public AppController(DataContainer saves) {
-        loginView = new LoginView(saves);
+        loginView = new LoginMVController(saves);
         customerMVController = new CustomerMVController(saves);
         configuratorMVController = new ConfiguratorMVController(saves);
         exchangeController = new ExchangeController(saves);

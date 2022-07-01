@@ -15,7 +15,7 @@ public class InputDati {
 
     private static Scanner creaScanner() {
         Scanner creato = new Scanner(System.in);
-        creato.useDelimiter(System.lineSeparator());
+        creato.useDelimiter(System.lineSeparator()+"|\n");
         return creato;
     }
 
