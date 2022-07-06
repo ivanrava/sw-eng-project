@@ -7,29 +7,20 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
 import java.util.LinkedList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-class LoginTest {
+class LoginTest extends RedirectSystemOutputBaseTest {
 
     AppController appController;
     QueueInputProvider testInputProvider;
-    ByteArrayOutputStream out;
 
     @BeforeEach
     void setUp() {
         testInputProvider = new QueueInputProvider();
         appController = new AppController(new InMemoryDataContainer(), testInputProvider);
-        redirectOutput();
-    }
-
-    void redirectOutput() {
-        out = new ByteArrayOutputStream();
-        System.setOut(new PrintStream(out));
     }
 
     @AfterEach

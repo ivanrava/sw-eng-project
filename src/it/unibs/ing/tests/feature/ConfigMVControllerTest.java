@@ -11,20 +11,13 @@ import java.io.PrintStream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class ConfigMVControllerTest {
+class ConfigMVControllerTest extends RedirectSystemOutputBaseTest {
 
     private ConfigMVController configMVController;
-    ByteArrayOutputStream out;
 
     @BeforeEach
     void setUp() {
         configMVController = new ConfigMVController(new InMemoryDataContainer(), new InputDati());
-        redirectOutput();
-    }
-
-    void redirectOutput() {
-        out = new ByteArrayOutputStream();
-        System.setOut(new PrintStream(out));
     }
 
     @Test
