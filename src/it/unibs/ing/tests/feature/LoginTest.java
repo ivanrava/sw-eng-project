@@ -30,16 +30,14 @@ class LoginTest extends RedirectSystemOutputBaseTest {
     void testConfigurator_RegisterLoginLogout() {
         String config_username = "config username";
         testInputProvider.setStringInputs(
-                new LinkedList<>(List.of(
+                List.of(
                         "default username", "default password",
                         "default username", "default password",
                         config_username, "config password",
                         config_username, "config password"
-                        ))
+                )
         );
-        testInputProvider.setIntegerInputs(
-                new LinkedList<>(List.of(2, 2, 0, 0))
-        );
+        testInputProvider.setIntegerInputs(List.of(2, 2, 0, 0));
 
         appController.execute();
         assertTrue(out.toString().contains("* Registrazione nuovo utente *"));
@@ -52,15 +50,13 @@ class LoginTest extends RedirectSystemOutputBaseTest {
     void testCustomer_RegisterLoginLogout() {
         String customer_username = "customer username";
         testInputProvider.setStringInputs(
-                new LinkedList<>(List.of(
+                List.of(
                         "default username", "default password",
                         customer_username, "customer password",
                         customer_username, "customer password"
-                ))
+                )
         );
-        testInputProvider.setIntegerInputs(
-                new LinkedList<>(List.of(1, 2, 0, 0))
-        );
+        testInputProvider.setIntegerInputs(List.of(1, 2, 0, 0));
 
         appController.execute();
         assertTrue(out.toString().contains("* Registrazione nuovo utente *"));

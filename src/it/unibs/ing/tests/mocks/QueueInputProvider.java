@@ -2,6 +2,8 @@ package it.unibs.ing.tests.mocks;
 
 import it.unibs.ing.fp.mylib.InputProvider;
 
+import java.util.Collection;
+import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Set;
 
@@ -10,16 +12,16 @@ public class QueueInputProvider implements InputProvider {
     private Queue<Integer> integerInputs;
     private Queue<Boolean> booleanInputs;
 
-    public void setStringInputs(Queue<String> stringInputs) {
-        this.stringInputs = stringInputs;
+    public void setStringInputs(Collection<String> stringInputs) {
+        this.stringInputs = new LinkedList<>(stringInputs);
     }
 
-    public void setIntegerInputs(Queue<Integer> integerInputs) {
-        this.integerInputs = integerInputs;
+    public void setIntegerInputs(Collection<Integer> integerInputs) {
+        this.integerInputs = new LinkedList<>(integerInputs);
     }
 
-    public void setBooleanInputs(Queue<Boolean> booleanInputs) {
-        this.booleanInputs = booleanInputs;
+    public void setBooleanInputs(Collection<Boolean> booleanInputs) {
+        this.booleanInputs = new LinkedList<>(booleanInputs);
     }
 
     @Override
