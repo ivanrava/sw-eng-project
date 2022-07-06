@@ -1,4 +1,4 @@
-package it.unibs.ing.tests;
+package it.unibs.ing.tests.unit;
 
 import it.unibs.ing.ingsw.category.Category;
 import org.junit.jupiter.api.Test;
