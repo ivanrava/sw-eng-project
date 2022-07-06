@@ -1,6 +1,8 @@
-package it.unibs.ing.tests;
+package it.unibs.ing.tests.feature;
 
 import it.unibs.ing.ingsw.ui.AppController;
+import it.unibs.ing.tests.DataContainerTest;
+import it.unibs.ing.tests.TestInputProvider;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -16,24 +18,25 @@ class LoginTest {
 
     AppController appController;
     TestInputProvider testInputProvider;
+    ByteArrayOutputStream out;
 
     @BeforeEach
     void setUp() {
         testInputProvider = new TestInputProvider();
+        appController = new AppController(new DataContainerTest(), testInputProvider);
+        redirectOutput();
+    }
 
-        appController = new AppController(
-                new DataContainerTest(),
-                testInputProvider);
+    void redirectOutput() {
+        out = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(out));
     }
 
     @AfterEach
-    void tearDown() {
-    }
+    void tearDown() {}
 
     @Test
-    void testRegisterConfiguratorAndLoginConfigurator() {
-        ByteArrayOutputStream out = new ByteArrayOutputStream();
-        System.setOut(new PrintStream(out));
+    void testConfigurator_RegisterLoginLogout() {
         String config_username = "config username";
         testInputProvider.setStringInputs(
                 new LinkedList<>(List.of(
@@ -55,9 +58,7 @@ class LoginTest {
 
 
     @Test
-    void testRegisterCustomerAndLoginCustomer() {
-        ByteArrayOutputStream out = new ByteArrayOutputStream();
-        System.setOut(new PrintStream(out));
+    void testCustomer_RegisterLoginLogout() {
         String customer_username = "customer username";
         testInputProvider.setStringInputs(
                 new LinkedList<>(List.of(
