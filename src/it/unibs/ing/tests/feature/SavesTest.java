@@ -1,4 +1,4 @@
-package it.unibs.ing.tests;
+package it.unibs.ing.tests.feature;
 
 import it.unibs.ing.ingsw.article.Article;
 import it.unibs.ing.ingsw.article.ArticleState;
@@ -99,7 +99,8 @@ class SavesTest {
     }
 
     @Test
-    void testSaveMethod() throws SaveException, LoadSavesException {
+    void testSaveAndLoad() throws SaveException, LoadSavesException {
+        // Saves some data
         Config config = new Config(
                 "square",
                 Set.of("place1", "place2"),
@@ -123,6 +124,7 @@ class SavesTest {
         saves.getExchanges().add(exchange);
 
         saves.save();
+        // Reload and asserts
         saves = new Saves();
         assertTrue(saves.getUsers().containsValue(user));
         assertTrue(saves.getHierarchies().containsValue(category));
@@ -138,6 +140,5 @@ class SavesTest {
         new File("./tempCategories.dat").delete();
         new File("./tempUsers.dat").delete();
         new File("./tempExchanges.dat").delete();
-
     }
 }
