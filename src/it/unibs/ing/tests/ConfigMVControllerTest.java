@@ -1,5 +1,6 @@
 package it.unibs.ing.tests;
 
+import it.unibs.ing.fp.mylib.InputDati;
 import it.unibs.ing.ingsw.article.Article;
 import it.unibs.ing.ingsw.article.Exchange;
 import it.unibs.ing.ingsw.auth.User;
@@ -93,7 +94,7 @@ class ConfigMVControllerTest {
             public void save() {
 
             }
-        });
+        }, new InputDati());
     }
 
     @Test

@@ -1,6 +1,6 @@
 package it.unibs.ing.ingsw.auth;
 
-import it.unibs.ing.fp.mylib.InputDati;
+import it.unibs.ing.fp.mylib.InputProvider;
 import it.unibs.ing.fp.mylib.MyMenu;
 import it.unibs.ing.ingsw.ui.AbstractView;
 
@@ -18,26 +18,30 @@ public class LoginView extends AbstractView {
             "Effettua accesso"
     };
 
+    protected LoginView(InputProvider inputProvider) {
+        super(inputProvider);
+    }
+
     public String askDefaultUsername() {
-        return InputDati.leggiStringaNonVuota(INSERT_DEFAULT_USERNAME);
+        return inputProvider.leggiStringaNonVuota(INSERT_DEFAULT_USERNAME);
     }
 
     public String askDefaultPassword() {
-        return InputDati.leggiStringaNonVuota(INSERT_DEFAULT_PASSWORD);
+        return inputProvider.leggiStringaNonVuota(INSERT_DEFAULT_PASSWORD);
     }
 
     public String askLoginUsername() {
-        return InputDati.leggiStringaNonVuota(INSERT_USERNAME);
+        return inputProvider.leggiStringaNonVuota(INSERT_USERNAME);
     }
 
     public String askLoginPassword() {
-        return InputDati.leggiStringaNonVuota(INSERT_PASSWORD);
+        return inputProvider.leggiStringaNonVuota(INSERT_PASSWORD);
     }
 
     public String askRegisterUsername(UserController userController) {
         String username;
         do {
-            username = InputDati.leggiStringaNonVuota(INSERT_NEW_USERNAME);
+            username = inputProvider.leggiStringaNonVuota(INSERT_NEW_USERNAME);
             if (userController.existsUsername(username)) {
                 System.out.println(ERROR_USERNAME_DUPLICATED);
             }
@@ -46,11 +50,11 @@ public class LoginView extends AbstractView {
     }
 
     public String askRegisterPassword() {
-        return InputDati.leggiStringaNonVuota(INSERT_NEW_PASSWORD);
+        return inputProvider.leggiStringaNonVuota(INSERT_NEW_PASSWORD);
     }
 
     public int scegli() {
-        MyMenu loginRegisterMenu = new MyMenu(MENU_TITLE, VOCI);
+        MyMenu loginRegisterMenu = new MyMenu(MENU_TITLE, VOCI, inputProvider);
         return loginRegisterMenu.scegli();
     }
 }

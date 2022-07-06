@@ -1,5 +1,6 @@
 package it.unibs.ing.ingsw.config;
 
+import it.unibs.ing.fp.mylib.InputProvider;
 import it.unibs.ing.ingsw.auth.User;
 import it.unibs.ing.ingsw.exceptions.ConfigImportException;
 import it.unibs.ing.ingsw.exceptions.ErrorDialog;
@@ -20,9 +21,9 @@ public class ConfigMVController extends AbstractMVController {
     private final ConfigView configView;
 
 
-    public ConfigMVController(DataContainer saves) {
+    public ConfigMVController(DataContainer saves, InputProvider inputProvider) {
         configController = new ConfigController(saves);
-        configView = new ConfigView();
+        configView = new ConfigView(inputProvider);
     }
 
     @Override

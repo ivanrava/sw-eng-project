@@ -1,5 +1,6 @@
 package it.unibs.ing.ingsw.article;
 
+import it.unibs.ing.fp.mylib.InputProvider;
 import it.unibs.ing.ingsw.auth.User;
 import it.unibs.ing.ingsw.config.ConfigController;
 import it.unibs.ing.ingsw.io.DataContainer;

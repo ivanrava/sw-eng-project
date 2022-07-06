@@ -1,6 +1,7 @@
 package it.unibs.ing.ingsw.ui;
 
 import it.unibs.ing.fp.mylib.InputDati;
+import it.unibs.ing.fp.mylib.InputProvider;
 import it.unibs.ing.fp.mylib.MyMenu;
 import it.unibs.ing.ingsw.ui.renderchain.AbstractRenderer;
 import it.unibs.ing.ingsw.ui.renderchain.ArticleRenderer;
@@ -18,9 +19,14 @@ import java.util.stream.Collectors;
 public abstract class AbstractView {
     private static final String ASSERT_EMPTY_COLLECTION_MENU = "Stai creando un menu per una collezione vuota";
     private static final String INPUT_MENU_GENERIC_PROMPT = "Seleziona l'opzione desiderata: ";
+    protected InputProvider inputProvider;
     protected String MENU_TITLE = "Menu";
 
     private final AbstractRenderer chain = new ArticleRenderer(new CategoryRenderer(new ConfigRenderer(new ExchangeRenderer(new DefaultRenderer(null)))));
+
+    protected AbstractView(InputProvider inputProvider) {
+        this.inputProvider = inputProvider;
+    }
 
     protected String render(Object o) {
         return chain.render(o);
@@ -32,7 +38,7 @@ public abstract class AbstractView {
 
     public String menu(Set<String> menuOptions) {
         String[] choices = menuOptions.toArray(new String[0]);
-        MyMenu mainMenu = new MyMenu(MENU_TITLE, choices);
+        MyMenu mainMenu = new MyMenu(MENU_TITLE, choices, inputProvider);
 
         int scelta;
         do {
@@ -60,7 +66,7 @@ public abstract class AbstractView {
             map.put(map.size() + 1, element);
         }
         map.forEach((id, option) -> System.out.printf("%d -> %s\n", id, render(option)));
-        int id = InputDati.leggiIntero(INPUT_MENU_GENERIC_PROMPT, 1, map.size());
+        int id = inputProvider.leggiIntero(INPUT_MENU_GENERIC_PROMPT, 1, map.size());
         return map.get(id);
     }
 }

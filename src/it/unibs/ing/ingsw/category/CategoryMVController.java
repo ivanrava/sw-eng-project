@@ -1,5 +1,6 @@
 package it.unibs.ing.ingsw.category;
 
+import it.unibs.ing.fp.mylib.InputProvider;
 import it.unibs.ing.ingsw.article.ArticleController;
 import it.unibs.ing.ingsw.auth.User;
 import it.unibs.ing.ingsw.exceptions.CategoryImportException;
@@ -20,10 +21,10 @@ public class CategoryMVController extends AbstractMVController {
     private final ArticleController articleController;
     private final CategoryView categoryView;
 
-    public CategoryMVController(DataContainer saves) {
+    public CategoryMVController(DataContainer saves, InputProvider inputProvider) {
         categoryController = new CategoryController(saves);
         articleController = new ArticleController(saves);
-        categoryView = new CategoryView();
+        categoryView = new CategoryView(inputProvider);
     }
 
     @Override

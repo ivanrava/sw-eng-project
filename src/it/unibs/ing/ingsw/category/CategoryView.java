@@ -1,6 +1,6 @@
 package it.unibs.ing.ingsw.category;
 
-import it.unibs.ing.fp.mylib.InputDati;
+import it.unibs.ing.fp.mylib.InputProvider;
 import it.unibs.ing.ingsw.ui.AbstractView;
 
 import java.util.Collection;
@@ -28,6 +28,10 @@ public class CategoryView extends AbstractView {
 
     protected String MENU_TITLE = "Gestione categorie";
 
+    protected CategoryView(InputProvider inputProvider) {
+        super(inputProvider);
+    }
+
     /**
      * Stampa tutte le gerarchie del sistema
      */
@@ -36,13 +40,13 @@ public class CategoryView extends AbstractView {
     }
 
     public String askDescription() {
-        return InputDati.leggiStringaNonVuota(INSERT_DESCRIPTION);
+        return inputProvider.leggiStringaNonVuota(INSERT_DESCRIPTION);
     }
 
     public String askRootName(Set<String> rootCategoryNames) {
         String name;
         do {
-            name = InputDati.leggiStringaNonVuota(INSERT_NEW_ROOT_NAME);
+            name = inputProvider.leggiStringaNonVuota(INSERT_NEW_ROOT_NAME);
             if (rootCategoryNames.contains(name)) {
                 System.out.println(ERROR_NAME_DUPLICATE);
             }
@@ -59,7 +63,7 @@ public class CategoryView extends AbstractView {
     public String askAndCheckParentName(String rootName, CategoryMVController controller) {
         String parentName;
         do {
-            parentName = InputDati.leggiStringaNonVuota(INSERT_PARENT_CATEGORY_NAME);
+            parentName = inputProvider.leggiStringaNonVuota(INSERT_PARENT_CATEGORY_NAME);
             if (!controller.exists(rootName, parentName)) {
                 System.out.println(ERROR_PARENT_UNEXISTANT);
             }
@@ -76,7 +80,7 @@ public class CategoryView extends AbstractView {
     public String askAndCheckCategoryName(String rootName, CategoryMVController controller) {
         String name;
         do {
-            name = InputDati.leggiStringaNonVuota(INSERT_CATEGORY_NAME);
+            name = inputProvider.leggiStringaNonVuota(INSERT_CATEGORY_NAME);
             if (controller.exists(rootName, name)) {
                 System.out.println(ERROR_NAME_DUPLICATE);
             }
@@ -114,7 +118,7 @@ public class CategoryView extends AbstractView {
         boolean scelta;
         Map<String, Field> newMap = new HashMap<>(controlMap);
         do {
-            scelta = InputDati.yesOrNo(ASK_NEW_FIELD);
+            scelta = inputProvider.yesOrNo(ASK_NEW_FIELD);
             if (scelta) {
                 newMap.putAll(newFieldsMap);
                 Field newField = createField(newMap);
@@ -133,18 +137,18 @@ public class CategoryView extends AbstractView {
     private Field createField(Map<String, Field> actualFields) {
         String fieldName;
         do {
-            fieldName = InputDati.leggiStringaNonVuota(INSERT_FIELD_NAME);
+            fieldName = inputProvider.leggiStringaNonVuota(INSERT_FIELD_NAME);
             if (actualFields.containsKey(fieldName)) {
                 System.out.println(ERROR_FIELD_DUPLICATE);
             }
         } while (actualFields.containsKey(fieldName));
 
-        boolean required = InputDati.yesOrNo(ASK_FIELD_REQUIRED);
+        boolean required = inputProvider.yesOrNo(ASK_FIELD_REQUIRED);
         return new Field(required, fieldName);
     }
 
     public String askFilePath() {
-        return InputDati.leggiStringaNonVuota(INSERT_FILEPATH);
+        return inputProvider.leggiStringaNonVuota(INSERT_FILEPATH);
     }
 
     /**
@@ -156,7 +160,7 @@ public class CategoryView extends AbstractView {
     public String askLeafName(String rootName, CategoryMVController controller) {
         String leafCategoryName;
         do {
-            leafCategoryName = InputDati.leggiStringaNonVuota(INSERT_LEAF_CATEGORY_NAME);
+            leafCategoryName = inputProvider.leggiStringaNonVuota(INSERT_LEAF_CATEGORY_NAME);
             if (!controller.exists(rootName, leafCategoryName)) {
                 System.out.println(ERROR_CATEGORY_UNEXISTANT);
             } else if (!controller.isLeaf(rootName, leafCategoryName)) {
@@ -177,9 +181,9 @@ public class CategoryView extends AbstractView {
         String value;
         for (Map.Entry<String, Field> entry : categoryFields.entrySet()) {
             if (entry.getValue().required()) {
-                value = InputDati.leggiStringaNonVuota(String.format(ASK_FIELD_OBBLIGATORIO, entry.getKey()));
+                value = inputProvider.leggiStringaNonVuota(String.format(ASK_FIELD_OBBLIGATORIO, entry.getKey()));
             } else {
-                value = InputDati.leggiStringa(String.format(ASK_FIELD_FACOLTATIVO, entry.getKey()));
+                value = inputProvider.leggiStringa(String.format(ASK_FIELD_FACOLTATIVO, entry.getKey()));
             }
             fieldValues.put(entry.getKey(), value);
         }

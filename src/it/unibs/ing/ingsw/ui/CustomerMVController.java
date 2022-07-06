@@ -1,5 +1,6 @@
 package it.unibs.ing.ingsw.ui;
 
+import it.unibs.ing.fp.mylib.InputProvider;
 import it.unibs.ing.ingsw.article.ArticleMVController;
 import it.unibs.ing.ingsw.article.ExchangeMVController;
 import it.unibs.ing.ingsw.auth.User;
@@ -18,12 +19,14 @@ public class CustomerMVController extends AbstractMVController {
     private final ConfigMVController configMVController;
     private final ArticleMVController articleMVController;
     private final ExchangeMVController exchangeMVController;
+    private final CustomerView customerView;
 
-    public CustomerMVController(DataContainer saves) {
-        categoryMVController = new CategoryMVController(saves);
-        configMVController = new ConfigMVController(saves);
-        articleMVController = new ArticleMVController(saves);
-        exchangeMVController = new ExchangeMVController(saves);
+    public CustomerMVController(DataContainer saves, InputProvider inputProvider) {
+        categoryMVController = new CategoryMVController(saves, inputProvider);
+        configMVController = new ConfigMVController(saves, inputProvider);
+        articleMVController = new ArticleMVController(saves, inputProvider);
+        exchangeMVController = new ExchangeMVController(saves, inputProvider);
+        customerView = new CustomerView(inputProvider);
     }
 
     @Override
@@ -41,6 +44,6 @@ public class CustomerMVController extends AbstractMVController {
 
     @Override
     protected AbstractView getView() {
-        return new CustomerView();
+        return customerView;
     }
 }

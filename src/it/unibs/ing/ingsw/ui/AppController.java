@@ -1,5 +1,6 @@
 package it.unibs.ing.ingsw.ui;
 
+import it.unibs.ing.fp.mylib.InputProvider;
 import it.unibs.ing.ingsw.article.ExchangeController;
 import it.unibs.ing.ingsw.auth.LoginMVController;
 import it.unibs.ing.ingsw.auth.User;
@@ -11,10 +12,10 @@ public class AppController {
     private final ConfiguratorMVController configuratorMVController;
     private final ExchangeController exchangeController;
 
-    public AppController(DataContainer saves) {
-        loginView = new LoginMVController(saves);
-        customerMVController = new CustomerMVController(saves);
-        configuratorMVController = new ConfiguratorMVController(saves);
+    public AppController(DataContainer saves, InputProvider inputProvider) {
+        loginView = new LoginMVController(saves, inputProvider);
+        customerMVController = new CustomerMVController(saves, inputProvider);
+        configuratorMVController = new ConfiguratorMVController(saves, inputProvider);
         exchangeController = new ExchangeController(saves);
     }
 

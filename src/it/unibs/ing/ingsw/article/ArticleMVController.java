@@ -1,5 +1,6 @@
 package it.unibs.ing.ingsw.article;
 
+import it.unibs.ing.fp.mylib.InputProvider;
 import it.unibs.ing.ingsw.auth.User;
 import it.unibs.ing.ingsw.category.CategoryMVController;
 import it.unibs.ing.ingsw.io.DataContainer;
@@ -24,10 +25,10 @@ public class ArticleMVController extends AbstractMVController {
      *
      * @param saves Istanza dei salvataggi dell'applicazione
      */
-    public ArticleMVController(DataContainer saves) {
+    public ArticleMVController(DataContainer saves, InputProvider inputProvider) {
         articleController = new ArticleController(saves);
-        categoryMVController = new CategoryMVController(saves);
-        articleView = new ArticleView();
+        categoryMVController = new CategoryMVController(saves, inputProvider);
+        articleView = new ArticleView(inputProvider);
     }
 
     @Override

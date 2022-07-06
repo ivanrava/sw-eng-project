@@ -1,5 +1,6 @@
 package it.unibs.ing.ingsw.ui;
 
+import it.unibs.ing.fp.mylib.InputProvider;
 import it.unibs.ing.ingsw.article.ArticleMVController;
 import it.unibs.ing.ingsw.auth.User;
 import it.unibs.ing.ingsw.category.CategoryMVController;
@@ -15,11 +16,13 @@ public class ConfiguratorMVController extends AbstractMVController {
     private final CategoryMVController categoryMVController;
     private final ConfigMVController configMVController;
     private final ArticleMVController articleMVController;
+    private final ConfiguratorView configuratorView;
 
-    public ConfiguratorMVController(DataContainer saves) {
-        categoryMVController = new CategoryMVController(saves);
-        configMVController = new ConfigMVController(saves);
-        articleMVController = new ArticleMVController(saves);
+    public ConfiguratorMVController(DataContainer saves, InputProvider inputProvider) {
+        categoryMVController = new CategoryMVController(saves, inputProvider);
+        configMVController = new ConfigMVController(saves, inputProvider);
+        articleMVController = new ArticleMVController(saves, inputProvider);
+        configuratorView = new ConfiguratorView(inputProvider);
     }
 
     @Override
@@ -36,7 +39,7 @@ public class ConfiguratorMVController extends AbstractMVController {
 
     @Override
     protected AbstractView getView() {
-        return new ConfiguratorView();
+        return configuratorView;
     }
 
 }

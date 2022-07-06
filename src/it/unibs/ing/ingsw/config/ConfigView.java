@@ -1,6 +1,6 @@
 package it.unibs.ing.ingsw.config;
 
-import it.unibs.ing.fp.mylib.InputDati;
+import it.unibs.ing.fp.mylib.InputProvider;
 import it.unibs.ing.ingsw.ui.AbstractView;
 
 import java.time.DayOfWeek;
@@ -35,6 +35,10 @@ public class ConfigView extends AbstractView {
     public static final String INSERT_TIME_INTERVALS = "Inserimento intervalli temporali";
     protected String MENU_TITLE = "Configurazione";
 
+    protected ConfigView(InputProvider inputProvider) {
+        super(inputProvider);
+    }
+
     /**
      * Stampa la configurazione
      */
@@ -47,14 +51,14 @@ public class ConfigView extends AbstractView {
      * Inserisce la piazza
      */
     public String askSquare() {
-        return InputDati.leggiStringaNonVuota(INSERT_PIAZZA);
+        return inputProvider.leggiStringaNonVuota(INSERT_PIAZZA);
     }
 
     /**
      * Inserisce la scadenza
      */
     public int askDeadline() {
-        return InputDati.leggiInteroConMinimo(INSERT_DEADLINE, MIN_DEADLINE);
+        return inputProvider.leggiInteroConMinimo(INSERT_DEADLINE, MIN_DEADLINE);
     }
 
     /**
@@ -64,10 +68,10 @@ public class ConfigView extends AbstractView {
         Set<String> places = new HashSet<>();
         boolean continua = true;
         do {
-            String place = InputDati.leggiStringaNonVuota(INSERT_PLACE);
+            String place = inputProvider.leggiStringaNonVuota(INSERT_PLACE);
             if (!places.contains(place)) {
                 places.add(place);
-                continua = InputDati.yesOrNo(INSERT_PLACE_ANOTHER);
+                continua = inputProvider.yesOrNo(INSERT_PLACE_ANOTHER);
             } else {
                 message(ERROR_PLACE_DUPLICATE);
             }
@@ -82,10 +86,10 @@ public class ConfigView extends AbstractView {
         Set<DayOfWeek> days = new TreeSet<>();
         boolean continua = true;
         do {
-            DayOfWeek day = DayOfWeek.of(InputDati.leggiIntero(INSERT_DAY, MIN_DAYS, MAX_DAYS));
+            DayOfWeek day = DayOfWeek.of(inputProvider.leggiIntero(INSERT_DAY, MIN_DAYS, MAX_DAYS));
             if (!days.contains(day)) {
                 days.add(day);
-                continua = InputDati.yesOrNo(INSERT_DAY_ANOTHER);
+                continua = inputProvider.yesOrNo(INSERT_DAY_ANOTHER);
             } else {
                 message(ERROR_DAY_DUPLICATE);
             }
@@ -104,7 +108,7 @@ public class ConfigView extends AbstractView {
             LocalTime startTime = askStartTime(timeIntervals);
             LocalTime stopTime = askStopTime(startTime, timeIntervals);
             timeIntervals.add(new TimeInterval(startTime, stopTime));
-            continua = InputDati.yesOrNo(INSERT_TIME_ANOTHER);
+            continua = inputProvider.yesOrNo(INSERT_TIME_ANOTHER);
         } while (continua);
         return timeIntervals;
     }
@@ -117,8 +121,8 @@ public class ConfigView extends AbstractView {
     public LocalTime askStartTime(Set<TimeInterval> alreadyInserted) {
         int oraIniziale, minutoIniziale;
         do {
-            oraIniziale = InputDati.leggiIntero(INSERT_TIME_START_HOUR, MIN_HOUR, MAX_HOUR);
-            minutoIniziale = InputDati.leggiInteroDaSet(INSERT_TIME_START_MINUTES, TimeInterval.allowedMinutes());
+            oraIniziale = inputProvider.leggiIntero(INSERT_TIME_START_HOUR, MIN_HOUR, MAX_HOUR);
+            minutoIniziale = inputProvider.leggiInteroDaSet(INSERT_TIME_START_MINUTES, TimeInterval.allowedMinutes());
             if (isValidStart(oraIniziale, minutoIniziale, alreadyInserted)) {
                 message(ERROR_TIME_OVERLAP);
             }
@@ -137,8 +141,8 @@ public class ConfigView extends AbstractView {
         LocalTime stopLimit = getStopLimitFor(startTime, timeIntervals);
         int oraFinale, minutoFinale;
         do {
-            oraFinale = InputDati.leggiIntero(INSERT_TIME_STOP_HOUR, startTime.getHour(), MAX_HOUR);
-            minutoFinale = InputDati.leggiInteroDaSet(INSERT_TIME_STOP_MINUTES, TimeInterval.allowedMinutes());
+            oraFinale = inputProvider.leggiIntero(INSERT_TIME_STOP_HOUR, startTime.getHour(), MAX_HOUR);
+            minutoFinale = inputProvider.leggiInteroDaSet(INSERT_TIME_STOP_MINUTES, TimeInterval.allowedMinutes());
             if (LocalTime.of(oraFinale, minutoFinale).isAfter(stopLimit)) {
                 message(ERROR_TIME_OVERLAP);
                 message(String.format(MESSAGE_INSERT_DAY_LESS_THAN, stopLimit));
@@ -183,10 +187,10 @@ public class ConfigView extends AbstractView {
     }
 
     public String askPath() {
-        return InputDati.leggiStringaNonVuota(INSERT_ABSOLUTE_PATH);
+        return inputProvider.leggiStringaNonVuota(INSERT_ABSOLUTE_PATH);
     }
 
     public boolean askModify(String fieldDescription) {
-        return InputDati.yesOrNo("Vuoi modificare il campo \"" + fieldDescription + "\"? ");
+        return inputProvider.yesOrNo("Vuoi modificare il campo \"" + fieldDescription + "\"? ");
     }
 }

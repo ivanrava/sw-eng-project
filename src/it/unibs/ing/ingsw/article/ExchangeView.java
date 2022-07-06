@@ -1,6 +1,6 @@
 package it.unibs.ing.ingsw.article;
 
-import it.unibs.ing.fp.mylib.InputDati;
+import it.unibs.ing.fp.mylib.InputProvider;
 import it.unibs.ing.ingsw.config.TimeInterval;
 import it.unibs.ing.ingsw.ui.AbstractView;
 
@@ -23,6 +23,10 @@ public class ExchangeView extends AbstractView {
 
     protected String MENU_TITLE = "Gestione scambi";
 
+    protected ExchangeView(InputProvider inputProvider) {
+        super(inputProvider);
+    }
+
     public void printExchange(Exchange exchange) {
         message(render(exchange));
     }
@@ -44,7 +48,7 @@ public class ExchangeView extends AbstractView {
     }
 
     public boolean askAcceptExchange() {
-        return InputDati.yesOrNo(ASK_ACCEPT_BARTER);
+        return inputProvider.yesOrNo(ASK_ACCEPT_BARTER);
     }
 
     /**
@@ -71,7 +75,7 @@ public class ExchangeView extends AbstractView {
      * Chiede conferma dell'appuntamento
      */
     public boolean askAppointmentConfirmation() {
-        return InputDati.yesOrNo(ASK_ACCEPT_APPOINTMENT);
+        return inputProvider.yesOrNo(ASK_ACCEPT_APPOINTMENT);
     }
 
     /**
@@ -82,8 +86,8 @@ public class ExchangeView extends AbstractView {
     public LocalDate askDate(Set<DayOfWeek> validDaysOfWeek) {
         LocalDate proposedDate;
         do {
-            int year = InputDati.leggiIntero(INPUT_YEAR, LocalDate.now().getYear(), LocalDate.now().getYear() + 1);
-            int month = InputDati.leggiIntero(INPUT_MONTH, 1, 12);
+            int year = inputProvider.leggiIntero(INPUT_YEAR, LocalDate.now().getYear(), LocalDate.now().getYear() + 1);
+            int month = inputProvider.leggiIntero(INPUT_MONTH, 1, 12);
             int day = askDay(year, month, validDaysOfWeek);
             proposedDate = LocalDate.of(year, month, day);
             if (!proposedDate.isAfter(LocalDate.now())) {
@@ -104,7 +108,7 @@ public class ExchangeView extends AbstractView {
     public int askDay(int year, int month, Set<DayOfWeek> validDaysOfWeek) {
         Map<Integer, String> validDays = buildValidMonthDays(year, month, validDaysOfWeek);
         validDays.forEach((day, dayOfWeek) -> message("\t" + dayOfWeek + ' ' + day));
-        return InputDati.leggiInteroDaSet(INPUT_DAY, validDays.keySet());
+        return inputProvider.leggiInteroDaSet(INPUT_DAY, validDays.keySet());
     }
 
     /**
@@ -135,8 +139,8 @@ public class ExchangeView extends AbstractView {
     public LocalTime askTime(Set<TimeInterval> timeIntervals) {
         LocalTime proposedTime;
         do {
-            int hour = InputDati.leggiIntero(INPUT_HOUR, 0, 23);
-            int minute = InputDati.leggiInteroDaSet(INPUT_MINUTE, TimeInterval.allowedMinutes());
+            int hour = inputProvider.leggiIntero(INPUT_HOUR, 0, 23);
+            int minute = inputProvider.leggiInteroDaSet(INPUT_MINUTE, TimeInterval.allowedMinutes());
             proposedTime = LocalTime.of(hour, minute);
             if (!isValidTime(proposedTime, timeIntervals)) {
                 message(ERROR_INVALID_TIME);

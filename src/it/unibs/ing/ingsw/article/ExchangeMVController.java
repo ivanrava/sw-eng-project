@@ -1,5 +1,6 @@
 package it.unibs.ing.ingsw.article;
 
+import it.unibs.ing.fp.mylib.InputProvider;
 import it.unibs.ing.ingsw.auth.User;
 import it.unibs.ing.ingsw.config.ConfigController;
 import it.unibs.ing.ingsw.io.DataContainer;
@@ -29,11 +30,11 @@ public class ExchangeMVController extends AbstractMVController {
     private final ExchangeView exchangeView;
     private final ArticleMVController articleMVController;
 
-    public ExchangeMVController(DataContainer saves) {
+    public ExchangeMVController(DataContainer saves, InputProvider inputProvider) {
         exchangeController = new ExchangeController(saves);
         configController = new ConfigController(saves);
-        exchangeView = new ExchangeView();
-        articleMVController = new ArticleMVController(saves);
+        exchangeView = new ExchangeView(inputProvider);
+        articleMVController = new ArticleMVController(saves, inputProvider);
     }
 
     @Override

@@ -1,5 +1,6 @@
 package it.unibs.ing.ingsw.auth;
 
+import it.unibs.ing.fp.mylib.InputProvider;
 import it.unibs.ing.ingsw.io.DataContainer;
 
 public class LoginMVController {
@@ -11,9 +12,9 @@ public class LoginMVController {
     private User selectedUser;
     private boolean wantsToExit = false;
 
-    public LoginMVController(DataContainer saves) {
+    public LoginMVController(DataContainer saves, InputProvider inputProvider) {
         userController = new UserController(saves);
-        loginView = new LoginView();
+        loginView = new LoginView(inputProvider);
     }
 
     /**

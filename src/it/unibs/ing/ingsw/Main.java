@@ -1,5 +1,7 @@
 package it.unibs.ing.ingsw;
 
+import it.unibs.ing.fp.mylib.InputDati;
+import it.unibs.ing.fp.mylib.InputProvider;
 import it.unibs.ing.ingsw.exceptions.ErrorDialog;
 import it.unibs.ing.ingsw.exceptions.LoadSavesException;
 import it.unibs.ing.ingsw.exceptions.SaveException;
@@ -21,7 +23,8 @@ public class Main {
         try {
             System.getProperties().load(new FileInputStream("./system.properties"));
             DataContainer saves = new Saves();
-            AppController appController = new AppController(saves);
+            InputProvider inputProvider = new InputDati();
+            AppController appController = new AppController(saves, inputProvider);
             appController.execute();
             saves.save();
         } catch (LoadSavesException | SaveException | IOException e) {
