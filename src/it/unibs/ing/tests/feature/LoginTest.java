@@ -1,8 +1,8 @@
 package it.unibs.ing.tests.feature;
 
 import it.unibs.ing.ingsw.ui.AppController;
-import it.unibs.ing.tests.DataContainerTest;
-import it.unibs.ing.tests.TestInputProvider;
+import it.unibs.ing.tests.mocks.InMemoryDataContainer;
+import it.unibs.ing.tests.mocks.QueueInputProvider;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -17,13 +17,13 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 class LoginTest {
 
     AppController appController;
-    TestInputProvider testInputProvider;
+    QueueInputProvider testInputProvider;
     ByteArrayOutputStream out;
 
     @BeforeEach
     void setUp() {
-        testInputProvider = new TestInputProvider();
-        appController = new AppController(new DataContainerTest(), testInputProvider);
+        testInputProvider = new QueueInputProvider();
+        appController = new AppController(new InMemoryDataContainer(), testInputProvider);
         redirectOutput();
     }
 

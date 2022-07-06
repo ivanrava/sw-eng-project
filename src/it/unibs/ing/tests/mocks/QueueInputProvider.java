@@ -1,11 +1,11 @@
-package it.unibs.ing.tests;
+package it.unibs.ing.tests.mocks;
 
 import it.unibs.ing.fp.mylib.InputProvider;
 
 import java.util.Queue;
 import java.util.Set;
 
-public class TestInputProvider implements InputProvider {
+public class QueueInputProvider implements InputProvider {
     private Queue<String> stringInputs;
     private Queue<Integer> integerInputs;
     private Queue<Boolean> booleanInputs;

@@ -2,7 +2,7 @@ package it.unibs.ing.tests.feature;
 
 import it.unibs.ing.fp.mylib.InputDati;
 import it.unibs.ing.ingsw.config.ConfigMVController;
-import it.unibs.ing.tests.DataContainerTest;
+import it.unibs.ing.tests.mocks.InMemoryDataContainer;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -18,7 +18,7 @@ class ConfigMVControllerTest {
 
     @BeforeEach
     void setUp() {
-        configMVController = new ConfigMVController(new DataContainerTest(), new InputDati());
+        configMVController = new ConfigMVController(new InMemoryDataContainer(), new InputDati());
         redirectOutput();
     }
 

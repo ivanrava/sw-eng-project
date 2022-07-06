@@ -1,7 +1,7 @@
 package it.unibs.ing.tests.unit;
 
 import it.unibs.ing.ingsw.category.CategoryController;
-import it.unibs.ing.tests.DataContainerTest;
+import it.unibs.ing.tests.mocks.InMemoryDataContainer;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -15,7 +15,7 @@ class CategoryControllerTest {
 
     @BeforeEach
     void setUp() {
-        categoryController = new CategoryController(new DataContainerTest());
+        categoryController = new CategoryController(new InMemoryDataContainer());
     }
 
     @Test

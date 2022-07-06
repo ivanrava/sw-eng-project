@@ -1,4 +1,4 @@
-package it.unibs.ing.tests;
+package it.unibs.ing.tests.mocks;
 
 import it.unibs.ing.ingsw.article.Article;
 import it.unibs.ing.ingsw.article.Exchange;
@@ -6,14 +6,13 @@ import it.unibs.ing.ingsw.auth.User;
 import it.unibs.ing.ingsw.category.Category;
 import it.unibs.ing.ingsw.config.Config;
 import it.unibs.ing.ingsw.config.TimeInterval;
-import it.unibs.ing.ingsw.exceptions.SaveException;
 import it.unibs.ing.ingsw.io.DataContainer;
 
 import java.time.DayOfWeek;
 import java.time.LocalTime;
 import java.util.*;
 
-public class DataContainerTest implements DataContainer {
+public class InMemoryDataContainer implements DataContainer {
     private String defaultUsername;
     private String defaultPassword;
 
