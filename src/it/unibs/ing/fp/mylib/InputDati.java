@@ -40,7 +40,6 @@ public class InputDati implements InputProvider {
         return lettura;
     }
 
-    @Override
     public char leggiChar(String messaggio) {
         boolean finito = false;
         char valoreLetto = '\0';
@@ -57,7 +56,6 @@ public class InputDati implements InputProvider {
         return valoreLetto;
     }
 
-    @Override
     public char leggiUpperChar(String messaggio, String ammissibili) {
         boolean finito = false;
         char valoreLetto;

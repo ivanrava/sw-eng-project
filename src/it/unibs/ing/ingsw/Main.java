@@ -24,6 +24,7 @@ public class Main {
             System.getProperties().load(new FileInputStream("./system.properties"));
             DataContainer saves = new Saves();
             InputProvider inputProvider = new InputDati();
+
             AppController appController = new AppController(saves, inputProvider);
             appController.execute();
             saves.save();

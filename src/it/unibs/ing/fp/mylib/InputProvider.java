@@ -7,10 +7,6 @@ public interface InputProvider {
 
     String leggiStringaNonVuota(String messaggio);
 
-    char leggiChar(String messaggio);
-
-    char leggiUpperChar(String messaggio, String ammissibili);
-
     int leggiIntero(String messaggio);
 
     int leggiInteroConMinimo(String messaggio, int minimo);

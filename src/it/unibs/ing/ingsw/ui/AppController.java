@@ -7,13 +7,13 @@ import it.unibs.ing.ingsw.auth.User;
 import it.unibs.ing.ingsw.io.DataContainer;
 
 public class AppController {
-    private final LoginMVController loginView;
+    private final LoginMVController loginMVController;
     private final CustomerMVController customerMVController;
     private final ConfiguratorMVController configuratorMVController;
     private final ExchangeController exchangeController;
 
     public AppController(DataContainer saves, InputProvider inputProvider) {
-        loginView = new LoginMVController(saves, inputProvider);
+        loginMVController = new LoginMVController(saves, inputProvider);
         customerMVController = new CustomerMVController(saves, inputProvider);
         configuratorMVController = new ConfiguratorMVController(saves, inputProvider);
         exchangeController = new ExchangeController(saves);
@@ -27,16 +27,16 @@ public class AppController {
         exchangeController.deleteExpiredExchanges();
 
         do {
-            loginView.execute();
-            if (loginView.isLoggedIn()) {
-                User loggedUser = loginView.getLoggedUser();
+            loginMVController.execute();
+            if (loginMVController.isLoggedIn()) {
+                User loggedUser = loginMVController.getLoggedUser();
                 if (loggedUser.isAdmin())
                     configuratorMVController.execute(loggedUser);
                 else
                     customerMVController.execute(loggedUser);
-                loginView.logout();
-            } else if (loginView.wantsToExit())
+                loginMVController.logout();
+            } else if (loginMVController.wantsToExit())
                 System.out.println("Uscita dal sistema");
-        } while (!loginView.wantsToExit());
+        } while (!loginMVController.wantsToExit());
     }
 }

@@ -71,7 +71,7 @@ public class UserController {
      */
     public void register(String username, String password, boolean isAdmin) {
         assert !existsUsername(username) : ASSERTION_USERNAME_DUPLICATED;
-        assert checkDefaultCredentials(username, password) : ASSERTION_REGISTER_DEFAULT_CREDENTIALS;
+        assert !checkDefaultCredentials(username, password) : ASSERTION_REGISTER_DEFAULT_CREDENTIALS;
         if (isAdmin)
             users.put(username, new Configurator(username, password));
         else
