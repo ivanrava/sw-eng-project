@@ -108,7 +108,6 @@ class CategoryTest {
         Category root1 = new Category("Libro", "", true, Collections.emptyMap());
         root1.addChildCategory(new Category("Romanzo", "", false, Collections.emptyMap()));
         root1.addChildCategory(new Category("Saggio", "", false, Collections.emptyMap()));
-        root1.getChildren().forEach((s, category) -> System.out.println(category.getName()));
         assertNotNull(root1.searchTree("Saggio"));
         assertNotNull(root1.searchTree("Romanzo"));
     }
