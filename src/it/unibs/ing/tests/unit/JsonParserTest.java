@@ -22,6 +22,12 @@ class JsonParserTest {
     }
 
     @Test
+    void readCategoryJson() throws IOException {
+        printCorrectCategoryJsonToTempFile();
+        assertDoesNotThrow(() -> jsonParser.readCategoriesJson(tempFile.getAbsolutePath()));
+    }
+
+    @Test
     void readConfigJsonEmptyFile() {
         assertThrows(EmptyConfigException.class, () -> jsonParser.readConfigJson(tempFile.getAbsolutePath()));
     }
@@ -152,5 +158,204 @@ class JsonParserTest {
                           ]
                         }"""
         );
+    }
+
+    void printCorrectCategoryJsonToTempFile() throws IOException {
+        printToTempFile("""
+                [
+                  {
+                    "name": "Libro",
+                    "description": "Opera cartacea",
+                    "fields": [
+                      {
+                        "name": "Titolo",
+                        "required": true
+                      },
+                      {
+                        "name": "Anno di uscita",
+                        "required": true
+                      },
+                      {
+                        "name": "Edizione",
+                        "required": false
+                      },
+                      {
+                        "name": "Autore",
+                        "required": true
+                      }
+                    ],
+                    "children": [
+                      {
+                        "name": "Romanzo",
+                        "description": "Narrazione scritta in prosa",
+                        "fields": [],
+                        "children": [
+                          {
+                            "name": "Romanzo straniero",
+                            "description": "Romanzo in lingua non italiana",
+                            "fields": [
+                              {
+                                "name": "Lingua originale",
+                                "required": true
+                              }
+                            ],
+                            "children": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "name": "Videogioco",
+                    "description": "Opera interattiva",
+                    "fields": [
+                      {
+                        "name": "Titolo",
+                        "required": true
+                      },
+                      {
+                        "name": "Anno",
+                        "required": true
+                      },
+                      {
+                        "name": "Sviluppatore",
+                        "required": false
+                      },
+                      {
+                        "name": "Piattaforma",
+                        "required": true
+                      }
+                    ],
+                    "children": [
+                      {
+                        "name": "RPG",
+                        "description": "Gioco di ruolo (Role-Play Game)",
+                        "fields": [
+                          {
+                            "name": "Sinossi",
+                            "required": false
+                          }
+                        ],
+                        "children": [
+                          {
+                            "name": "ARPG",
+                            "description": "Gioco di ruolo d'azione (Action Role-Play Game)",
+                            "fields": [],
+                            "children": []
+                          },
+                          {
+                            "name": "JRPG",
+                            "description": "Gioco di ruolo alla giapponese (Japanese Role-Play Game)",
+                            "fields": [
+                              {
+                                "name": "Compositore",
+                                "required": true
+                              }
+                            ],
+                            "children": []
+                          }
+                        ]
+                      },
+                      {
+                        "name": "Shooter",
+                        "description": "Sparatutto",
+                        "fields": [
+                          {
+                            "name": "Prospettiva",
+                            "required": true
+                          }
+                        ],
+                        "children": []
+                      },
+                      {
+                        "name": "Metroidvania",
+                        "description": "Gioco fondato su backtracking e esplorazione incrementale",
+                        "fields": [],
+                        "children": [
+                          {
+                            "name": "Soulslike",
+                            "description": "Metroidvania con gameplay ispirato a Dark Souls",
+                            "fields": [],
+                            "children": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "name": "Film",
+                    "description": "Opera visiva",
+                    "fields": [
+                      {
+                        "name": "Titolo",
+                        "required": true
+                      },
+                      {
+                        "name": "Regista",
+                        "required": true
+                      },
+                      {
+                        "name": "Sceneggiatore",
+                        "required": true
+                      },
+                      {
+                        "name": "Anno",
+                        "required": true
+                      },
+                      {
+                        "name": "Genere",
+                        "required": true
+                      }
+                    ],
+                    "children": []
+                  },
+                  {
+                    "name": "Macchina",
+                    "description": "brum",
+                    "fields": [
+                      {
+                      "name": "Titolo",
+                      "required": true
+                      }
+                    ],
+                    "children": [
+                      {
+                        "name": "sportiva",
+                        "description": "rossa",
+                        "fields": [
+                          {
+                            "name": "cilindrata",
+                            "required": false
+                          }
+                        ],
+                        "children": []
+                      }
+                    ]
+                  },
+                  {
+                    "name": "Moto",
+                    "description": "brumbrum",
+                    "fields": [
+                      {
+                        "name": "Titolo",
+                        "required": true
+                      }
+                    ],
+                    "children": [
+                      {
+                        "name": "ducati",
+                        "description": "rossa",
+                        "fields": [
+                          {
+                            "name": "cilindrata",
+                            "required": false
+                          }
+                        ],
+                        "children": []
+                      }
+                    ]
+                  }
+                ]
+                """);
     }
 }
