@@ -15,19 +15,13 @@ import java.util.*;
 public class InMemoryDataContainer implements DataContainer {
     private String defaultUsername;
     private String defaultPassword;
-
     private Map<String, Category> hierarchies = new HashMap<>();
     private Map<String, User> users = new HashMap<>();
+    private Map<Integer, Article> articles = new HashMap<>();
 
     @Override
     public Config getConfig() {
-        return new Config(
-                "square",
-                Set.of("place1", "place2"),
-                Set.of(DayOfWeek.MONDAY, DayOfWeek.TUESDAY),
-                Set.of(new TimeInterval(LocalTime.of(0, 0), LocalTime.of(1, 0))),
-                5
-        );
+        return new Config("square", Set.of("place1", "place2"), Set.of(DayOfWeek.MONDAY, DayOfWeek.TUESDAY), Set.of(new TimeInterval(LocalTime.of(0, 0), LocalTime.of(1, 0))), 5);
     }
 
     @Override
@@ -55,7 +49,11 @@ public class InMemoryDataContainer implements DataContainer {
 
     @Override
     public Map<Integer, Article> getArticles() {
-        return new HashMap<>();
+        return articles;
+    }
+
+    public void setArticles(Map<Integer, Article> articles) {
+        this.articles = articles;
     }
 
     @Override
@@ -81,7 +79,7 @@ public class InMemoryDataContainer implements DataContainer {
 
     @Override
     public boolean existsConfiguration() {
-        return false;
+        return true;
     }
 
     @Override
@@ -93,5 +91,6 @@ public class InMemoryDataContainer implements DataContainer {
     public void save() {
 
     }
+
 
 }

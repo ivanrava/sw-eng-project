@@ -1,4 +1,4 @@
-package it.unibs.ing.tests;
+package it.unibs.ing.tests.feature;
 
 import it.unibs.ing.ingsw.article.ArticleMVController;
 import it.unibs.ing.ingsw.auth.Customer;
@@ -16,8 +16,6 @@ import java.util.Map;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
-import static org.hamcrest.Matchers.in;
-import static org.junit.jupiter.api.Assertions.*;
 
 class ArticleMVControllerTest extends RedirectSystemOutputBaseTest {
 

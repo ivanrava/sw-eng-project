@@ -6,6 +6,8 @@ import it.unibs.ing.ingsw.auth.LoginMVController;
 import it.unibs.ing.ingsw.auth.User;
 import it.unibs.ing.ingsw.io.DataContainer;
 
+import java.time.Clock;
+
 public class AppController {
     private final LoginMVController loginMVController;
     private final CustomerMVController customerMVController;
@@ -16,7 +18,7 @@ public class AppController {
         loginMVController = new LoginMVController(saves, inputProvider);
         customerMVController = new CustomerMVController(saves, inputProvider);
         configuratorMVController = new ConfiguratorMVController(saves, inputProvider);
-        exchangeController = new ExchangeController(saves);
+        exchangeController = new ExchangeController(saves, Clock.systemUTC());
     }
 
     /**

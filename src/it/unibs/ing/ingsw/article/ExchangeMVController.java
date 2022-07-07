@@ -7,6 +7,7 @@ import it.unibs.ing.ingsw.io.DataContainer;
 import it.unibs.ing.ingsw.ui.AbstractMVController;
 import it.unibs.ing.ingsw.ui.AbstractView;
 
+import java.time.Clock;
 import java.time.LocalDateTime;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -31,8 +32,8 @@ public class ExchangeMVController extends AbstractMVController {
     private final ExchangeView exchangeView;
     private final ArticleMVController articleMVController;
 
-    public ExchangeMVController(DataContainer saves, InputProvider inputProvider) {
-        exchangeController = new ExchangeController(saves);
+    public ExchangeMVController(DataContainer saves, InputProvider inputProvider, Clock clock) {
+        exchangeController = new ExchangeController(saves, clock);
         configController = new ConfigController(saves);
         exchangeView = new ExchangeView(inputProvider);
         articleMVController = new ArticleMVController(saves, inputProvider);
@@ -71,7 +72,7 @@ public class ExchangeMVController extends AbstractMVController {
     private void proposeExchange(User user) {
         // Seleziona la proposta
         Article articleProposed = articleMVController.selectProposal(user);
-        if (articleProposed == null) { //FIXME da rivedere
+        if (articleProposed == null) {
             exchangeView.message(ERROR_NO_OPEN_ARTICLES);
             exchangeView.message(ERROR_ADD_ARTICLE_BEFORE_PROPOSAL);
             return;

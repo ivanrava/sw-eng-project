@@ -16,6 +16,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
+import java.time.Clock;
 import java.time.DayOfWeek;
 import java.time.LocalTime;
 import java.util.*;
@@ -120,7 +121,7 @@ class SavesTest {
         saves.getArticles().put(0, article);
 
         Article articleProposed = new Article(1, user, category, ArticleState.OFFERTA_APERTA, new HashMap<>());
-        Exchange exchange = new Exchange(article, articleProposed);
+        Exchange exchange = new Exchange(article, articleProposed, Clock.systemUTC());
         saves.getExchanges().add(exchange);
 
         saves.save();

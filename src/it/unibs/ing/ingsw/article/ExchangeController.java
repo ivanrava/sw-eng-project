@@ -1,10 +1,10 @@
 package it.unibs.ing.ingsw.article;
 
-import it.unibs.ing.fp.mylib.InputProvider;
 import it.unibs.ing.ingsw.auth.User;
 import it.unibs.ing.ingsw.config.ConfigController;
 import it.unibs.ing.ingsw.io.DataContainer;
 
+import java.time.Clock;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
@@ -14,10 +14,12 @@ public class ExchangeController {
     private static final String ASSERTION_ARTICLE_WANTED_NOT_EXISTS = "L'articolo desiderato non esiste!";
     private final List<Exchange> exchangeList;
     private final ConfigController configController;
+    private final Clock clock;
 
-    public ExchangeController(DataContainer saves) {
+    public ExchangeController(DataContainer saves, Clock clock) {
         configController = new ConfigController(saves);
         exchangeList = saves.getExchanges();
+        this.clock = clock;
     }
 
     /**
@@ -60,7 +62,7 @@ public class ExchangeController {
     public void startExchange(Article articleProposed, Article articleWanted) {
         assert articleProposed != null : ASSERTION_ARTICLE_PROPOSED_NOT_EXISTS;
         assert articleWanted != null : ASSERTION_ARTICLE_WANTED_NOT_EXISTS;
-        exchangeList.add(new Exchange(articleProposed, articleWanted));
+        exchangeList.add(new Exchange(articleProposed, articleWanted, clock));
     }
 
     public void updateAppointment(String proposedWhere, LocalDateTime proposedWhen, Exchange exchange){

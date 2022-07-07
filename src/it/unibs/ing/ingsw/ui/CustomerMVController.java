@@ -8,6 +8,7 @@ import it.unibs.ing.ingsw.category.CategoryMVController;
 import it.unibs.ing.ingsw.config.ConfigMVController;
 import it.unibs.ing.ingsw.io.DataContainer;
 
+import java.time.Clock;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -26,7 +27,7 @@ public class CustomerMVController extends AbstractMVController {
         categoryMVController = new CategoryMVController(saves, inputProvider);
         configMVController = new ConfigMVController(saves, inputProvider);
         articleMVController = new ArticleMVController(saves, inputProvider);
-        exchangeMVController = new ExchangeMVController(saves, inputProvider);
+        exchangeMVController = new ExchangeMVController(saves, inputProvider, Clock.systemUTC());
         customerView = new CustomerView(inputProvider);
     }
 

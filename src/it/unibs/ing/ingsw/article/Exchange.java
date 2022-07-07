@@ -3,8 +3,7 @@ package it.unibs.ing.ingsw.article;
 import it.unibs.ing.ingsw.auth.User;
 
 import java.io.Serializable;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.time.*;
 import java.time.temporal.TemporalUnit;
 import java.util.Objects;
 
@@ -15,20 +14,29 @@ public class Exchange implements Serializable {
     private String proposedWhere;
     private LocalDateTime proposedWhen;
     private User to;
+    private final Clock clock;
 
     /**
      * Costruttore iniziale per la creazione dell'offerta
+     *
      * @param articleProposed Articolo proposto per lo scambio
-     * @param articleWanted Articolo desiderato dallo scambio
+     * @param articleWanted   Articolo desiderato dallo scambio
+     * @param clock orologio
      */
-    public Exchange(Article articleProposed, Article articleWanted) {
+    public Exchange(Article articleProposed, Article articleWanted, Clock clock) {
         this.articleProposed = articleProposed;
         articleProposed.setState(ArticleState.OFFERTA_ACCOPPIATA);
         this.articleWanted = articleWanted;
         articleWanted.setState(ArticleState.OFFERTA_SELEZIONATA);
-        this.whenLastEvent = LocalDate.now();
         this.to = articleWanted.getOwner();
+        this.clock = clock;
+        this.whenLastEvent = now();
     }
+
+    private LocalDate now() {
+        return LocalDate.ofInstant(Instant.now(this.clock), ZoneOffset.UTC);
+    }
+
 
     public LocalDate getWhenLastEvent() {
         return whenLastEvent;
@@ -41,7 +49,7 @@ public class Exchange implements Serializable {
      * @return 'true' se scaduto, 'false' altrimenti
      */
     private boolean isExpired(int deadline, TemporalUnit unit) {
-        return getWhenLastEvent().plus(deadline, unit).isBefore(LocalDate.now());
+        return getWhenLastEvent().plus(deadline, unit).isBefore(now());
     }
 
     /**
@@ -65,7 +73,7 @@ public class Exchange implements Serializable {
     public void acceptProposal() {
         articleProposed.setState(ArticleState.OFFERTA_SCAMBIO);
         articleWanted.setState(ArticleState.OFFERTA_SCAMBIO);
-        whenLastEvent = LocalDate.now();
+        whenLastEvent = now();
     }
 
     /**
@@ -93,7 +101,7 @@ public class Exchange implements Serializable {
         this.proposedWhere = where;
         this.proposedWhen = when;
         switchUser();
-        whenLastEvent = LocalDate.now();
+        whenLastEvent = now();
     }
 
     /**
