@@ -137,4 +137,8 @@ public class Category implements Serializable {
         }
         return null;
     }
+
+    public String getDescription() {
+        return description;
+    }
 }

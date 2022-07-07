@@ -33,7 +33,10 @@ public class CategoryMVController extends AbstractMVController {
 
     @Override
     protected Map<String, Runnable> getMenuOptions(User user) {
-        Map<String, Runnable> menuOptions = new java.util.HashMap<>(Map.of(ADD_ROOT_CATEGORY, this::insertRootCategory, ADD_CHILD_CATEGORY, this::insertChildCategory, PRINT_HIERARCHIES, this::printHierarchies));
+        Map<String, Runnable> menuOptions = new java.util.HashMap<>(Map.of(
+                ADD_ROOT_CATEGORY, this::insertRootCategory,
+                ADD_CHILD_CATEGORY, this::insertChildCategory,
+                PRINT_HIERARCHIES, this::printHierarchies));
         if (articleController.emptyArticles()) menuOptions.put(IMPORT_FROM_FILE, this::importFromBatch);
         return menuOptions;
     }

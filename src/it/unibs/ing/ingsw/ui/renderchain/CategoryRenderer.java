@@ -12,11 +12,11 @@ public class CategoryRenderer extends AbstractRenderer{
      *
      * @param initialPrefixNumber Numero di ripetizioni della stringa prefissa inizialmente
      */
-    private String onlyNameToString(Category category, int initialPrefixNumber) {
+    private String hierarchyToString(Category category, int initialPrefixNumber) {
         StringBuilder sb = new StringBuilder();
-        sb.append(String.format("%s%s %s%n", " --> ".repeat(initialPrefixNumber), category.getName(), category.getFields().values()));
+        sb.append(String.format("%s%s: %s %s%n", " --> ".repeat(initialPrefixNumber), category.getName(), category.getDescription(), category.getFields().values()));
         for (Category child : category.getChildren().values()) {
-            sb.append(onlyNameToString(child, initialPrefixNumber + 1));
+            sb.append(hierarchyToString(child, initialPrefixNumber + 1));
         }
         return sb.toString();
     }
@@ -25,7 +25,7 @@ public class CategoryRenderer extends AbstractRenderer{
     @Override
     public String render(Object o) {
         if (o instanceof Category category) {
-            return onlyNameToString(category, 0);
+            return hierarchyToString(category, 0);
         }
         return next.render(o);
     }

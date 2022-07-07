@@ -37,7 +37,11 @@ public class ArticleMVController extends AbstractMVController {
 
     @Override
     protected Map<String, Runnable> getMenuOptions(User user) {
-        return Map.of(PRINT_USER_ARTICLES, () -> articleView.printArticles(articleController.getArticlesForUser(user.getUsername())), PRINT_CATEGORY_ARTICLES, () -> printCategoryArticles(user), ADD_ARTICLE, () -> addArticle(user), MODIFY_ARTICLE_STATE, () -> editArticleState(user));
+        return Map.of(
+                PRINT_USER_ARTICLES, () -> articleView.printArticles(articleController.getArticlesForUser(user.getUsername())),
+                PRINT_CATEGORY_ARTICLES, () -> printCategoryArticles(user),
+                ADD_ARTICLE, () -> addArticle(user),
+                MODIFY_ARTICLE_STATE, () -> editArticleState(user));
     }
 
     @Override

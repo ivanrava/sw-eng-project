@@ -21,7 +21,7 @@ public class CategoryView extends AbstractView {
     private static final String ASK_NEW_FIELD = "Vuoi aggiungere un nuovo campo?";
     private static final String INSERT_DESCRIPTION = "Inserisci la descrizione: ";
     private static final String ERROR_NAME_DUPLICATE = "Nome non univoco :(";
-    private static final String INSERT_NEW_ROOT_NAME = "Inserisci il nome della nuova categoria radice: ";
+    private static final String ASK_ROOT_CATEGORY_NAME = "Inserisci il nome della categoria radice: ";
     public static final String INSERT_FILEPATH = "Inserisci il percorso assoluto del file: ";
     private static final String ASK_FIELD_FACOLTATIVO = "%s (facoltativo): ";
     private static final String ASK_FIELD_OBBLIGATORIO = "%s (obbligatorio): ";
@@ -46,7 +46,7 @@ public class CategoryView extends AbstractView {
     public String askRootName(Set<String> rootCategoryNames) {
         String name;
         do {
-            name = inputProvider.leggiStringaNonVuota(INSERT_NEW_ROOT_NAME);
+            name = inputProvider.leggiStringaNonVuota(ASK_ROOT_CATEGORY_NAME);
             if (rootCategoryNames.contains(name)) {
                 System.out.println(ERROR_NAME_DUPLICATE);
             }
