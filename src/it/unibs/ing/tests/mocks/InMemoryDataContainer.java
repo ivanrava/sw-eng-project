@@ -18,15 +18,19 @@ public class InMemoryDataContainer implements DataContainer {
     private Map<String, Category> hierarchies = new HashMap<>();
     private Map<String, User> users = new HashMap<>();
     private Map<Integer, Article> articles = new HashMap<>();
+    private Config config = new Config("square", Set.of("place1", "place2"), Set.of(DayOfWeek.MONDAY, DayOfWeek.TUESDAY), Set.of(new TimeInterval(LocalTime.of(0, 0), LocalTime.of(1, 0))), 5);
 
     @Override
     public Config getConfig() {
-        return new Config("square", Set.of("place1", "place2"), Set.of(DayOfWeek.MONDAY, DayOfWeek.TUESDAY), Set.of(new TimeInterval(LocalTime.of(0, 0), LocalTime.of(1, 0))), 5);
+        return config;
     }
 
     @Override
     public void setConfig(Config config) {
-
+        config.setDays(config.getDays());
+        config.setPlaces(config.getPlaces());
+        config.setTimeIntervals(config.getTimeIntervals());
+        config.setDeadline(config.getDeadline());
     }
 
     @Override
