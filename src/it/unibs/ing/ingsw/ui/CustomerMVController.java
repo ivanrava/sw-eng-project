@@ -8,6 +8,7 @@ import it.unibs.ing.ingsw.category.CategoryMVController;
 import it.unibs.ing.ingsw.config.ConfigMVController;
 import it.unibs.ing.ingsw.io.DataContainer;
 
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class CustomerMVController extends AbstractMVController {
@@ -33,13 +34,13 @@ public class CustomerMVController extends AbstractMVController {
     protected void beforeExecute() {}
 
     @Override
-    protected Map<String, Runnable> getMenuOptions(User user) {
-        return Map.of(
-                SEE_CATEGORIES, categoryMVController::printHierarchies,
-                SEE_CONFIG, configMVController::printConfig,
-                MANAGE_ARTICLES, () -> articleMVController.execute(user),
-                MANAGE_EXCHANGES, () -> exchangeMVController.execute(user)
-        );
+    protected LinkedHashMap<String, Runnable> getMenuOptions(User user) {
+        LinkedHashMap<String, Runnable> menuOptions = new LinkedHashMap<>();
+        menuOptions.put(SEE_CATEGORIES, categoryMVController::printHierarchies);
+        menuOptions.put(SEE_CONFIG, configMVController::printConfig);
+        menuOptions.put(MANAGE_ARTICLES, () -> articleMVController.execute(user));
+        menuOptions.put(MANAGE_EXCHANGES, () -> exchangeMVController.execute(user));
+        return menuOptions;
     }
 
     @Override

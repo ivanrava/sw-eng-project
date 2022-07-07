@@ -2,6 +2,7 @@ package it.unibs.ing.ingsw.ui;
 
 import it.unibs.ing.ingsw.auth.User;
 
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 public abstract class AbstractMVController {
@@ -18,7 +19,7 @@ public abstract class AbstractMVController {
         } while (choice != null);
     }
 
-    protected abstract Map<String, Runnable> getMenuOptions(User user);
+    protected abstract LinkedHashMap<String, Runnable> getMenuOptions(User user);
 
     protected abstract AbstractView getView();
 

@@ -8,6 +8,7 @@ import it.unibs.ing.ingsw.ui.AbstractMVController;
 import it.unibs.ing.ingsw.ui.AbstractView;
 
 import java.time.LocalDateTime;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -48,13 +49,13 @@ public class ExchangeMVController extends AbstractMVController {
     }
 
     @Override
-    protected Map<String, Runnable> getMenuOptions(User user) {
-        return Map.of(
-                PROPOSE_EXCHANGE, () -> proposeExchange(user),
-                MANAGE_EXCHANGES, () -> manageProposals(user),
-                SHOW_ARTICLES_ON_EXCHANGE, () -> exchangeView.printExchangingArticles(exchangeController.getExchangingExchanges(user)),
-                ACCEPT_MODIFY_WHERE_WHEN_EXCHANGE, () -> manageAppointments(user)
-        );
+    protected LinkedHashMap<String, Runnable> getMenuOptions(User user) {
+        LinkedHashMap<String, Runnable> menuOptions = new LinkedHashMap<>();
+        menuOptions.put(PROPOSE_EXCHANGE, () -> proposeExchange(user));
+        menuOptions.put(MANAGE_EXCHANGES, () -> manageProposals(user));
+        menuOptions.put(SHOW_ARTICLES_ON_EXCHANGE, () -> exchangeView.printExchangingArticles(exchangeController.getExchangingExchanges(user)));
+        menuOptions.put(ACCEPT_MODIFY_WHERE_WHEN_EXCHANGE, () -> manageAppointments(user));
+        return menuOptions;
     }
 
     @Override

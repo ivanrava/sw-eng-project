@@ -7,6 +7,7 @@ import it.unibs.ing.ingsw.io.DataContainer;
 import it.unibs.ing.ingsw.ui.AbstractMVController;
 import it.unibs.ing.ingsw.ui.AbstractView;
 
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -36,12 +37,13 @@ public class ArticleMVController extends AbstractMVController {
     }
 
     @Override
-    protected Map<String, Runnable> getMenuOptions(User user) {
-        return Map.of(
-                PRINT_USER_ARTICLES, () -> articleView.printArticles(articleController.getArticlesForUser(user.getUsername())),
-                PRINT_CATEGORY_ARTICLES, () -> printCategoryArticles(user),
-                ADD_ARTICLE, () -> addArticle(user),
-                MODIFY_ARTICLE_STATE, () -> editArticleState(user));
+    protected LinkedHashMap<String, Runnable> getMenuOptions(User user) {
+        LinkedHashMap<String, Runnable> menuOptions = new LinkedHashMap<>();
+        menuOptions.put(PRINT_USER_ARTICLES, () -> articleView.printArticles(articleController.getArticlesForUser(user.getUsername())));
+        menuOptions.put(PRINT_CATEGORY_ARTICLES, () -> printCategoryArticles(user));
+        menuOptions.put(ADD_ARTICLE, () -> addArticle(user));
+        menuOptions.put(MODIFY_ARTICLE_STATE, () -> editArticleState(user));
+        return menuOptions;
     }
 
     @Override

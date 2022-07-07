@@ -8,6 +8,7 @@ import it.unibs.ing.ingsw.io.DataContainer;
 import it.unibs.ing.ingsw.ui.AbstractMVController;
 import it.unibs.ing.ingsw.ui.AbstractView;
 
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class ConfigMVController extends AbstractMVController {
@@ -31,12 +32,12 @@ public class ConfigMVController extends AbstractMVController {
     }
 
     @Override
-    protected Map<String, Runnable> getMenuOptions(User user) {
-        return Map.of(
-                PRINT_CONFIG, () -> configView.printConfig(configController.getConfig()),
-                MODIFY_CONFIG, this::editConfig,
-                IMPORT_CONFIG, this::importBatch
-        );
+    protected LinkedHashMap<String, Runnable> getMenuOptions(User user) {
+        LinkedHashMap<String, Runnable> menuOptions = new LinkedHashMap<>();
+        menuOptions.put(PRINT_CONFIG, () -> configView.printConfig(configController.getConfig()));
+        menuOptions.put(MODIFY_CONFIG, this::editConfig);
+        menuOptions.put(IMPORT_CONFIG, this::importBatch);
+        return menuOptions;
     }
 
     @Override

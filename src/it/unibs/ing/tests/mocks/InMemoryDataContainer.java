@@ -16,6 +16,9 @@ public class InMemoryDataContainer implements DataContainer {
     private String defaultUsername;
     private String defaultPassword;
 
+    private Map<String, Category> hierarchies = new HashMap<>();
+    private Map<String, User> users = new HashMap<>();
+
     @Override
     public Config getConfig() {
         return new Config(
@@ -34,12 +37,20 @@ public class InMemoryDataContainer implements DataContainer {
 
     @Override
     public Map<String, Category> getHierarchies() {
-        return new HashMap<>();
+        return hierarchies;
+    }
+
+    public void setHierarchies(Map<String, Category> hierarchies) {
+        this.hierarchies = hierarchies;
     }
 
     @Override
     public Map<String, User> getUsers() {
-        return new HashMap<>();
+        return users;
+    }
+
+    public void setUsers(Map<String, User> users) {
+        this.users = users;
     }
 
     @Override
@@ -82,4 +93,5 @@ public class InMemoryDataContainer implements DataContainer {
     public void save() {
 
     }
+
 }

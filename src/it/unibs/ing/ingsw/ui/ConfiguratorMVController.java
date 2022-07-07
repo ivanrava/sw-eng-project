@@ -7,6 +7,7 @@ import it.unibs.ing.ingsw.category.CategoryMVController;
 import it.unibs.ing.ingsw.config.ConfigMVController;
 import it.unibs.ing.ingsw.io.DataContainer;
 
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class ConfiguratorMVController extends AbstractMVController {
@@ -29,12 +30,12 @@ public class ConfiguratorMVController extends AbstractMVController {
     protected void beforeExecute() {}
 
     @Override
-    protected Map<String, Runnable> getMenuOptions(User user) {
-        return Map.of(
-                MANAGE_CATEGORIES, () -> categoryMVController.execute(user),
-                MANAGE_CONFIG, () -> configMVController.execute(user),
-                SEE_LEAF_OFFERS, () -> articleMVController.printCategoryArticles(user)
-        );
+    protected LinkedHashMap<String, Runnable> getMenuOptions(User user) {
+        LinkedHashMap<String, Runnable> menuOptions = new LinkedHashMap<>();
+        menuOptions.put(MANAGE_CATEGORIES, () -> categoryMVController.execute(user));
+        menuOptions.put(MANAGE_CONFIG, () -> configMVController.execute(user));
+        menuOptions.put(SEE_LEAF_OFFERS, () -> articleMVController.printCategoryArticles(user));
+        return menuOptions;
     }
 
     @Override
