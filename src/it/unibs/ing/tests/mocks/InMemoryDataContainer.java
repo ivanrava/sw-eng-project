@@ -18,7 +18,18 @@ public class InMemoryDataContainer implements DataContainer {
     private Map<String, Category> hierarchies = new HashMap<>();
     private Map<String, User> users = new HashMap<>();
     private Map<Integer, Article> articles = new HashMap<>();
-    private Config config = new Config("square", Set.of("place1", "place2"), Set.of(DayOfWeek.MONDAY, DayOfWeek.TUESDAY), Set.of(new TimeInterval(LocalTime.of(0, 0), LocalTime.of(1, 0))), 5);
+    private final Config config;
+    private final boolean alreadySet;
+
+    public InMemoryDataContainer(Config defaultConfig) {
+        config = defaultConfig;
+        alreadySet = true;
+    }
+
+    public InMemoryDataContainer() {
+        config = new Config(new HashSet<>(), new TreeSet<>(), new TreeSet<>(), 1);
+        alreadySet = false;
+    }
 
     @Override
     public Config getConfig() {
@@ -83,7 +94,7 @@ public class InMemoryDataContainer implements DataContainer {
 
     @Override
     public boolean existsConfiguration() {
-        return true;
+        return alreadySet;
     }
 
     @Override

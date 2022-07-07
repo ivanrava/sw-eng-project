@@ -5,6 +5,8 @@ import it.unibs.ing.ingsw.article.ArticleState;
 import it.unibs.ing.ingsw.article.ExchangeMVController;
 import it.unibs.ing.ingsw.auth.Customer;
 import it.unibs.ing.ingsw.category.Category;
+import it.unibs.ing.ingsw.config.Config;
+import it.unibs.ing.ingsw.config.TimeInterval;
 import it.unibs.ing.tests.mocks.InMemoryDataContainer;
 import it.unibs.ing.tests.mocks.QueueInputProvider;
 import org.junit.jupiter.api.AfterEach;
@@ -15,6 +17,7 @@ import java.time.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
@@ -61,7 +64,9 @@ class ExchangeMVControllerTest extends RedirectSystemOutputBaseTest {
 
     @BeforeEach
     void setUp() {
-        inMemoryDataContainer = new InMemoryDataContainer();
+        inMemoryDataContainer = new InMemoryDataContainer(
+                new Config("square", Set.of("place1", "place2"), Set.of(DayOfWeek.MONDAY, DayOfWeek.TUESDAY), Set.of(new TimeInterval(LocalTime.of(0, 0), LocalTime.of(1, 0))), 5)
+        );
         buildCustomers();
         Category articlesCategory = buildCategories();
         buildArticles(articlesCategory);
