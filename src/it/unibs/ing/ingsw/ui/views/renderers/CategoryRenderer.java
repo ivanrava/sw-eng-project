@@ -1,4 +1,4 @@
-package it.unibs.ing.ingsw.ui.views.renderchain;
+package it.unibs.ing.ingsw.ui.views.renderers;
 
 import it.unibs.ing.ingsw.domain.business.Category;
 

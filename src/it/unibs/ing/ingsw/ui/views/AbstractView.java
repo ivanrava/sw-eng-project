@@ -2,8 +2,8 @@ package it.unibs.ing.ingsw.ui.views;
 
 import it.unibs.ing.fp.mylib.InputProvider;
 import it.unibs.ing.fp.mylib.MyMenu;
-import it.unibs.ing.ingsw.ui.views.renderchain.Renderer;
-import it.unibs.ing.ingsw.ui.views.renderchain.SetRenderer;
+import it.unibs.ing.ingsw.ui.views.renderers.Renderer;
+import it.unibs.ing.ingsw.ui.views.renderers.SetRenderer;
 
 import java.util.Collection;
 import java.util.HashMap;
