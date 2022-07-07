@@ -70,7 +70,7 @@ public class CategoryMVController extends AbstractMVController {
      * Inserisce una nuova categoria radice
      */
     private void insertRootCategory() {
-        String nome = categoryView.askRootName(categoryController.getRootCategoryNames());
+        String nome = categoryView.askNewRootName(this);
         String descrizione = categoryView.askDescription();
         Map<String, Field> newFields = categoryView.askFieldsForRoot(categoryController.getDefaultFields());
         categoryController.makeRootCategory(nome, descrizione, newFields);
@@ -81,7 +81,7 @@ public class CategoryMVController extends AbstractMVController {
      */
     private void insertChildCategory() {
         this.printHierarchies();
-        String rootName = categoryView.askRootName(categoryController.getRootCategoryNames());
+        String rootName = categoryView.askRootName(this);
         String parentName = categoryView.askAndCheckParentName(rootName, this);
         String categoryName = categoryView.askAndCheckCategoryName(rootName, this);
         String description = categoryView.askDescription();
@@ -91,7 +91,7 @@ public class CategoryMVController extends AbstractMVController {
 
 
     public String askRootName() {
-        return categoryView.askRootName(categoryController.getRootCategoryNames());
+        return categoryView.askRootName(this);
     }
 
     public String askLeafName(String rootName) {
@@ -104,6 +104,10 @@ public class CategoryMVController extends AbstractMVController {
 
     public boolean exists(String rootName, String parentName) {
         return categoryController.exists(rootName, parentName);
+    }
+
+    public boolean existsRoot(String rootName) {
+        return categoryController.existsRoot(rootName);
     }
 
     public boolean isLeaf(String rootName, String leafCategoryName) {

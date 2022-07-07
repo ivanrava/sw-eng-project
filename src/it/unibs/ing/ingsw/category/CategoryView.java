@@ -3,10 +3,7 @@ package it.unibs.ing.ingsw.category;
 import it.unibs.ing.fp.mylib.InputProvider;
 import it.unibs.ing.ingsw.ui.AbstractView;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public class CategoryView extends AbstractView {
     private static final String INSERT_LEAF_CATEGORY_NAME = "Inserisci il nome della categoria foglia: ";
@@ -43,14 +40,25 @@ public class CategoryView extends AbstractView {
         return inputProvider.leggiStringaNonVuota(INSERT_DESCRIPTION);
     }
 
-    public String askRootName(Set<String> rootCategoryNames) {
+    public String askRootName(CategoryMVController mvcController) {
         String name;
         do {
             name = inputProvider.leggiStringaNonVuota(ASK_ROOT_CATEGORY_NAME);
-            if (rootCategoryNames.contains(name)) {
+            if (!mvcController.existsRoot(name)) {
+                System.out.println(ERROR_CATEGORY_UNEXISTANT);
+            }
+        } while (!mvcController.existsRoot(name));
+        return name;
+    }
+
+    public String askNewRootName(CategoryMVController mvcController) {
+        String name;
+        do {
+            name = inputProvider.leggiStringaNonVuota(ASK_ROOT_CATEGORY_NAME);
+            if (mvcController.existsRoot(name)) {
                 System.out.println(ERROR_NAME_DUPLICATE);
             }
-        } while (rootCategoryNames.contains(name));
+        } while (mvcController.existsRoot(name));
         return name;
     }
 
@@ -60,14 +68,14 @@ public class CategoryView extends AbstractView {
      * @param rootName Nome della categoria radice
      * @return Nome della categoria genitore
      */
-    public String askAndCheckParentName(String rootName, CategoryMVController controller) {
+    public String askAndCheckParentName(String rootName, CategoryMVController mvcController) {
         String parentName;
         do {
             parentName = inputProvider.leggiStringaNonVuota(INSERT_PARENT_CATEGORY_NAME);
-            if (!controller.exists(rootName, parentName)) {
+            if (!mvcController.exists(rootName, parentName)) {
                 System.out.println(ERROR_PARENT_UNEXISTANT);
             }
-        } while (!controller.exists(rootName, parentName));
+        } while (!mvcController.exists(rootName, parentName));
         return parentName;
     }
 
