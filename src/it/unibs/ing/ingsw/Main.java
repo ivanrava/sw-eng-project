@@ -11,6 +11,9 @@ import it.unibs.ing.ingsw.ui.AppController;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.time.Clock;
+import java.time.DateTimeException;
+import java.time.ZoneId;
 
 public class Main {
 
@@ -24,13 +27,18 @@ public class Main {
             System.getProperties().load(new FileInputStream("./system.properties"));
             DataContainer saves = new Saves();
             InputProvider inputProvider = new InputDati();
+            Clock clock = Clock.system(ZoneId.of(System.getProperty("clock.timezone")));
 
-            AppController appController = new AppController(saves, inputProvider);
+            AppController appController = new AppController(saves, inputProvider, clock);
             appController.execute();
             saves.save();
         } catch (LoadSavesException | SaveException | IOException e) {
             ErrorDialog.print(e);
             System.exit(1);
+        } catch (DateTimeException e) {
+            // Wrong timezone format
+            ErrorDialog.print(e);
+            System.exit(2);
         }
     }
 }

@@ -7,6 +7,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.time.Clock;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -19,7 +20,7 @@ class LoginTest extends RedirectSystemOutputBaseTest {
     @BeforeEach
     void setUp() {
         testInputProvider = new QueueInputProvider();
-        appController = new AppController(new InMemoryDataContainer(), testInputProvider);
+        appController = new AppController(new InMemoryDataContainer(), testInputProvider, Clock.systemDefaultZone());
     }
 
     @AfterEach

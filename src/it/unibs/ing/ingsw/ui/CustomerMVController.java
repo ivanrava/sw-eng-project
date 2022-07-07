@@ -10,7 +10,6 @@ import it.unibs.ing.ingsw.io.DataContainer;
 
 import java.time.Clock;
 import java.util.LinkedHashMap;
-import java.util.Map;
 
 public class CustomerMVController extends AbstractMVController {
     private static final String SEE_CATEGORIES = "Visualizza categorie";
@@ -23,11 +22,11 @@ public class CustomerMVController extends AbstractMVController {
     private final ExchangeMVController exchangeMVController;
     private final CustomerView customerView;
 
-    public CustomerMVController(DataContainer saves, InputProvider inputProvider) {
+    public CustomerMVController(DataContainer saves, InputProvider inputProvider, Clock clock) {
         categoryMVController = new CategoryMVController(saves, inputProvider);
         configMVController = new ConfigMVController(saves, inputProvider);
         articleMVController = new ArticleMVController(saves, inputProvider);
-        exchangeMVController = new ExchangeMVController(saves, inputProvider, Clock.systemUTC());
+        exchangeMVController = new ExchangeMVController(saves, inputProvider, clock);
         customerView = new CustomerView(inputProvider);
     }
 

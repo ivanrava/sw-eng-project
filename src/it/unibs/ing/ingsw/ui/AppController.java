@@ -14,11 +14,11 @@ public class AppController {
     private final ConfiguratorMVController configuratorMVController;
     private final ExchangeController exchangeController;
 
-    public AppController(DataContainer saves, InputProvider inputProvider) {
+    public AppController(DataContainer saves, InputProvider inputProvider, Clock clock) {
         loginMVController = new LoginMVController(saves, inputProvider);
-        customerMVController = new CustomerMVController(saves, inputProvider);
+        customerMVController = new CustomerMVController(saves, inputProvider, clock);
         configuratorMVController = new ConfiguratorMVController(saves, inputProvider);
-        exchangeController = new ExchangeController(saves, Clock.systemUTC());
+        exchangeController = new ExchangeController(saves, clock);
     }
 
     /**
