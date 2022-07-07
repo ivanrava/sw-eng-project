@@ -1,16 +1,16 @@
 package it.unibs.ing.tests.feature;
 
-import it.unibs.ing.ingsw.article.Article;
-import it.unibs.ing.ingsw.article.ArticleState;
-import it.unibs.ing.ingsw.article.Exchange;
-import it.unibs.ing.ingsw.auth.Customer;
-import it.unibs.ing.ingsw.auth.User;
-import it.unibs.ing.ingsw.category.Category;
-import it.unibs.ing.ingsw.config.Config;
-import it.unibs.ing.ingsw.config.TimeInterval;
-import it.unibs.ing.ingsw.exceptions.LoadSavesException;
-import it.unibs.ing.ingsw.exceptions.SaveException;
-import it.unibs.ing.ingsw.io.Saves;
+import it.unibs.ing.ingsw.domain.business.Article;
+import it.unibs.ing.ingsw.domain.business.ArticleState;
+import it.unibs.ing.ingsw.domain.business.Exchange;
+import it.unibs.ing.ingsw.domain.auth.Customer;
+import it.unibs.ing.ingsw.domain.auth.User;
+import it.unibs.ing.ingsw.domain.business.Category;
+import it.unibs.ing.ingsw.domain.config.Config;
+import it.unibs.ing.ingsw.domain.config.TimeInterval;
+import it.unibs.ing.ingsw.services.persistence.exceptions.LoadSavesException;
+import it.unibs.ing.ingsw.services.persistence.exceptions.SaveException;
+import it.unibs.ing.ingsw.services.persistence.Saves;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

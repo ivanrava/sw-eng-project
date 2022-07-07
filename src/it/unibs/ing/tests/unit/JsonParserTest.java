@@ -1,7 +1,7 @@
 package it.unibs.ing.tests.unit;
 
-import it.unibs.ing.ingsw.exceptions.EmptyConfigException;
-import it.unibs.ing.ingsw.io.batch.JsonParser;
+import it.unibs.ing.ingsw.services.batch.exceptions.EmptyConfigException;
+import it.unibs.ing.ingsw.services.batch.JsonParser;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

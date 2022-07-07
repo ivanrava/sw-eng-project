@@ -1,15 +1,12 @@
 package it.unibs.ing.tests.mocks;
 
-import it.unibs.ing.ingsw.article.Article;
-import it.unibs.ing.ingsw.article.Exchange;
-import it.unibs.ing.ingsw.auth.User;
-import it.unibs.ing.ingsw.category.Category;
-import it.unibs.ing.ingsw.config.Config;
-import it.unibs.ing.ingsw.config.TimeInterval;
-import it.unibs.ing.ingsw.io.DataContainer;
+import it.unibs.ing.ingsw.domain.business.Article;
+import it.unibs.ing.ingsw.domain.business.Exchange;
+import it.unibs.ing.ingsw.domain.auth.User;
+import it.unibs.ing.ingsw.domain.business.Category;
+import it.unibs.ing.ingsw.domain.config.Config;
+import it.unibs.ing.ingsw.services.persistence.DataContainer;
 
-import java.time.DayOfWeek;
-import java.time.LocalTime;
 import java.util.*;
 
 public class InMemoryDataContainer implements DataContainer {

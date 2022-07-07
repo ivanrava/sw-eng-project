@@ -1,6 +1,6 @@
 package it.unibs.ing.tests.feature;
 
-import it.unibs.ing.ingsw.category.CategoryMVController;
+import it.unibs.ing.ingsw.ui.controllers.CategoryMVController;
 import it.unibs.ing.tests.mocks.InMemoryDataContainer;
 import it.unibs.ing.tests.mocks.QueueInputProvider;
 import org.junit.jupiter.api.AfterEach;

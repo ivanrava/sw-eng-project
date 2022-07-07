@@ -2,12 +2,12 @@ package it.unibs.ing.ingsw;
 
 import it.unibs.ing.fp.mylib.InputDati;
 import it.unibs.ing.fp.mylib.InputProvider;
-import it.unibs.ing.ingsw.exceptions.ErrorDialog;
-import it.unibs.ing.ingsw.exceptions.LoadSavesException;
-import it.unibs.ing.ingsw.exceptions.SaveException;
-import it.unibs.ing.ingsw.io.DataContainer;
-import it.unibs.ing.ingsw.io.Saves;
-import it.unibs.ing.ingsw.ui.AppController;
+import it.unibs.ing.ingsw.ui.views.ErrorDialog;
+import it.unibs.ing.ingsw.services.persistence.exceptions.LoadSavesException;
+import it.unibs.ing.ingsw.services.persistence.exceptions.SaveException;
+import it.unibs.ing.ingsw.services.persistence.DataContainer;
+import it.unibs.ing.ingsw.services.persistence.Saves;
+import it.unibs.ing.ingsw.ui.controllers.AppController;
 
 import java.io.FileInputStream;
 import java.io.IOException;

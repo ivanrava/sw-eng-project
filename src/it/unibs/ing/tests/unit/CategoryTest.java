@@ -1,6 +1,6 @@
 package it.unibs.ing.tests.unit;
 
-import it.unibs.ing.ingsw.category.Category;
+import it.unibs.ing.ingsw.domain.business.Category;
 import org.junit.jupiter.api.Test;
 
 import java.util.Collections;

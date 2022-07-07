@@ -1,8 +1,8 @@
 package it.unibs.ing.tests.feature;
 
-import it.unibs.ing.ingsw.config.Config;
-import it.unibs.ing.ingsw.config.TimeInterval;
-import it.unibs.ing.ingsw.ui.AppController;
+import it.unibs.ing.ingsw.domain.config.Config;
+import it.unibs.ing.ingsw.domain.config.TimeInterval;
+import it.unibs.ing.ingsw.ui.controllers.AppController;
 import it.unibs.ing.tests.mocks.InMemoryDataContainer;
 import it.unibs.ing.tests.mocks.QueueInputProvider;
 import org.junit.jupiter.api.AfterEach;

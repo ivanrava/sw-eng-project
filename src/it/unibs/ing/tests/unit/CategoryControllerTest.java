@@ -1,6 +1,6 @@
 package it.unibs.ing.tests.unit;
 
-import it.unibs.ing.ingsw.category.CategoryController;
+import it.unibs.ing.ingsw.domain.business.CategoryController;
 import it.unibs.ing.tests.mocks.InMemoryDataContainer;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

@@ -1,9 +1,8 @@
 package it.unibs.ing.tests.feature;
 
-import it.unibs.ing.ingsw.article.ArticleMVController;
-import it.unibs.ing.ingsw.auth.Customer;
-import it.unibs.ing.ingsw.category.Category;
-import it.unibs.ing.tests.feature.RedirectSystemOutputBaseTest;
+import it.unibs.ing.ingsw.ui.controllers.ArticleMVController;
+import it.unibs.ing.ingsw.domain.auth.Customer;
+import it.unibs.ing.ingsw.domain.business.Category;
 import it.unibs.ing.tests.mocks.InMemoryDataContainer;
 import it.unibs.ing.tests.mocks.QueueInputProvider;
 import org.junit.jupiter.api.AfterEach;
