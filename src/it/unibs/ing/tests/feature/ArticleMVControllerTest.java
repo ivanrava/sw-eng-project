@@ -64,4 +64,19 @@ class ArticleMVControllerTest extends RedirectSystemOutputBaseTest {
                         \tDescrizione libera="""));
     }
 
+    @Test
+    void editArticle() {
+        insertArticle();
+        queueInputProvider.setIntegerInputs(List.of(4, 1, 1, 0));
+        queueInputProvider.setBooleanInputs(List.of(true));
+        articleMVController.execute(customer);
+        assertThat(
+                out.toString(),
+                containsString("""
+                        ID articolo: 1
+                        \tROOT -> CHILD:Ritirata
+                        \tStato di conservazione=stato di conservazione
+                        \tDescrizione libera="""));
+    }
+
 }
