@@ -75,14 +75,8 @@ class ExchangeMVControllerTest extends RedirectSystemOutputBaseTest {
     private void proposeExchange() {
         queueInputProvider.setIntegerInputs(List.of(1, 1, 1, 0));
         exchangeMVController.execute(customer1);
-        assertEquals(inMemoryDataContainer
-                .getArticles()
-                .get(1)
-                .getState(), ArticleState.OFFERTA_ACCOPPIATA);
-        assertEquals(inMemoryDataContainer
-                .getArticles()
-                .get(2)
-                .getState(), ArticleState.OFFERTA_SELEZIONATA);
+        assertStateOfArticle(1, ArticleState.OFFERTA_ACCOPPIATA);
+        assertStateOfArticle(2, ArticleState.OFFERTA_SELEZIONATA);
     }
 
     /**
@@ -100,18 +94,8 @@ class ExchangeMVControllerTest extends RedirectSystemOutputBaseTest {
         assertThat(out.toString(), containsString("Stato di conservazione=stato2"));
         assertThat(out.toString(), containsString("Stato di conservazione=stato1"));
         assertThat(out.toString(), containsString("Descrizione libera="));
-        assertEquals(
-                ArticleState.OFFERTA_SCAMBIO,
-                inMemoryDataContainer
-                    .getArticles()
-                    .get(1)
-                    .getState());
-        assertEquals(
-                ArticleState.OFFERTA_SCAMBIO,
-                inMemoryDataContainer
-                    .getArticles()
-                    .get(2)
-                    .getState());
+        assertStateOfArticle(1, ArticleState.OFFERTA_SCAMBIO);
+        assertStateOfArticle(2, ArticleState.OFFERTA_SCAMBIO);
     }
 
     /**
@@ -121,17 +105,21 @@ class ExchangeMVControllerTest extends RedirectSystemOutputBaseTest {
         queueInputProvider.setIntegerInputs(List.of(4, 1, 0));
         queueInputProvider.setBooleanInputs(List.of(true));
         exchangeMVController.execute(customer1);
+        assertStateOfArticle(1, ArticleState.OFFERTA_CHIUSA);
+        assertStateOfArticle(2, ArticleState.OFFERTA_CHIUSA);
+    }
+
+    /**
+     * Asserts the article state of an article with a given
+     * @param id Article ID
+     * @param expected Expected ArticleState
+     */
+    private void assertStateOfArticle(int id, ArticleState expected) {
         assertEquals(
-                ArticleState.OFFERTA_CHIUSA
-                ,inMemoryDataContainer
+                expected,
+                inMemoryDataContainer
                         .getArticles()
-                        .get(1)
-                        .getState());
-        assertEquals(
-                ArticleState.OFFERTA_CHIUSA
-                ,inMemoryDataContainer
-                        .getArticles()
-                        .get(2)
+                        .get(id)
                         .getState());
     }
 }
