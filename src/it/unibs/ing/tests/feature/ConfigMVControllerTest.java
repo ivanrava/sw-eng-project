@@ -50,10 +50,12 @@ class ConfigMVControllerTest extends RedirectSystemOutputBaseTest {
                                                 true, true, false,
                                                 true, true, false,
                                                 true));
-        inputProvider.setIntegerInputs(List.of(1, 7,
+        inputProvider.setIntegerInputs(List.of(2,
+                1, 7,
                 8, 0, 10, 0, 12, 30, 14, 30,
-                9));
-        configMVController.editConfig();
+                9,
+                0));
+        configMVController.execute(null);
         configMVController.printConfig();
         assertThat(out.toString(), containsString("piazza='square'"));
         assertThat(out.toString(), containsString("Luogo 1"));
@@ -71,10 +73,12 @@ class ConfigMVControllerTest extends RedirectSystemOutputBaseTest {
         inputProvider.setBooleanInputs(List.of(true, false,
                 true, false,
                 true, false));
-        inputProvider.setIntegerInputs(List.of(3, 4,
+        inputProvider.setIntegerInputs(List.of(2,
+                3, 4,
                 8, 0, 10, 0, 12, 30, 14, 30,
-                7));
-        configMVController.editConfig();
+                7,
+                0));
+        configMVController.execute(null);
         configMVController.printConfig();
         assertThat(out.toString(), containsString("piazza='Piazza'"));
         assertThat(out.toString(), containsString("Luogo 5"));

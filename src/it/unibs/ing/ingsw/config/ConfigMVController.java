@@ -48,7 +48,7 @@ public class ConfigMVController extends AbstractMVController {
     /**
      * Modifica la configurazione
      */
-    public void editConfig() {
+    private void editConfig() {
         hydrateConfig(configController.existsDefaultValues());
     }
 
