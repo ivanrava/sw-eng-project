@@ -29,29 +29,42 @@ class ExchangeMVControllerTest extends RedirectSystemOutputBaseTest {
     Customer customer1;
     Customer customer2;
 
-    @BeforeEach
-    void setUp() {
-        inMemoryDataContainer = new InMemoryDataContainer();
+    void buildCustomers() {
         customer1 = new Customer("customer1", "password");
         customer2 = new Customer("customer2", "password");
         inMemoryDataContainer.setUsers(Map.of(
                 customer1.getUsername(), customer1,
                 customer2.getUsername(), customer2));
+    }
+
+    Category buildCategories() {
         Category root = new Category("ROOT", "desc", true, new HashMap<>());
         Category child = new Category("CHILD", "child desc", false, new HashMap<>());
         root.addChildCategory(child);
         inMemoryDataContainer.setHierarchies(Map.of("ROOT", root));
-        Article articleCustomer1 = new Article(1, customer1, child, ArticleState.OFFERTA_APERTA, Map.of(
+        return child;
+    }
+
+    void buildArticles(Category articlesCategory) {
+        Article articleCustomer1 = new Article(1, customer1, articlesCategory, ArticleState.OFFERTA_APERTA, Map.of(
                 "Stato di conservazione", "stato1",
                 "Descrizione libera", ""
         ));
-        Article articleCustomer2 = new Article(2, customer2, child, ArticleState.OFFERTA_APERTA, Map.of(
+        Article articleCustomer2 = new Article(2, customer2, articlesCategory, ArticleState.OFFERTA_APERTA, Map.of(
                 "Stato di conservazione", "stato2",
                 "Descrizione libera", ""
         ));
         inMemoryDataContainer.setArticles(Map.of(
                 1, articleCustomer1,
                 2, articleCustomer2));
+    }
+
+    @BeforeEach
+    void setUp() {
+        inMemoryDataContainer = new InMemoryDataContainer();
+        buildCustomers();
+        Category articlesCategory = buildCategories();
+        buildArticles(articlesCategory);
         queueInputProvider = new QueueInputProvider();
         exchangeMVController = new ExchangeMVController(inMemoryDataContainer, queueInputProvider, Clock.fixed(
                 Instant.parse("2022-05-01T10:00:00Z"),
