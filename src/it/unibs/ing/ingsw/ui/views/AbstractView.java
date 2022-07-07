@@ -2,12 +2,8 @@ package it.unibs.ing.ingsw.ui.views;
 
 import it.unibs.ing.fp.mylib.InputProvider;
 import it.unibs.ing.fp.mylib.MyMenu;
-import it.unibs.ing.ingsw.ui.views.renderchain.AbstractRenderer;
-import it.unibs.ing.ingsw.ui.views.renderchain.ArticleRenderer;
-import it.unibs.ing.ingsw.ui.views.renderchain.CategoryRenderer;
-import it.unibs.ing.ingsw.ui.views.renderchain.ConfigRenderer;
-import it.unibs.ing.ingsw.ui.views.renderchain.DefaultRenderer;
-import it.unibs.ing.ingsw.ui.views.renderchain.ExchangeRenderer;
+import it.unibs.ing.ingsw.ui.views.renderchain.Renderer;
+import it.unibs.ing.ingsw.ui.views.renderchain.SetRenderer;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -20,15 +16,14 @@ public abstract class AbstractView {
     private static final String INPUT_MENU_GENERIC_PROMPT = "Seleziona l'opzione desiderata: ";
     protected InputProvider inputProvider;
     protected String MENU_TITLE = "Menu";
-
-    private final AbstractRenderer chain = new ArticleRenderer(new CategoryRenderer(new ConfigRenderer(new ExchangeRenderer(new DefaultRenderer(null)))));
+    private final Renderer renderer = new SetRenderer();
 
     protected AbstractView(InputProvider inputProvider) {
         this.inputProvider = inputProvider;
     }
 
     protected String render(Object o) {
-        return chain.render(o);
+        return renderer.render(o);
     }
 
     protected <T> String renderAll(Collection<T> collection) {

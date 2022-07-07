@@ -2,11 +2,7 @@ package it.unibs.ing.ingsw.ui.views.renderchain;
 
 import it.unibs.ing.ingsw.domain.business.Category;
 
-public class CategoryRenderer extends AbstractRenderer{
-    public CategoryRenderer(AbstractRenderer next) {
-        super(next);
-    }
-
+public class CategoryRenderer implements SelectableRenderer {
     /**
      * Metodo che visualizza indentato il nome della categoria e tutte le sotto categorie
      *
@@ -21,12 +17,13 @@ public class CategoryRenderer extends AbstractRenderer{
         return sb.toString();
     }
 
-
     @Override
     public String render(Object o) {
-        if (o instanceof Category category) {
-            return hierarchyToString(category, 0);
-        }
-        return next.render(o);
+        return hierarchyToString((Category) o, 0);
+    }
+
+    @Override
+    public boolean canHandle(Object o) {
+        return o instanceof Category;
     }
 }
