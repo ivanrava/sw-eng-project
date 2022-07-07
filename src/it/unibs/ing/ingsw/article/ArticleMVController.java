@@ -17,6 +17,7 @@ public class ArticleMVController extends AbstractMVController {
     public static final String PRINT_CATEGORY_ARTICLES = "Visualizza articoli/offerte di una categoria";
     public static final String ADD_ARTICLE = "Aggiungi un articolo/offerta";
     public static final String MODIFY_ARTICLE_STATE = "Modifica stato di un'offerta";
+    public static final String ERROR_NO_UPDATABLE_ARTICLES = "Non hai articoli modificabili";
     private final ArticleController articleController;
     private final CategoryMVController categoryMVController;
     private final ArticleView articleView;
@@ -82,7 +83,12 @@ public class ArticleMVController extends AbstractMVController {
      * @param user Utente che possiede l'articolo a cui va modificato lo stato
      */
     private void editArticleState(User user) {
-        Article selectedArticle = articleView.selectOptionFromCollection(articleController.getArticlesEditableForUser(user.getUsername()));
+        List<Article> editableArticles = articleController.getArticlesEditableForUser(user.getUsername());
+        if (editableArticles.isEmpty()) {
+            articleView.message(ERROR_NO_UPDATABLE_ARTICLES);
+            return;
+        }
+        Article selectedArticle = articleView.selectOptionFromCollection(editableArticles);
         articleView.printArticle(selectedArticle);
         articleController.updateState(selectedArticle.getId(), articleView.askArticleState(selectedArticle.isAvailable()));
     }
