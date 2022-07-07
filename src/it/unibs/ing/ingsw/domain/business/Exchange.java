@@ -34,7 +34,7 @@ public class Exchange implements Serializable {
     }
 
     private LocalDate now() {
-        return LocalDate.ofInstant(Instant.now(this.clock), ZoneOffset.UTC);
+        return LocalDate.now(this.clock);
     }
 
 
