@@ -1,4 +1,4 @@
-package it.unibs.ing.tests;
+package it.unibs.ing.tests.feature;
 
 import it.unibs.ing.ingsw.category.CategoryMVController;
 import it.unibs.ing.tests.feature.RedirectSystemOutputBaseTest;
