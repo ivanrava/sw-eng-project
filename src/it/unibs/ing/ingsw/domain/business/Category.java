@@ -130,7 +130,6 @@ public class Category implements Serializable {
      */
     public Category searchTree(String categoryName) {
         if (this.name.equalsIgnoreCase(categoryName)) return this;
-        if (isLeaf()) return null;
         for (Category child : children.values()) {
             Category lookup = child.searchTree(categoryName);
             if (lookup != null) return lookup;
