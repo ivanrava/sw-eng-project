@@ -18,6 +18,7 @@ public class ConfigMVController extends AbstractMVController {
     public static final String IMPORT_CONFIG = "Importa Configurazione";
     public static final String SQUARE_WILL_NOT_BE_MODIFIED = "Attenzione: La piazza non verrà modificata";
     public static final String IMPORT_SUCCESS = "Configurazione importata con successo :-)";
+    public static final String CONFIG_NOT_HYDRATED = "La configurazione non è stata ancora caricata dai configuratori.";
     private final ConfigController configController;
     private final ConfigView configView;
 
@@ -62,8 +63,6 @@ public class ConfigMVController extends AbstractMVController {
         if (hasToModify("Intervalli temporali", existsDefaultValues))
             configController.setTimeIntervals(configView.askTimeIntervals());
         if (hasToModify("Scadenza", existsDefaultValues)) configController.setDeadline(configView.askDeadline());
-
-
     }
 
     private boolean hasToModify(String fieldDescription, boolean existsConfig) {
@@ -89,7 +88,7 @@ public class ConfigMVController extends AbstractMVController {
 
     public void printConfig() {
         if (!configController.existsDefaultValues()) {
-            configView.message("La configurazione non è stata ancora caricata dai configuratori.");
+            configView.message(CONFIG_NOT_HYDRATED);
         } else {
             configView.printConfig(configController.getConfig());
         }

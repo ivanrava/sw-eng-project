@@ -16,16 +16,13 @@ public class InMemoryDataContainer implements DataContainer {
     private Map<String, User> users = new HashMap<>();
     private Map<Integer, Article> articles = new HashMap<>();
     private final Config config;
-    private final boolean alreadySet;
 
     public InMemoryDataContainer(Config defaultConfig) {
         config = defaultConfig;
-        alreadySet = true;
     }
 
     public InMemoryDataContainer() {
         config = new Config(new HashSet<>(), new TreeSet<>(), new TreeSet<>(), 1);
-        alreadySet = false;
     }
 
     @Override
@@ -91,7 +88,7 @@ public class InMemoryDataContainer implements DataContainer {
 
     @Override
     public boolean existsConfiguration() {
-        return alreadySet;
+        return config.isConfiguredImmutableValues();
     }
 
     @Override
