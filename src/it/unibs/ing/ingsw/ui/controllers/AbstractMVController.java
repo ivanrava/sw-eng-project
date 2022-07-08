@@ -7,10 +7,12 @@ import java.util.LinkedHashMap;
 
 public abstract class AbstractMVController {
 
-    protected abstract void beforeExecute();
+    protected abstract boolean beforeExecute();
 
     public void execute(User user) {
-        beforeExecute();
+        if (!beforeExecute()) {
+            return;
+        }
         String choice;
         do {
             choice = getView().menu(getMenuOptions(user).keySet());

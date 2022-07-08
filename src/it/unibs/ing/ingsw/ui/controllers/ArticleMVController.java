@@ -36,7 +36,8 @@ public class ArticleMVController extends AbstractMVController {
     }
 
     @Override
-    protected void beforeExecute() {
+    protected boolean beforeExecute() {
+        return true;
     }
 
     @Override

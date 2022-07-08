@@ -42,13 +42,14 @@ public class ExchangeMVController extends AbstractMVController {
     }
 
     @Override
-    protected void beforeExecute() {
+    protected boolean beforeExecute() {
         if (!configController.existsDefaultValues()) {
             System.out.println(ERROR_UNEXISTANT_CONFIGURATION);
-            return;
+            return false;
         }
         //controllo sugli scambi in scadenza
         exchangeController.deleteExpiredExchanges();
+        return true;
     }
 
     @Override

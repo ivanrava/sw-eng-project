@@ -28,7 +28,8 @@ public class ConfigMVController extends AbstractMVController {
     }
 
     @Override
-    protected void beforeExecute() {
+    protected boolean beforeExecute() {
+        return true;
     }
 
     @Override
@@ -87,6 +88,10 @@ public class ConfigMVController extends AbstractMVController {
 
 
     public void printConfig() {
-        configView.printConfig(configController.getConfig());
+        if (!configController.existsDefaultValues()) {
+            configView.message("La configurazione non è stata ancora caricata dai configuratori.");
+        } else {
+            configView.printConfig(configController.getConfig());
+        }
     }
 }

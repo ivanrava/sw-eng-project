@@ -29,7 +29,9 @@ public class CustomerMVController extends AbstractMVController {
     }
 
     @Override
-    protected void beforeExecute() {}
+    protected boolean beforeExecute() {
+        return true;
+    }
 
     @Override
     protected LinkedHashMap<String, Runnable> getMenuOptions(User user) {
