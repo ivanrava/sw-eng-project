@@ -18,7 +18,7 @@ public class ConfigMVController extends AbstractMVController {
     public static final String IMPORT_CONFIG = "Importa Configurazione";
     public static final String SQUARE_WILL_NOT_BE_MODIFIED = "Attenzione: La piazza non verrà modificata";
     public static final String IMPORT_SUCCESS = "Configurazione importata con successo :-)";
-    public static final String CONFIG_NOT_HYDRATED = "La configurazione non è stata ancora caricata dai configuratori.";
+    public static final String CONFIG_NOT_HYDRATED = "La configurazione non è stata ancora caricata.";
     private final ConfigController configController;
     private final ConfigView configView;
 
@@ -36,7 +36,7 @@ public class ConfigMVController extends AbstractMVController {
     @Override
     protected LinkedHashMap<String, Runnable> getMenuOptions(User user) {
         LinkedHashMap<String, Runnable> menuOptions = new LinkedHashMap<>();
-        menuOptions.put(PRINT_CONFIG, () -> configView.printConfig(configController.getConfig()));
+        menuOptions.put(PRINT_CONFIG, this::printConfig);
         menuOptions.put(MODIFY_CONFIG, this::editConfig);
         menuOptions.put(IMPORT_CONFIG, this::importBatch);
         return menuOptions;
